@@ -7,7 +7,7 @@ React Native application that helps match high school students interested in res
 
 ## Installation
 1. ```Make sure you have installed Node/npm on your device ```
-2. ``` Install Expo Client: npm install -g expo-cli ```
+2. ``` Install Expo Client: npm install -g expo-cli, (may need to add sudo command)```
 3. ``` Install Dependencies with: npm install or yarn install ```
 
 ## To Run
