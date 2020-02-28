@@ -2,7 +2,7 @@
 React Native application that helps match high school students interested in research with potential mentors
 
 ## Adding Features
-1. ```In order to make a feature, create a seperate branch titled "feature-<featureName>"  ```
+1. ```In order to make a feature, create a seperate branch titled "<yourName>-<featureName>"  ```
 
 
 ## Installation
@@ -11,6 +11,6 @@ React Native application that helps match high school students interested in res
 3. ``` Install Dependencies with: npm install or yarn install ```
 
 ## To Run
-1. ``` expo start or npm start```
+1. ``` expo start```
 
 
