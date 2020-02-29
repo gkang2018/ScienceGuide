@@ -1,11 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import LandingPage from './LandingPage.js';
 
-export default function App() {
+export default function LandingPage() {
   return (
     <View style={styles.container}>
-       <LandingPage /> 
+      <Text>Science Guide</Text>
     </View>
   );
 }
