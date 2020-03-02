@@ -1,19 +1,22 @@
-import React from 'react';
-import { StyleSheet, Image, Text, Button, View, Alert } from 'react-native';
+import React from "react";
+import { StyleSheet, Image, Text, Button, View, Alert } from "react-native";
 
-export default function LandingPage() {
+export default function LandingPage({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Science Guide</Text>
-      <Image style={{width: 250, height: 250, marginBottom: 100}} source={{uri: 'https://reactnative.dev/img/tiny_logo.png'}} />
-     <View style={styles.smallTextContainer}>
-      <Button
-        title="Let's get started!"
-        onPress={() => Alert.alert('Button pressed')}
+      <Image
+        style={{ width: 250, height: 250, marginBottom: 100 }}
+        source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
       />
-      <Text style={styles.smallText}>Already have an account?</Text>
-	<Text>Sign In</Text>
-     </View>
+      <View style={styles.smallTextContainer}>
+        <Button
+          title="Let's get started!"
+          onPress={() => navigation.navigate("ResearchLevel")}
+        />
+        <Text style={styles.smallText}>Already have an account?</Text>
+        <Text>Sign In</Text>
+      </View>
     </View>
   );
 }
@@ -21,23 +24,22 @@ export default function LandingPage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
   },
   smallTextContainer: {
-   marginBottom: 60,
-   alignItems: 'center',
+    marginBottom: 60,
+    alignItems: "center"
   },
   smallText: {
-    marginTop: 20,
+    marginTop: 20
   },
   title: {
     flex: 1,
     marginTop: 60,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 30,
-    color: '#a9a9a9'
-  },
-  
+    color: "#a9a9a9"
+  }
 });
