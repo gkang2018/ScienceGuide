@@ -1,13 +1,22 @@
 import React from "react";
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import { StyleSheet, Text, View } from "react-native";
+
+const Stack = createStackNavigator();
+
+// import the components
+
+import ResearchLevel from "./components/ResearchLevel";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="ResearchLevel" component={ResearchLevel} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
