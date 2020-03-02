@@ -1,20 +1,32 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import LandingPage from './components/LandingPage.js';
+import React from "react";
+import "react-native-gesture-handler";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { StyleSheet, Text, View } from "react-native";
+
+const Stack = createStackNavigator();
+
+// import the components
+
+import ResearchLevel from "./components/ResearchLevel";
+import LandingPage from "./components/LandingPage";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-       <LandingPage /> 
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Landing" component={LandingPage} />
+        <Stack.Screen name="ResearchLevel" component={ResearchLevel} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
+  }
 });
