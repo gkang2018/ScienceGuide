@@ -6,7 +6,7 @@ import { View, StyleSheet } from "react-native";
 export default function InterestsCard(props, { navigation }) {
   return (
     <View>
-      <Card>
+      <Card style={styles.container}>
         <Card.Cover source={{ uri: props.image }} />
         <Card.Actions>
           <Button>Cancel</Button>
@@ -16,3 +16,9 @@ export default function InterestsCard(props, { navigation }) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: "center"
+  }
+});
