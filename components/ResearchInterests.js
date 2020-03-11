@@ -13,6 +13,7 @@ export default function ResearchInterests() {
       <FlatList
         data={interestsData}
         renderItem={({ item }) => <InterestsCard image={item.image} />}
+        numColumns={2}
       />
     </View>
   );
