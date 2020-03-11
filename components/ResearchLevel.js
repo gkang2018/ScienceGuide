@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, Alert } from "react-native";
 
-export default function ResearchLevel() {
+export default function ResearchLevel({ navigation }) {
   return (
     <View>
       <View style={styles.title}>
@@ -19,7 +19,7 @@ export default function ResearchLevel() {
         </Text>
         <Text
           style={styles.formText}
-          onPress={() => Alert.alert("I have some experience")}
+          onPress={() => navigation.navigate("ResearchInterests")}
         >
           I have some experience
         </Text>

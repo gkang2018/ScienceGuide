@@ -3,6 +3,7 @@ import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { StyleSheet, Text, View } from "react-native";
+import { Provider as PaperProvider } from "react-native-paper";
 
 const Stack = createStackNavigator();
 
@@ -10,15 +11,22 @@ const Stack = createStackNavigator();
 
 import ResearchLevel from "./components/ResearchLevel";
 import LandingPage from "./components/LandingPage";
+import ResearchInterests from "./components/ResearchInterests";
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Landing" component={LandingPage} />
-        <Stack.Screen name="ResearchLevel" component={ResearchLevel} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <PaperProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Landing" component={LandingPage} />
+          <Stack.Screen name="ResearchLevel" component={ResearchLevel} />
+          <Stack.Screen
+            name="ResearchInterests"
+            component={ResearchInterests}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </PaperProvider>
   );
 }
 
