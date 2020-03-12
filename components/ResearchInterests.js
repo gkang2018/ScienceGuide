@@ -4,13 +4,32 @@ import InterestsCard from "./InterestsCard";
 
 export default function ResearchInterests() {
   const [selectedLevels, setSelectedLevels] = useState([]);
+  const [isSelected, changeIsSelected] = useState(false);
 
   const handleAddLevel = selectedLevel => {
     setSelectedLevels(oldArray => [
       ...oldArray,
       { id: Math.random().toString(), value: selectedLevel }
     ]);
-    console.log(selectedLevels);
+  };
+
+  const checkAddLevel = levelToCheck => {
+    // check if the level to check is within
+    let length = selectedLevels.length;
+    for (let i = 0; i < length; i++) {
+      if (selectedLevels[i].value === levelToCheck) {
+        changeIsSelected(false);
+        console.log(isSelected);
+        console.log(selectedLevels);
+      }
+    }
+
+    if (isSelected != true && length < 3) {
+      handleAddLevel(levelToCheck);
+      changeIsSelected(true);
+      console.log(isSelected);
+      console.log(selectedLevels);
+    }
   };
 
   const interestsData = [
@@ -29,7 +48,7 @@ export default function ResearchInterests() {
         renderItem={({ item }) => (
           <InterestsCard
             interest={item.interest}
-            onAddSelected={handleAddLevel}
+            onAddSelected={checkAddLevel}
             image={item.image}
           />
         )}
