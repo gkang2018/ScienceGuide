@@ -1,4 +1,4 @@
-import { ADD_INTEREST } from "../actions/types";
+import { ADD_INTEREST, TOGGLE_INTEREST } from "../actions/types";
 
 const initialState = {
   selectedInterests: []
@@ -15,9 +15,20 @@ const interestReducer = (state = initialState, action) => {
         //   { id: Math.random().toString(), interest: action.data }
         // ]
         selectedInterests: state.selectedInterests.concat({
-          id: Math.random().toString(),
-          interest: action.data
+          id: action.data.id,
+          interest: action.data.interest,
+          completed: false
         })
+      };
+    case TOGGLE_INTEREST:
+      return {
+        ...state,
+        selectedInterests: [
+          ...state.selectedInterests,
+          (state.selectedInterests.find(
+            a => a.id == action.data.id
+          ).completed = !state.selectedInterests[action.data.id].completed)
+        ]
       };
     default:
       return state;

@@ -1,1 +1,2 @@
 export const ADD_INTEREST = "ADD_INTEREST";
+export const TOGGLE_INTEREST = "TOGGLE_INTEREST";

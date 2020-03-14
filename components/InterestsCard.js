@@ -5,7 +5,7 @@ import { View, StyleSheet, useState } from "react-native";
 
 import { connect } from "react-redux";
 
-import { addInterest } from "../actions/actions";
+import { addInterest, toggleInterest } from "../actions/actions";
 
 const InterestsCard = (props, { navigation }) => {
   return (
@@ -17,7 +17,8 @@ const InterestsCard = (props, { navigation }) => {
           <Button>Cancel</Button>
           <Button
             onPress={() => {
-              props.add(props.interest);
+              props.add(props.interest, props.id);
+              props.toggle(props.interest, props.id);
             }}
           >
             Select
@@ -37,7 +38,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    add: interests => dispatch(addInterest(interests))
+    add: (interests, id) => dispatch(addInterest(interests, id)),
+    toggle: (interests, id) => dispatch(toggleInterest(interests, id))
   };
 };
 

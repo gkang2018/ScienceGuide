@@ -1,56 +1,52 @@
 import React, { useState } from "react";
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, StyleSheet } from "react-native";
+import { Title, Subheading } from "react-native-paper";
 import InterestsCard from "./InterestsCard";
 
 import { connect } from "react-redux";
 
 import { addInterest } from "../actions/actions";
 
-const ResearchInterests = () => {
-  const [selectedLevels, setSelectedLevels] = useState([]);
-  const [isSelected, changeIsSelected] = useState(false);
-
-  // const handleAddLevel = selectedLevel => {
-  //   setSelectedLevels(oldArray => [
-  //     ...oldArray,
-  //     { id: Math.random().toString(), value: selectedLevel }
-  //   ]);
-  // };
-
-  // const checkAddLevel = levelToCheck => {
-  //   // check if the level to check is within
-  //   let length = selectedLevels.length;
-  //   for (let i = 0; i < length; i++) {
-  //     if (selectedLevels[i].value === levelToCheck) {
-  //       changeIsSelected(false);
-  //       console.log(isSelected);
-  //       console.log(selectedLevels);
-  //     }
-  //   }
-
-  //   if (isSelected != true && length < 3) {
-  //     handleAddLevel(levelToCheck);
-  //     changeIsSelected(true);
-  //     console.log(isSelected);
-  //     console.log(selectedLevels);
-  //   }
-  // };
-
+const ResearchInterests = props => {
   const interestsData = [
-    { interest: "math", image: "../assets/icon.png" },
-    { interest: "science", image: "../assets/icon.png" },
-    { interest: "physics", image: "../assets/icon.png" },
-    { interest: "biology", image: "../assets/icon.png" }
+    { id: 0, interest: "math", image: "../assets/icon.png" },
+    { id: 1, interest: "science", image: "../assets/icon.png" },
+    { id: 2, interest: "physics", image: "../assets/icon.png" },
+    { id: 3, interest: "biology", image: "../assets/icon.png" }
   ];
+
+  // render text
+
+  let subText = "";
+
+  switch (props.interests.length) {
+    case 1:
+      subText = "Select two more research areas you are interested in";
+    case 2:
+      subText = "Select one more research area you are interested in";
+    case 3:
+      subText = "You may review your selections in the next screen";
+    default:
+      subText = "Select up to three research areas you are interested in";
+  }
 
   return (
     <View>
-      <Text h1>Research Interests</Text>
-      <Text h4> </Text>
+      <View style={styles.title}>
+        <Title>Research Interests</Title>
+      </View>
+      <Subheading>{subText}</Subheading>
       <FlatList
+        style={{ width: "100%" }}
         data={interestsData}
         renderItem={({ item }) => (
-          <InterestsCard interest={item.interest} image={item.image} />
+          <View style={styles.row}>
+            <InterestsCard
+              interest={item.interest}
+              id={item.id}
+              image={item.image}
+            />
+          </View>
         )}
         numColumns={2}
       />
@@ -71,3 +67,18 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResearchInterests);
+
+const styles = StyleSheet.create({
+  title: {
+    marginRight: 100
+  },
+  row: {
+    flex: 1,
+    paddingVertical: 25,
+    paddingHorizontal: 15,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderBottomWidth: 1,
+    borderBottomColor: "white"
+  }
+});
