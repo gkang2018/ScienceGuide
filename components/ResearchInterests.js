@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import React, { useState, useLayoutEffect } from "react";
+import { View, Text, FlatList, StyleSheet, Button } from "react-native";
 import { Title, Subheading } from "react-native-paper";
 import InterestsCard from "./InterestsCard";
 
@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 
 import { addInterest } from "../actions/actions";
 
-const ResearchInterests = props => {
+const ResearchInterests = (props, { navigation }) => {
   const interestsData = [
     { id: 0, interest: "math", image: "../assets/icon.png" },
     { id: 1, interest: "science", image: "../assets/icon.png" },
@@ -36,6 +36,12 @@ const ResearchInterests = props => {
         <Title>Research Interests</Title>
       </View>
       <Subheading>{subText}</Subheading>
+      <Button
+        title="Confirm"
+        onPress={() => {
+          navigation.navigate("Areas");
+        }}
+      />
       <FlatList
         style={{ width: "100%" }}
         data={interestsData}
@@ -71,14 +77,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(ResearchInterests);
 const styles = StyleSheet.create({
   title: {
     marginRight: 100
-  },
-  row: {
-    flex: 1,
-    paddingVertical: 25,
-    paddingHorizontal: 15,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    borderBottomWidth: 1,
-    borderBottomColor: "white"
   }
 });

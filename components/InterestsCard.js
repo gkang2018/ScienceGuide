@@ -5,24 +5,37 @@ import { View, StyleSheet, useState } from "react-native";
 
 import { connect } from "react-redux";
 
-import { addInterest, toggleInterest } from "../actions/actions";
+import {
+  addInterest,
+  toggleInterest,
+  deleteInterest
+} from "../actions/actions";
 
 const InterestsCard = (props, { navigation }) => {
+  const handleSelect = () => {
+    let addToArray = true;
+    props.interests.forEach((isCompleted, thisID) => {
+      if (thisID === props.id) {
+        if (isCompleted) {
+          props.delete(props.interest, thisID);
+          props.toggle(props.interest, thisID);
+          addToArray = false;
+        }
+      }
+    });
+    if (addToArray) {
+      props.add(props.interest, props.id);
+      props.toggle(props.interest, props.id);
+    }
+  };
+
   return (
     <View>
       <Card>
         <Card.Cover source={{ uri: props.image }} />
         <Card.Title title={props.interest} />
         <Card.Actions>
-          <Button>Cancel</Button>
-          <Button
-            onPress={() => {
-              props.add(props.interest, props.id);
-              props.toggle(props.interest, props.id);
-            }}
-          >
-            Select
-          </Button>
+          <Button onPress={handleSelect}>Select</Button>
         </Card.Actions>
       </Card>
     </View>
@@ -39,7 +52,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     add: (interests, id) => dispatch(addInterest(interests, id)),
-    toggle: (interests, id) => dispatch(toggleInterest(interests, id))
+    toggle: (interests, id) => dispatch(toggleInterest(interests, id)),
+    delete: (interests, id) => dispatch(deleteInterest(interests, id))
   };
 };
 

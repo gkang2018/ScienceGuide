@@ -12,7 +12,7 @@ export default function LandingPage({ navigation }) {
       <View style={styles.smallTextContainer}>
         <Button
           title="Let's get started!"
-          onPress={() => navigation.navigate("ResearchLevel")}
+          onPress={() => navigation.navigate("Level")}
         />
         <Text style={styles.smallText}>Already have an account?</Text>
         <Text>Sign In</Text>

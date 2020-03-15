@@ -1,4 +1,4 @@
-import { ADD_INTEREST, TOGGLE_INTEREST } from "./types";
+import { ADD_INTEREST, TOGGLE_INTEREST, DELETE_INTEREST } from "./types";
 
 export const addInterest = (interest, id) => ({
   type: ADD_INTEREST,
@@ -7,5 +7,10 @@ export const addInterest = (interest, id) => ({
 
 export const toggleInterest = (interest, id) => ({
   type: TOGGLE_INTEREST,
+  data: { id, interest }
+});
+
+export const deleteInterest = (interest, id) => ({
+  type: DELETE_INTEREST,
   data: { id, interest }
 });

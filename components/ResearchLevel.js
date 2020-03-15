@@ -19,7 +19,7 @@ export default function ResearchLevel({ navigation }) {
         </Text>
         <Text
           style={styles.formText}
-          onPress={() => navigation.navigate("ResearchInterests")}
+          onPress={() => navigation.navigate("Interests")}
         >
           I have some experience
         </Text>
