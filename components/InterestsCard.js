@@ -15,6 +15,7 @@ class InterestsCard extends Component {
   constructor(props) {
     super(props);
   }
+
   handleSelect = () => {
     let addToArray = true;
     this.props.interests.forEach((isCompleted, thisID) => {

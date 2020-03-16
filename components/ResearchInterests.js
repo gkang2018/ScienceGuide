@@ -6,6 +6,42 @@ import InterestsCard from "./InterestsCard";
 import { connect } from "react-redux";
 
 class ResearchInterests extends Component {
+  state = {
+    subText: "Select up to three research areas you are interested in"
+  };
+
+  // fix rendering the subtext
+
+  componentDidMount() {
+    this.changeSubText();
+  }
+  componentDidUpdate(prevProps) {
+    if (this.props.interests.length != prevProps.interests.length) {
+      this.changeSubText();
+    }
+  }
+
+  changeSubText() {
+    switch (this.props.interests.length) {
+      case 1:
+        this.setState({
+          subText: "Select two more research areas you are interested in"
+        });
+      case 2:
+        this.setState({
+          subText: "Select one or more research area you are interested in"
+        });
+      case 3:
+        this.setState({
+          subText: "You may review your selections in the next screen"
+        });
+      default:
+        this.setState({
+          subText: "Select up to three research areas you are interested in"
+        });
+    }
+  }
+
   render() {
     const interestsData = [
       { id: 0, interest: "math", image: "../assets/icon.png" },
@@ -13,27 +49,12 @@ class ResearchInterests extends Component {
       { id: 2, interest: "physics", image: "../assets/icon.png" },
       { id: 3, interest: "biology", image: "../assets/icon.png" }
     ];
-
-    // render text
-
-    let subText = "";
-    console.log(this.props.interests.length);
-    switch (this.props.interests.length) {
-      case 1:
-        subText = "Select two more research areas you are interested in";
-      case 2:
-        subText = "Select one more research area you are interested in";
-      case 3:
-        subText = "You may review your selections in the next screen";
-      default:
-        subText = "Select up to three research areas you are interested in";
-    }
     return (
       <View>
         <View style={styles.title}>
           <Title>Research Interests</Title>
         </View>
-        <Subheading>{subText}</Subheading>
+        <Subheading>{this.subText}</Subheading>
         <Button
           title="Next"
           onPress={() => this.props.navigation.navigate("Areas")}
