@@ -30,7 +30,7 @@ const InterestsCard = (props, { navigation }) => {
   };
 
   return (
-    <View>
+    <View style={props.interests[props.id] ? styles.overlay : null}>
       <Card>
         <Card.Cover source={{ uri: props.image }} />
         <Card.Title title={props.interest} />
@@ -43,7 +43,6 @@ const InterestsCard = (props, { navigation }) => {
 };
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     interests: state.interests.selectedInterests
   };
@@ -56,5 +55,11 @@ const mapDispatchToProps = dispatch => {
     delete: (interests, id) => dispatch(deleteInterest(interests, id))
   };
 };
+
+const styles = StyleSheet.create({
+  overlay: {
+    backgroundColor: "black"
+  }
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(InterestsCard);

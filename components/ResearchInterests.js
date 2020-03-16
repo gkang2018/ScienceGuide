@@ -36,12 +36,6 @@ const ResearchInterests = (props, { navigation }) => {
         <Title>Research Interests</Title>
       </View>
       <Subheading>{subText}</Subheading>
-      <Button
-        title="Confirm"
-        onPress={() => {
-          navigation.navigate("Areas");
-        }}
-      />
       <FlatList
         style={{ width: "100%" }}
         data={interestsData}
@@ -76,6 +70,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(ResearchInterests);
 
 const styles = StyleSheet.create({
   title: {
-    marginRight: 100
+    paddingRight: 100
   }
 });
