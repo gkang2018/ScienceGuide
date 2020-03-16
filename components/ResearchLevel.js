@@ -1,37 +1,39 @@
-import React from "react";
+import React, { Component } from "react";
 import { StyleSheet, Text, View, Alert } from "react-native";
 
-export default function ResearchLevel() {
-  return (
-    <View>
-      <View style={styles.title}>
-        <Text style={styles.titleText}>Research Level</Text>
-        <Text style={styles.descriptionText}>
-          Please select what level of research you have previously done.
-        </Text>
+class ResearchLevel extends Component {
+  render() {
+    return (
+      <View>
+        <View style={styles.title}>
+          <Text style={styles.titleText}>Research Level</Text>
+          <Text style={styles.descriptionText}>
+            Please select what level of research you have previously done.
+          </Text>
+        </View>
+        <View style={styles.form}>
+          <Text
+            style={styles.formText}
+            onPress={() => Alert.alert("I am a beginner")}
+          >
+            I am a beginner
+          </Text>
+          <Text
+            style={styles.formText}
+            onPress={() => this.props.navigation.navigate("Interests")}
+          >
+            I have some experience
+          </Text>
+          <Text
+            style={styles.formText}
+            onPress={() => Alert.alert("I am very experienced")}
+          >
+            I am very experienced
+          </Text>
+        </View>
       </View>
-      <View style={styles.form}>
-        <Text
-          style={styles.formText}
-          onPress={() => Alert.alert("I am a beginner")}
-        >
-          I am a beginner
-        </Text>
-        <Text
-          style={styles.formText}
-          onPress={() => Alert.alert("I have some experience")}
-        >
-          I have some experience
-        </Text>
-        <Text
-          style={styles.formText}
-          onPress={() => Alert.alert("I am very experienced")}
-        >
-          I am very experienced
-        </Text>
-      </View>
-    </View>
-  );
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -54,3 +56,5 @@ const styles = StyleSheet.create({
     paddingBottom: 25
   }
 });
+
+export default ResearchLevel;

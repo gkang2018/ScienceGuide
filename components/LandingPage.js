@@ -1,24 +1,26 @@
-import React from "react";
+import React, { Component } from "react";
 import { StyleSheet, Image, Text, Button, View, Alert } from "react-native";
 
-export default function LandingPage({ navigation }) {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Science Guide</Text>
-      <Image
-        style={{ width: 250, height: 250, marginBottom: 100 }}
-        source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
-      />
-      <View style={styles.smallTextContainer}>
-        <Button
-          title="Let's get started!"
-          onPress={() => navigation.navigate("ResearchLevel")}
+class LandingPage extends Component {
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Science Guide</Text>
+        <Image
+          style={{ width: 250, height: 250, marginBottom: 100 }}
+          source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
         />
-        <Text style={styles.smallText}>Already have an account?</Text>
-        <Text>Sign In</Text>
+        <View style={styles.smallTextContainer}>
+          <Button
+            title="Let's get started!"
+            onPress={() => this.props.navigation.navigate("Level")}
+          />
+          <Text style={styles.smallText}>Already have an account?</Text>
+          <Text>Sign In</Text>
+        </View>
       </View>
-    </View>
-  );
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -43,3 +45,5 @@ const styles = StyleSheet.create({
     color: "#a9a9a9"
   }
 });
+
+export default LandingPage;
