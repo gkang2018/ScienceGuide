@@ -16,7 +16,7 @@ const Stack = createStackNavigator();
 
 // import the components
 
-import Levels from "./components/ResearchLevel";
+import ResearchLevel from "./components/ResearchLevel";
 import LandingPage from "./components/LandingPage";
 import ResearchInterests from "./components/ResearchInterests";
 import ResearchAreas from "./components/ResearchAreas";
@@ -28,7 +28,7 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen name="Home" component={LandingPage} />
-            <Stack.Screen name="Level" component={Levels} />
+            <Stack.Screen name="Level" component={ResearchLevel} />
             <Stack.Screen name="Interests" component={ResearchInterests} />
             <Stack.Screen name="Areas" component={ResearchAreas} />
           </Stack.Navigator>
