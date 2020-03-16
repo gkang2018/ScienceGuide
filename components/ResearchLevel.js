@@ -20,7 +20,7 @@ class ResearchLevel extends Component {
           </Text>
           <Text
             style={styles.formText}
-            onPress={() => navigation.navigate("Interests")}
+            onPress={() => this.props.navigation.navigate("Interests")}
           >
             I have some experience
           </Text>
