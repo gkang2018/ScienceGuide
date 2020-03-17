@@ -22,7 +22,6 @@ class ResearchAreas extends Component {
     this.props.interests.forEach((interest, index) => {
       switch (index) {
         case 0:
-          console.log(index);
           this.setState({ firstInterest: interest.interest });
           break;
         case 1:

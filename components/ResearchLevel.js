@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Alert } from "react-native";
+import { connect } from "react-redux";
+import { addLevel } from "../actions/actions";
 
 class ResearchLevel extends Component {
   render() {
@@ -14,19 +16,28 @@ class ResearchLevel extends Component {
         <View style={styles.form}>
           <Text
             style={styles.formText}
-            onPress={() => Alert.alert("I am a beginner")}
+            onPress={() => {
+              this.props.addLevel("Beginner");
+              this.props.navigation.navigate("Interests");
+            }}
           >
             I am a beginner
           </Text>
           <Text
             style={styles.formText}
-            onPress={() => this.props.navigation.navigate("Interests")}
+            onPress={() => {
+              this.props.addLevel("Intermediate");
+              this.props.navigation.navigate("Interests");
+            }}
           >
             I have some experience
           </Text>
           <Text
             style={styles.formText}
-            onPress={() => Alert.alert("I am very experienced")}
+            onPress={() => {
+              this.props.addLevel("Experienced");
+              this.props.navigation.navigate("Interests");
+            }}
           >
             I am very experienced
           </Text>
@@ -57,4 +68,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ResearchLevel;
+const mapDispatchToProps = dispatch => {
+  return {
+    addLevel: level => dispatch(addLevel(level))
+  };
+};
+
+export default connect(null, mapDispatchToProps)(ResearchLevel);
