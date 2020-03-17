@@ -48,22 +48,8 @@ class InterestsCard extends Component {
   }
 }
 
-// const InterestsCard = (props, { navigation }) => {
-
-//   return (
-//     <View style={props.interests[props.id] ? styles.overlay : null}>
-//       <Card>
-//         <Card.Cover source={{ uri: props.image }} />
-//         <Card.Title title={props.interest} />
-//         <Card.Actions>
-//           <Button onPress={handleSelect}>Select</Button>
-//         </Card.Actions>
-//       </Card>
-//     </View>
-//   );
-// };
-
 const mapStateToProps = state => {
+  console.log(state);
   return {
     interests: state.interests.selectedInterests
   };

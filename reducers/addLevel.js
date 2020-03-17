@@ -12,9 +12,7 @@ const levelReducer = (state = initialState, action) => {
         level: action.data.level
       };
     default:
-      return {
-        state
-      };
+      return state;
   }
 };
 
