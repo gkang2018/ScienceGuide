@@ -22,29 +22,34 @@ class InterestsCard extends Component {
     super(props);
   }
 
+  state = {
+    isSelected: false
+  };
+
   handleSelect = () => {
     let addToArray = true;
     this.props.interests.forEach(interest => {
-      console.log(interest.interest, this.props.interest);
       if (interest.interest === this.props.interest) {
         this.props.delete(this.props.interest, this.props.id);
         this.props.toggle(this.props.interest, this.props.id);
         addToArray = false;
+        this.setState({
+          isSelected: false
+        });
       }
     });
     if (addToArray) {
       this.props.add(this.props.interest, this.props.id);
+      this.setState({
+        isSelected: true
+      });
     }
   };
 
   render() {
     return (
       <View
-        style={
-          this.props.interests.includes(this.props.interest)
-            ? styles.overlay
-            : styles.defaultSquare
-        }
+        style={this.state.isSelected ? styles.overlay : styles.defaultSquare}
       >
         <TouchableOpacity onPress={this.handleSelect}>
           <Text>{this.props.interest}</Text>
@@ -58,7 +63,6 @@ class InterestsCard extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     interests: state.interests.selectedInterests
   };
