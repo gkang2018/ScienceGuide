@@ -1,6 +1,5 @@
-import firebase from "firebase/app";
-
-import "firebase/firestore";
+import firebase from "firebase";
+import "@firebase/firestore";
 
 import {
   API_KEY,
@@ -25,8 +24,7 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-firebase.analytics();
 
-export const firestore = firebase.firestore();
+const db = firebase.firestore();
 
-export default firebase;
+export default db;

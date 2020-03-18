@@ -20,6 +20,7 @@ import ResearchLevel from "./components/ResearchLevel";
 import LandingPage from "./components/LandingPage";
 import ResearchInterests from "./components/ResearchInterests";
 import ResearchAreas from "./components/ResearchAreas";
+import AvailableMentors from "./components/AvailableMentors";
 
 export default function App() {
   return (
@@ -31,6 +32,10 @@ export default function App() {
             <Stack.Screen name="Level" component={ResearchLevel} />
             <Stack.Screen name="Interests" component={ResearchInterests} />
             <Stack.Screen name="Areas" component={ResearchAreas} />
+            <Stack.Screen
+              name="AvailableMentors"
+              component={AvailableMentors}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>

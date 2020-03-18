@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Button } from "react-native";
 
 import { connect } from "react-redux";
 
@@ -40,6 +40,10 @@ class ResearchAreas extends Component {
         <Text>{this.state.firstInterest}</Text>
         <Text>{this.state.secondInterest}</Text>
         <Text>{this.state.thirdInterest}</Text>
+        <Button
+          title="Next"
+          onPress={() => this.props.navigation.navigate("AvailableMentors")}
+        />
       </View>
     );
   }
