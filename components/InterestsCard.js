@@ -20,6 +20,8 @@ import {
 class InterestsCard extends Component {
   constructor(props) {
     super(props);
+
+    let shouldKeepStyle = "";
   }
 
   state = {
@@ -31,7 +33,6 @@ class InterestsCard extends Component {
     this.props.interests.forEach(interest => {
       if (interest.interest === this.props.interest) {
         this.props.delete(this.props.interest, this.props.id);
-        this.props.toggle(this.props.interest, this.props.id);
         addToArray = false;
         this.setState({
           isSelected: false
@@ -45,6 +46,15 @@ class InterestsCard extends Component {
       });
     }
   };
+
+  componentDidMount() {
+    console.log(this.props.interests);
+    this.props.interests.forEach(val => {
+      if (val.interest === this.props.interest) {
+        this.setState({ isSelected: true });
+      }
+    });
+  }
 
   render() {
     return (
@@ -71,7 +81,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     add: (interests, id) => dispatch(addInterest(interests, id)),
-    toggle: (interests, id) => dispatch(toggleInterest(interests, id)),
     delete: (interests, id) => dispatch(deleteInterest(interests, id))
   };
 };
