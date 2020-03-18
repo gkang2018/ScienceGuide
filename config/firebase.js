@@ -25,7 +25,7 @@ class DatabaseService {
       measurementId: MEASUREMENT_ID
     };
 
-    let firstName = "";
+    this.firstName = "";
     // Initialize Firebase
 
     firebase.initializeApp(firebaseConfig);
@@ -38,7 +38,8 @@ class DatabaseService {
       .get()
       .then(doc => {
         if (doc.exists) {
-          console.log(doc.data());
+          let parse = this.dataParse(doc.data());
+          console.log(parse);
         } else {
           console.log("no such document");
         }
@@ -46,6 +47,14 @@ class DatabaseService {
       .catch(error => {
         console.log("Error getting document", error);
       });
+  };
+
+  dataParse = data => {
+    let parsedObj = {
+      firstName: data.firstName,
+      lastName: data.lastName
+    };
+    return parsedObj;
   };
 }
 
