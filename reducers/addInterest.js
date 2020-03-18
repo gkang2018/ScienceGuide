@@ -17,7 +17,7 @@ const interestReducer = (state = initialState, action) => {
         selectedInterests: state.selectedInterests.concat({
           id: action.data.id,
           interest: action.data.interest,
-          completed: false
+          completed: true
         })
       };
     case TOGGLE_INTEREST:

@@ -1,7 +1,13 @@
 import React, { Component } from "react";
-import { Avatar, Button, Card, Title, Paragraph } from "react-native-paper";
 
-import { View, StyleSheet, useState } from "react-native";
+import {
+  View,
+  StyleSheet,
+  useState,
+  Text,
+  Image,
+  TouchableOpacity
+} from "react-native";
 
 import { connect } from "react-redux";
 
@@ -18,37 +24,41 @@ class InterestsCard extends Component {
 
   handleSelect = () => {
     let addToArray = true;
-    this.props.interests.forEach((isCompleted, thisID) => {
-      if (thisID === this.props.id) {
-        if (isCompleted) {
-          this.props.delete(this.props.interest, thisID);
-          this.props.toggle(this.props.interest, thisID);
-          addToArray = false;
-        }
+    this.props.interests.forEach(interest => {
+      console.log(interest.interest, this.props.interest);
+      if (interest.interest === this.props.interest) {
+        this.props.delete(this.props.interest, this.props.id);
+        this.props.toggle(this.props.interest, this.props.id);
+        addToArray = false;
       }
     });
     if (addToArray) {
       this.props.add(this.props.interest, this.props.id);
-      this.props.toggle(this.props.interest, this.props.id);
     }
   };
 
   render() {
     return (
-      <View style={this.props.interests[this.props.id] ? styles.overlay : null}>
-        <Card>
-          <Card.Cover source={{ uri: this.props.image }} />
-          <Card.Title title={this.props.interest} />
-          <Card.Actions>
-            <Button onPress={this.handleSelect}>Select</Button>
-          </Card.Actions>
-        </Card>
+      <View
+        style={
+          this.props.interests.includes(this.props.interest)
+            ? styles.overlay
+            : styles.defaultSquare
+        }
+      >
+        <TouchableOpacity onPress={this.handleSelect}>
+          <Text>{this.props.interest}</Text>
+          <View>
+            <Image source={{ uri: this.props.image }} />
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }
 }
 
 const mapStateToProps = state => {
+  console.log(state);
   return {
     interests: state.interests.selectedInterests
   };
@@ -64,7 +74,18 @@ const mapDispatchToProps = dispatch => {
 
 const styles = StyleSheet.create({
   overlay: {
-    backgroundColor: "black"
+    backgroundColor: "rgba(52, 52, 52, 0.8)",
+    width: 100,
+    height: 100,
+    borderWidth: 1,
+    margin: 10
+  },
+
+  defaultSquare: {
+    width: 100,
+    height: 100,
+    borderWidth: 1,
+    margin: 10
   }
 });
 
