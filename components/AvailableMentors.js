@@ -9,8 +9,9 @@ class AvailableMentors extends Component {
   }
 
   componentDidMount() {
-    var dbb = new DatabaseService();
-    dbb.getAllMentors();
+    const dbb = new DatabaseService();
+    const data = dbb.getAllMentors();
+    console.log(data);
   }
 
   render() {

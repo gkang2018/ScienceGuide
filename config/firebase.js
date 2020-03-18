@@ -24,6 +24,8 @@ class DatabaseService {
       appId: APP_ID,
       measurementId: MEASUREMENT_ID
     };
+
+    let firstName = "";
     // Initialize Firebase
 
     firebase.initializeApp(firebaseConfig);
@@ -36,7 +38,7 @@ class DatabaseService {
       .get()
       .then(doc => {
         if (doc.exists) {
-          console.log("Document Data:", doc.data());
+          console.log(doc.data());
         } else {
           console.log("no such document");
         }
