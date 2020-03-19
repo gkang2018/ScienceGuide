@@ -9,5 +9,6 @@ export const interestsData = [
   { id: 7, interest: "electrical engineering", image: "../assets/icon.png" },
   { id: 8, interest: "mechanical engineering", image: "../assets/icon.png" },
   { id: 9, interest: "biomedical engineering", image: "../assets/icon.png" },
-  { id: 10, interest: "computer engineering", image: "../assets/icon.png" }
+  { id: 10, interest: "computer engineering", image: "../assets/icon.png" },
+  { id: 11, interest: "chemical engineering", image: "../assets/icon.png" }
 ];
