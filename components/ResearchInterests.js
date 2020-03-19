@@ -1,5 +1,5 @@
-import React, { useState, Component, useLayoutEffect } from "react";
-import { View, Text, FlatList, StyleSheet, Button } from "react-native";
+import React, { Component } from "react";
+import { View, FlatList, StyleSheet, Button } from "react-native";
 import { Title, Subheading } from "react-native-paper";
 import InterestsCard from "./InterestsCard";
 import { interestsData } from "../interestData";
@@ -60,9 +60,11 @@ class ResearchInterests extends Component {
   render() {
     return (
       <View>
-        <View>
+        <View style={styles.headerContainer}>
           <Title style={styles.title}>Research Interests</Title>
-          <Subheading>{this.state.subText}</Subheading>
+          <Subheading style={styles.subHeading}>
+            {this.state.subText}
+          </Subheading>
         </View>
         <FlatList
           style={{ width: "100%" }}
@@ -92,7 +94,13 @@ const mapStateToProps = state => {
 
 const styles = StyleSheet.create({
   title: {
-    paddingLeft: 125
+    paddingLeft: 100
+  },
+  headerContainer: {
+    marginBottom: 25
+  },
+  subHeading: {
+    paddingLeft: 25
   }
 });
 
