@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, Button, StyleSheet } from "react-native";
 
 import { connect } from "react-redux";
-import { Button } from "react-native-paper";
 
 class ResearchAreas extends Component {
   constructor(props) {
@@ -49,7 +48,10 @@ class ResearchAreas extends Component {
           <Text>{this.state.firstInterest}</Text>
           <Text>{this.state.secondInterest}</Text>
           <Text>{this.state.thirdInterest}</Text>
-          <Button onPress={this.matchMentors}>Match New Mentors</Button>
+          <Button
+            title="Next"
+            onPress={() => this.props.navigation.navigate("AvailableMentors")}
+          />
         </View>
       </View>
     );

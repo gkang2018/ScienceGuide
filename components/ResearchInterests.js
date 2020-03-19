@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { View, FlatList, StyleSheet, Button } from "react-native";
-import { Title, Subheading } from "react-native-paper";
+import { View, FlatList, StyleSheet, Button, Text } from "react-native";
 import InterestsCard from "./InterestsCard";
 import { interestsData } from "../interestData";
 
@@ -63,10 +62,8 @@ class ResearchInterests extends Component {
     return (
       <View>
         <View style={styles.headerContainer}>
-          <Title style={styles.title}>Research Interests</Title>
-          <Subheading style={styles.subHeading}>
-            {this.state.subText}
-          </Subheading>
+          <Text style={styles.title}>Research Interests</Text>
+          <Text style={styles.subHeading}>{this.state.subText}</Text>
         </View>
         <FlatList
           style={{ width: "100%" }}
