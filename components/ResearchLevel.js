@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Alert } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { addLevel } from "../actions/actions";
 
@@ -14,33 +14,30 @@ class ResearchLevel extends Component {
           </Text>
         </View>
         <View style={styles.form}>
-          <Text
-            style={styles.formText}
+          <TouchableOpacity
             onPress={() => {
               this.props.addLevel("Beginner");
               this.props.navigation.navigate("Interests");
             }}
           >
-            I am a beginner
-          </Text>
-          <Text
-            style={styles.formText}
+            <Text style={styles.formText}>I am a beginner</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             onPress={() => {
               this.props.addLevel("Intermediate");
               this.props.navigation.navigate("Interests");
             }}
           >
-            I have some experience
-          </Text>
-          <Text
-            style={styles.formText}
+            <Text style={styles.formText}>I have some experience</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             onPress={() => {
               this.props.addLevel("Experienced");
               this.props.navigation.navigate("Interests");
             }}
           >
-            I am very experienced
-          </Text>
+            <Text style={styles.formText}>I am very experienced</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );

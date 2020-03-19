@@ -1,27 +1,14 @@
 import React, { Component } from "react";
 
-import {
-  View,
-  StyleSheet,
-  useState,
-  Text,
-  Image,
-  TouchableOpacity
-} from "react-native";
+import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 
 import { connect } from "react-redux";
 
-import {
-  addInterest,
-  toggleInterest,
-  deleteInterest
-} from "../actions/actions";
+import { addInterest, deleteInterest } from "../actions/actions";
 
 class InterestsCard extends Component {
   constructor(props) {
     super(props);
-
-    let shouldKeepStyle = "";
   }
 
   state = {
@@ -48,7 +35,6 @@ class InterestsCard extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props.interests);
     this.props.interests.forEach(val => {
       if (val.interest === this.props.interest) {
         this.setState({ isSelected: true });
@@ -58,16 +44,16 @@ class InterestsCard extends Component {
 
   render() {
     return (
-      <View
-        style={this.state.isSelected ? styles.overlay : styles.defaultSquare}
-      >
-        <TouchableOpacity onPress={this.handleSelect}>
+      <TouchableOpacity onPress={this.handleSelect}>
+        <View
+          style={this.state.isSelected ? styles.overlay : styles.defaultSquare}
+        >
           <Text>{this.props.interest}</Text>
           <View>
             <Image source={{ uri: this.props.image }} />
           </View>
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableOpacity>
     );
   }
 }
