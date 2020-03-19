@@ -74,15 +74,15 @@ const mapDispatchToProps = dispatch => {
 const styles = StyleSheet.create({
   overlay: {
     backgroundColor: "rgba(52, 52, 52, 0.8)",
-    width: 100,
-    height: 100,
+    width: 175,
+    height: 175,
     borderWidth: 1,
     margin: 10
   },
 
   defaultSquare: {
-    width: 100,
-    height: 100,
+    width: 175,
+    height: 175,
     borderWidth: 1,
     margin: 10
   }

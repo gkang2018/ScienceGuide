@@ -27,10 +27,10 @@ class ResearchInterests extends Component {
   render() {
     return (
       <View>
-        <View style={styles.title}>
-          <Title>Research Interests</Title>
+        <View>
+          <Title style={styles.title}>Research Interests</Title>
+          <Subheading>{this.subText}</Subheading>
         </View>
-        <Subheading>{this.subText}</Subheading>
         <FlatList
           style={{ width: "100%" }}
           data={interestsData}
@@ -43,6 +43,7 @@ class ResearchInterests extends Component {
               />
             </View>
           )}
+          keyExtractor={item => item.id}
           numColumns={2}
         />
       </View>
@@ -58,7 +59,7 @@ const mapStateToProps = state => {
 
 const styles = StyleSheet.create({
   title: {
-    paddingRight: 100
+    paddingLeft: 125
   }
 });
 
