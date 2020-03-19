@@ -11,6 +11,31 @@ class ResearchInterests extends Component {
     super(props);
   }
 
+  state = {
+    subText: "Select up to three research areas you are interested in"
+  };
+
+  changeSubText() {
+    switch (this.props.interests.length) {
+      case 3:
+        return this.setState({
+          subText: "You may review your selections in the next screen"
+        });
+      case 2:
+        return this.setState({
+          subText: "Select one more research area you are interested in"
+        });
+      case 1:
+        return this.setState({
+          subText: "Select two more reseach areas you are interested in"
+        });
+      default:
+        return this.setState({
+          subText: "Select up to three research areas you are interested in "
+        });
+    }
+  }
+
   componentDidMount() {
     this.props.navigation.setOptions({
       headerRight: () => (
@@ -22,6 +47,14 @@ class ResearchInterests extends Component {
         ></Button>
       )
     });
+
+    this.changeSubText();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.interests.length != this.props.interests.length) {
+      this.changeSubText();
+    }
   }
 
   render() {
@@ -29,7 +62,7 @@ class ResearchInterests extends Component {
       <View>
         <View>
           <Title style={styles.title}>Research Interests</Title>
-          <Subheading>{this.subText}</Subheading>
+          <Subheading>{this.state.subText}</Subheading>
         </View>
         <FlatList
           style={{ width: "100%" }}
