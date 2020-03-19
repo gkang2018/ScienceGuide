@@ -1,49 +1,71 @@
 import React, { Component } from "react";
-import { Avatar, Button, Card, Title, Paragraph } from "react-native-paper";
 
-import { View, StyleSheet, useState } from "react-native";
+import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 
 import { connect } from "react-redux";
 
-import {
-  addInterest,
-  toggleInterest,
-  deleteInterest
-} from "../actions/actions";
+import { addInterest, deleteInterest } from "../actions/actions";
 
 class InterestsCard extends Component {
   constructor(props) {
     super(props);
   }
 
+  state = {
+    // whether the user has selected this interest
+    isSelected: false
+  };
+
   handleSelect = () => {
+    // determine if the user has already selected this interest, if so, remove from redux state, or add to redux state
+
     let addToArray = true;
-    this.props.interests.forEach((isCompleted, thisID) => {
-      if (thisID === this.props.id) {
-        if (isCompleted) {
-          this.props.delete(this.props.interest, thisID);
-          this.props.toggle(this.props.interest, thisID);
-          addToArray = false;
-        }
+    this.props.interests.forEach(interest => {
+      if (interest.interest === this.props.interest) {
+        this.props.delete(this.props.interest, this.props.id);
+        // local variable indicates whether we need to add to our redux selected interests array
+        addToArray = false;
+        this.setState({
+          isSelected: false
+        });
       }
     });
     if (addToArray) {
       this.props.add(this.props.interest, this.props.id);
-      this.props.toggle(this.props.interest, this.props.id);
+      this.setState({
+        isSelected: true
+      });
     }
   };
 
+  componentDidMount() {
+    // checks if the user has pressed the back button without de-selecting interests
+    this.props.interests.forEach(val => {
+      if (val.interest === this.props.interest) {
+        this.setState({ isSelected: true });
+      }
+    });
+  }
+
   render() {
     return (
-      <View style={this.props.interests[this.props.id] ? styles.overlay : null}>
-        <Card>
-          <Card.Cover source={{ uri: this.props.image }} />
-          <Card.Title title={this.props.interest} />
-          <Card.Actions>
-            <Button onPress={this.handleSelect}>Select</Button>
-          </Card.Actions>
-        </Card>
-      </View>
+      <TouchableOpacity
+        disabled={
+          this.props.interests.length >= 3 && !this.state.isSelected
+            ? true
+            : false
+        }
+        onPress={this.handleSelect}
+      >
+        <View
+          style={this.state.isSelected ? styles.overlay : styles.defaultSquare}
+        >
+          <View>
+            <Image source={{ uri: this.props.image }} />
+          </View>
+          <Text style={styles.interestText}>{this.props.interest}</Text>
+        </View>
+      </TouchableOpacity>
     );
   }
 }
@@ -57,14 +79,31 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     add: (interests, id) => dispatch(addInterest(interests, id)),
-    toggle: (interests, id) => dispatch(toggleInterest(interests, id)),
     delete: (interests, id) => dispatch(deleteInterest(interests, id))
   };
 };
 
 const styles = StyleSheet.create({
   overlay: {
-    backgroundColor: "black"
+    backgroundColor: "rgba(52, 52, 52, 0.8)",
+    width: 150,
+    height: 150,
+    borderWidth: 1,
+    borderRadius: 20,
+    margin: 10
+  },
+
+  defaultSquare: {
+    width: 150,
+    height: 150,
+    borderWidth: 1,
+    borderRadius: 20,
+    margin: 10
+  },
+  interestText: {
+    alignItems: "flex-end",
+    marginTop: 120,
+    marginLeft: 2
   }
 });
 

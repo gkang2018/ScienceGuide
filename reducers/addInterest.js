@@ -1,8 +1,4 @@
-import {
-  ADD_INTEREST,
-  TOGGLE_INTEREST,
-  DELETE_INTEREST
-} from "../actions/types";
+import { ADD_INTEREST, DELETE_INTEREST } from "../actions/types";
 
 const initialState = {
   selectedInterests: []
@@ -17,25 +13,12 @@ const interestReducer = (state = initialState, action) => {
         selectedInterests: state.selectedInterests.concat({
           id: action.data.id,
           interest: action.data.interest,
-          completed: false
+          completed: true
         })
-      };
-    case TOGGLE_INTEREST:
-      state.selectedInterests.forEach((interest, index) => {
-        if (index === action.data.id) {
-          state.selectedInterests[index].completed = !state.selectedInterests[
-            index
-          ].completed;
-        }
-      });
-
-      return {
-        ...state,
-        selectedInterests: state.selectedInterests
       };
     case DELETE_INTEREST:
       let vals = state.selectedInterests.filter(
-        (completed, id, interest) => id !== action.data.id
+        interest => interest.interest !== action.data.interest
       );
       return {
         ...state,

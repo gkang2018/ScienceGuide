@@ -1,64 +1,73 @@
-import React, { useState, useLayoutEffect, Component } from "react";
-import { View, Text, FlatList, StyleSheet, Button } from "react-native";
+import React, { Component } from "react";
+import { View, FlatList, StyleSheet, Button } from "react-native";
 import { Title, Subheading } from "react-native-paper";
 import InterestsCard from "./InterestsCard";
+import { interestsData } from "../interestData";
 
 import { connect } from "react-redux";
 
 class ResearchInterests extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   state = {
     subText: "Select up to three research areas you are interested in"
   };
 
-  // fix rendering the subtext
+  changeSubText() {
+    switch (this.props.interests.length) {
+      case 3:
+        return this.setState({
+          subText: "You may review your selections in the next screen"
+        });
+      case 2:
+        return this.setState({
+          subText: "Select one more research area you are interested in"
+        });
+      case 1:
+        return this.setState({
+          subText: "Select two more reseach areas you are interested in"
+        });
+      default:
+        return this.setState({
+          subText: "Select up to three research areas you are interested in "
+        });
+    }
+  }
 
   componentDidMount() {
+    // sets our next button
+    this.props.navigation.setOptions({
+      headerRight: () => (
+        <Button
+          title="Confirm"
+          onPress={() => {
+            this.props.navigation.navigate("Areas");
+          }}
+        ></Button>
+      )
+    });
+
     this.changeSubText();
   }
+
   componentDidUpdate(prevProps) {
-    if (this.props.interests.length != prevProps.interests.length) {
+    // if the length has changed then we update our subtext
+    if (prevProps.interests.length != this.props.interests.length) {
       this.changeSubText();
     }
   }
 
-  changeSubText() {
-    switch (this.props.interests.length) {
-      case 1:
-        this.setState({
-          subText: "Select two more research areas you are interested in"
-        });
-      case 2:
-        this.setState({
-          subText: "Select one or more research area you are interested in"
-        });
-      case 3:
-        this.setState({
-          subText: "You may review your selections in the next screen"
-        });
-      default:
-        this.setState({
-          subText: "Select up to three research areas you are interested in"
-        });
-    }
-  }
-
   render() {
-    const interestsData = [
-      { id: 0, interest: "math", image: "../assets/icon.png" },
-      { id: 1, interest: "science", image: "../assets/icon.png" },
-      { id: 2, interest: "physics", image: "../assets/icon.png" },
-      { id: 3, interest: "biology", image: "../assets/icon.png" }
-    ];
     return (
       <View>
-        <View style={styles.title}>
-          <Title>Research Interests</Title>
+        <View style={styles.headerContainer}>
+          <Title style={styles.title}>Research Interests</Title>
+          <Subheading style={styles.subHeading}>
+            {this.state.subText}
+          </Subheading>
         </View>
-        <Subheading>{this.subText}</Subheading>
-        <Button
-          title="Next"
-          onPress={() => this.props.navigation.navigate("Areas")}
-        />
         <FlatList
           style={{ width: "100%" }}
           data={interestsData}
@@ -71,6 +80,7 @@ class ResearchInterests extends Component {
               />
             </View>
           )}
+          keyExtractor={item => item.id}
           numColumns={2}
         />
       </View>
@@ -86,7 +96,13 @@ const mapStateToProps = state => {
 
 const styles = StyleSheet.create({
   title: {
-    paddingRight: 100
+    paddingLeft: 100
+  },
+  headerContainer: {
+    marginBottom: 25
+  },
+  subHeading: {
+    paddingLeft: 25
   }
 });
 
