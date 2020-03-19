@@ -29,13 +29,7 @@ export default function App() {
           <Stack.Navigator>
             <Stack.Screen name="Home" component={LandingPage} />
             <Stack.Screen name="Level" component={ResearchLevel} />
-            <Stack.Screen
-              name="Interests"
-              options={{
-                title: "Interests"
-              }}
-              component={ResearchInterests}
-            />
+            <Stack.Screen name="Interests" component={ResearchInterests} />
             <Stack.Screen name="Areas" component={ResearchAreas} />
           </Stack.Navigator>
         </NavigationContainer>

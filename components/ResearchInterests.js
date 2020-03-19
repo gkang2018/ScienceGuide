@@ -11,16 +11,18 @@ class ResearchInterests extends Component {
     super(props);
   }
 
-  static navigationOptions = function(props) {
-    return {
+  componentDidMount() {
+    this.props.navigation.setOptions({
       headerRight: () => (
         <Button
-          title="Hello"
-          onPress={this.props.navigation.navigate("Areas")}
+          title="Confirm"
+          onPress={() => {
+            this.props.navigation.navigate("Areas");
+          }}
         ></Button>
       )
-    };
-  };
+    });
+  }
 
   render() {
     return (
