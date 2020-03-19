@@ -37,6 +37,7 @@ class ResearchInterests extends Component {
   }
 
   componentDidMount() {
+    // sets our next button
     this.props.navigation.setOptions({
       headerRight: () => (
         <Button
@@ -52,6 +53,7 @@ class ResearchInterests extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    // if the length has changed then we update our subtext
     if (prevProps.interests.length != this.props.interests.length) {
       this.changeSubText();
     }
