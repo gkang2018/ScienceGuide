@@ -44,7 +44,14 @@ class InterestsCard extends Component {
 
   render() {
     return (
-      <TouchableOpacity onPress={this.handleSelect}>
+      <TouchableOpacity
+        disabled={
+          this.props.interests.length >= 3 && !this.state.isSelected
+            ? true
+            : false
+        }
+        onPress={this.handleSelect}
+      >
         <View
           style={this.state.isSelected ? styles.overlay : styles.defaultSquare}
         >
