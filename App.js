@@ -41,7 +41,11 @@ export default function App() {
             component={LandingPage}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="Level" component={ResearchLevel} />
+          <Stack.Screen
+            name="Level"
+            component={ResearchLevel}
+            options={{ headerTransparent: true, headerTitle: "" }}
+          />
           <Stack.Screen name="Interests" component={ResearchInterests} />
           <Stack.Screen name="Areas" component={ResearchAreas} />
           <Stack.Screen name="AvailableMentors" component={AvailableMentors} />
