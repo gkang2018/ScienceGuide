@@ -36,7 +36,11 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Home" component={LandingPage} />
+          <Stack.Screen
+            name="Home"
+            component={LandingPage}
+            options={{ headerShown: false }}
+          />
           <Stack.Screen name="Level" component={ResearchLevel} />
           <Stack.Screen name="Interests" component={ResearchInterests} />
           <Stack.Screen name="Areas" component={ResearchAreas} />
