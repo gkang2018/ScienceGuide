@@ -45,13 +45,29 @@ class ResearchAreas extends Component {
     return (
       <View>
         <View style={styles.interestsContainer}>
-          <Text>{this.state.firstInterest}</Text>
-          <Text>{this.state.secondInterest}</Text>
-          <Text>{this.state.thirdInterest}</Text>
-          <Button
-            title="Next"
-            onPress={() => this.props.navigation.navigate("AvailableMentors")}
-          />
+          <View style={styles.heading}>
+            <Text style={styles.title}>Top 3</Text>
+            <Text style={styles.subheading}>Research Areas</Text>
+          </View>
+          <View style={styles.areasContainer}>
+            <View style={styles.firstArea}>
+              <Text>{this.state.firstInterest}</Text>
+            </View>
+            <View style={styles.secondArea}>
+              <Text>{this.state.secondInterest}</Text>
+            </View>
+            <View style={styles.thirdArea}>
+              <Text>{this.state.thirdInterest}</Text>
+            </View>
+            <View>
+              <Button
+                title="Match New Mentors"
+                onPress={() =>
+                  this.props.navigation.navigate("AvailableMentors")
+                }
+              />
+            </View>
+          </View>
         </View>
       </View>
     );
@@ -67,6 +83,21 @@ const mapStateToProps = state => {
 const styles = StyleSheet.create({
   interestsContainer: {
     marginLeft: 20
+  },
+  heading: {
+    marginTop: 75,
+    marginLeft: 120
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: "600"
+  },
+  subheading: {
+    fontSize: 20,
+    fontWeight: "500"
+  },
+  areasContainer: {
+    margin: 100
   }
 });
 

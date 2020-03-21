@@ -46,8 +46,16 @@ export default function App() {
             component={ResearchLevel}
             options={{ headerTransparent: true, headerTitle: "" }}
           />
-          <Stack.Screen name="Interests" component={ResearchInterests} />
-          <Stack.Screen name="Areas" component={ResearchAreas} />
+          <Stack.Screen
+            name="Interests"
+            component={ResearchInterests}
+            options={{ headerTransparent: true, headerTitle: "" }}
+          />
+          <Stack.Screen
+            name="Areas"
+            component={ResearchAreas}
+            options={{ headerTransparent: true, headerTitle: "" }}
+          />
           <Stack.Screen name="AvailableMentors" component={AvailableMentors} />
         </Stack.Navigator>
       </NavigationContainer>
