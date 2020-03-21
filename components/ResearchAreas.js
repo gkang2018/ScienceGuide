@@ -98,6 +98,30 @@ const styles = StyleSheet.create({
   },
   areasContainer: {
     margin: 100
+  },
+  firstArea: {
+    width: 100,
+    height: 100,
+    borderWidth: 1,
+    borderRadius: 100 / 2,
+    marginLeft: 27,
+    marginBottom: 15
+  },
+  secondArea: {
+    width: 100,
+    height: 100,
+    borderWidth: 1,
+    borderRadius: 100 / 2,
+    marginLeft: 27,
+    marginBottom: 15
+  },
+  thirdArea: {
+    width: 100,
+    height: 100,
+    borderWidth: 1,
+    borderRadius: 100 / 2,
+    marginLeft: 27,
+    marginBottom: 15
   }
 });
 
