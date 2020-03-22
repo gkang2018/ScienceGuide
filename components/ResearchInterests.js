@@ -72,7 +72,6 @@ class ResearchInterests extends Component {
           renderItem={({ item }) => (
             <View>
               <InterestsCard
-                style={styles.interestCard}
                 interest={item.interest}
                 id={item.id}
                 image={item.image}
@@ -120,9 +119,6 @@ const styles = StyleSheet.create({
     color: "gray",
     fontSize: 17,
     fontWeight: "500"
-  },
-  interestCard: {
-    marginLeft: 100
   },
   flatList: {
     marginBottom: 175
