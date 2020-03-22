@@ -56,7 +56,11 @@ export default function App() {
             component={ResearchAreas}
             options={{ headerTransparent: true, headerTitle: "" }}
           />
-          <Stack.Screen name="AvailableMentors" component={AvailableMentors} />
+          <Stack.Screen
+            name="AvailableMentors"
+            component={AvailableMentors}
+            options={{ headerTransparent: true, headerTitle: "" }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

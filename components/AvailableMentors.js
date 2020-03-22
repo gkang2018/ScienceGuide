@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
 import DatabaseService from "../config/firebase";
+import MentorCard from "./MentorCard";
 
 class AvailableMentors extends Component {
   constructor(props) {
@@ -17,10 +18,39 @@ class AvailableMentors extends Component {
   render() {
     return (
       <View>
-        <Text>Made it here</Text>
+        <View style={styles.heading}>
+          <Text>AvailableMentors</Text>
+          <Text>Select one to proceed</Text>
+        </View>
+        <View style={styles.mentors}>
+          <MentorCard
+            name={"Gagandeep Kang"}
+            job={"Software Developer"}
+            expertise={"Technology"}
+          />
+          <MentorCard
+            name={"Gagandeep Kang"}
+            job={"Software Developer"}
+            expertise={"Technology"}
+          />
+          <MentorCard
+            name={"Gagandeep Kang"}
+            job={"Software Developer"}
+            expertise={"Technology"}
+          />
+        </View>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  heading: {
+    marginTop: 140,
+    marginBottom: 20,
+    marginLeft: 125
+  },
+  mentors: {}
+});
 
 export default AvailableMentors;
