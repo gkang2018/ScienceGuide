@@ -90,7 +90,8 @@ const styles = StyleSheet.create({
     height: 150,
     borderWidth: 1,
     borderRadius: 20,
-    margin: 10
+    marginLeft: 27,
+    marginBottom: 15
   },
 
   defaultSquare: {
@@ -98,7 +99,8 @@ const styles = StyleSheet.create({
     height: 150,
     borderWidth: 1,
     borderRadius: 20,
-    margin: 10
+    marginLeft: 27,
+    marginBottom: 15
   },
   interestText: {
     alignItems: "flex-end",

@@ -36,11 +36,31 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Home" component={LandingPage} />
-          <Stack.Screen name="Level" component={ResearchLevel} />
-          <Stack.Screen name="Interests" component={ResearchInterests} />
-          <Stack.Screen name="Areas" component={ResearchAreas} />
-          <Stack.Screen name="AvailableMentors" component={AvailableMentors} />
+          <Stack.Screen
+            name="Home"
+            component={LandingPage}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Level"
+            component={ResearchLevel}
+            options={{ headerTransparent: true, headerTitle: "" }}
+          />
+          <Stack.Screen
+            name="Interests"
+            component={ResearchInterests}
+            options={{ headerTransparent: true, headerTitle: "" }}
+          />
+          <Stack.Screen
+            name="Areas"
+            component={ResearchAreas}
+            options={{ headerTransparent: true, headerTitle: "" }}
+          />
+          <Stack.Screen
+            name="AvailableMentors"
+            component={AvailableMentors}
+            options={{ headerTransparent: true, headerTitle: "" }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

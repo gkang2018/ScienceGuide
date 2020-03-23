@@ -65,11 +65,12 @@ class ResearchInterests extends Component {
           <Text style={styles.title}>Research Interests</Text>
           <Text style={styles.subHeading}>{this.state.subText}</Text>
         </View>
+
         <FlatList
-          style={{ width: "100%" }}
+          style={styles.flatList}
           data={interestsData}
           renderItem={({ item }) => (
-            <View style={styles.row}>
+            <View>
               <InterestsCard
                 interest={item.interest}
                 id={item.id}
@@ -93,13 +94,34 @@ const mapStateToProps = state => {
 
 const styles = StyleSheet.create({
   title: {
-    paddingLeft: 100
+    paddingLeft: 80,
+    fontSize: 25,
+    fontWeight: "700"
   },
   headerContainer: {
+    marginTop: 75,
     marginBottom: 25
+
+    // learn to create shadow
+    // shadowColor: "#000",
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 1
+    // },
+    // shadowOpacity: 0.18,
+    // shadowRadius: 1.0,
+
+    // elevation: 1
   },
   subHeading: {
-    paddingLeft: 25
+    paddingLeft: 50,
+    paddingRight: 25,
+    color: "gray",
+    fontSize: 17,
+    fontWeight: "500"
+  },
+  flatList: {
+    marginBottom: 175
   }
 });
 

@@ -20,7 +20,9 @@ class ResearchLevel extends Component {
               this.props.navigation.navigate("Interests");
             }}
           >
-            <Text style={styles.formText}>I am a beginner</Text>
+            <Text style={styles.formText}>
+              I want to make my first research project!
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
@@ -28,7 +30,9 @@ class ResearchLevel extends Component {
               this.props.navigation.navigate("Interests");
             }}
           >
-            <Text style={styles.formText}>I have some experience</Text>
+            <Text style={styles.formText}>
+              I won at my school but want to win nationally!
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
@@ -36,7 +40,9 @@ class ResearchLevel extends Component {
               this.props.navigation.navigate("Interests");
             }}
           >
-            <Text style={styles.formText}>I am very experienced</Text>
+            <Text style={styles.formText}>
+              I won nationally and want to further the impact of my research!
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -46,22 +52,34 @@ class ResearchLevel extends Component {
 
 const styles = StyleSheet.create({
   title: {
-    paddingLeft: 50
+    paddingLeft: 50,
+    textAlign: "center"
   },
   titleText: {
     fontSize: 40,
-    marginBottom: 35
+    marginTop: 100,
+    fontWeight: "700"
   },
   descriptionText: {
-    fontSize: 20
+    fontSize: 20,
+    marginTop: 20
   },
   form: {
     paddingLeft: 95,
-    marginTop: 200
+    marginTop: 100
   },
   formText: {
-    fontSize: 20,
-    paddingBottom: 25
+    borderColor: "black",
+    borderWidth: 1.5,
+    borderRadius: 8,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 20,
+    paddingTop: 20,
+    fontSize: 15,
+    textAlign: "center",
+    marginRight: 90,
+    marginBottom: 10
   }
 });
 
