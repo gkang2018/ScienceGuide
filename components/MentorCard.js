@@ -1,23 +1,30 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
 class MentorCard extends Component {
   constructor(props) {
     super(props);
   }
 
+  selectMentor() {
+    console.log("selected", this.props.name);
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <Image />
+      <TouchableOpacity onPress={() => this.selectMentor()}>
+        <View style={styles.container}>
+          <Image
+            style={styles.imageStyle}
+            source={{ uri: this.props.imageUri }}
+          />
+          <View style={styles.details}>
+            <Text style={styles.text}>{this.props.name}</Text>
+            <Text style={styles.text}>{this.props.job}</Text>
+            <Text style={styles.text}>Expertise: {this.props.expertise}</Text>
+          </View>
         </View>
-        <View style={styles.details}>
-          <Text>{this.props.name}</Text>
-          <Text>{this.props.job}</Text>
-          <Text>{this.props.expertise}</Text>
-        </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }
@@ -25,17 +32,26 @@ class MentorCard extends Component {
 const styles = StyleSheet.create({
   container: {
     borderWidth: 2,
-    flexDirection: "row"
+    flexDirection: "row",
+    marginLeft: 25,
+    marginRight: 25,
+    marginBottom: 15
   },
-  imageContainer: {
-    width: 115,
-    height: 115,
-    borderWidth: 1,
-    borderRadius: 115 / 2
-  },
+  imageContainer: {},
   details: {
-    marginLeft: 100,
-    paddingTop: 20
+    marginLeft: 35,
+    paddingTop: 20,
+    marginRight: 125
+  },
+  imageStyle: {
+    height: 100,
+    width: 100,
+    borderRadius: 100 / 2,
+    margin: 10
+  },
+  text: {
+    fontSize: 15,
+    paddingBottom: 5
   }
 });
 

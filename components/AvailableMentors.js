@@ -19,24 +19,27 @@ class AvailableMentors extends Component {
     return (
       <View>
         <View style={styles.heading}>
-          <Text>AvailableMentors</Text>
-          <Text>Select one to proceed</Text>
+          <Text style={styles.title}>Available Mentors</Text>
+          <Text style={styles.subHeading}>Select one to proceed</Text>
         </View>
         <View style={styles.mentors}>
           <MentorCard
             name={"Gagandeep Kang"}
             job={"Software Developer"}
             expertise={"Technology"}
+            imageUri={"https://reactnative.dev/img/tiny_logo.png"}
           />
           <MentorCard
             name={"Gagandeep Kang"}
             job={"Software Developer"}
             expertise={"Technology"}
+            imageUri={"https://reactnative.dev/img/tiny_logo.png"}
           />
           <MentorCard
             name={"Gagandeep Kang"}
             job={"Software Developer"}
             expertise={"Technology"}
+            imageUri={"https://reactnative.dev/img/tiny_logo.png"}
           />
         </View>
       </View>
@@ -46,11 +49,19 @@ class AvailableMentors extends Component {
 
 const styles = StyleSheet.create({
   heading: {
-    marginTop: 140,
+    marginTop: 100,
     marginBottom: 20,
-    marginLeft: 125
+    marginLeft: 80
   },
-  mentors: {}
+  title: {
+    fontSize: 30,
+    fontWeight: "600"
+  },
+  subHeading: {
+    fontSize: 20,
+    fontWeight: "500",
+    color: "gray"
+  }
 });
 
 export default AvailableMentors;
