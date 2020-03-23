@@ -7,15 +7,37 @@ import MentorCard from "./MentorCard";
 class AvailableMentors extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      mentorData: {},
+    };
   }
 
   componentDidMount() {
-    // const dbb = new DatabaseService();
-    // let data = dbb.getAllMentors();
-    // console.log(data);
+    this.fetchMentorData().done();
+  }
+
+  async fetchMentorData() {
+    const firebase = new DatabaseService();
+    const response = await firebase.getAllMentors();
+    console.log(response);
+    this.setState({mentorData: response});
+  }
+
+  renderMentors() {
+    return this.state.mentorData.map((m) => {
+      return (
+        <MentorCard
+            name={m.name}
+            email={m.email}
+            expertise={m.researchArea}
+            imageUri={"https://reactnative.dev/img/tiny_logo.png"}
+        />
+      );
+    });
   }
 
   render() {
+    
     return (
       <View>
         <View style={styles.heading}>
@@ -23,24 +45,6 @@ class AvailableMentors extends Component {
           <Text style={styles.subHeading}>Select one to proceed</Text>
         </View>
         <View style={styles.mentors}>
-          <MentorCard
-            name={"Gagandeep Kang"}
-            job={"Software Developer"}
-            expertise={"Technology"}
-            imageUri={"https://reactnative.dev/img/tiny_logo.png"}
-          />
-          <MentorCard
-            name={"Gagandeep Kang"}
-            job={"Software Developer"}
-            expertise={"Technology"}
-            imageUri={"https://reactnative.dev/img/tiny_logo.png"}
-          />
-          <MentorCard
-            name={"Gagandeep Kang"}
-            job={"Software Developer"}
-            expertise={"Technology"}
-            imageUri={"https://reactnative.dev/img/tiny_logo.png"}
-          />
         </View>
       </View>
     );

@@ -29,22 +29,35 @@ class DatabaseService {
 
     firebase.initializeApp(firebaseConfig);
   }
+
   getAllMentors = () => {
-    firebase
-      .firestore()
-      .collection("mentors")
-      .doc("PYt0gxrJgGatLLU9k28x")
-      .get()
-      .then(doc => {
-        if (doc.exists) {
-          console.log(doc.data());
-        } else {
-          console.log("no such document");
+    let jsonData = {"mentors" : []};
+
+    let getData = firebase.firestore().collection("mentors").get().then((snapshot) => {
+      
+      let data = snapshot.docs;
+
+      for (let i=0; i<data.length; i++) {
+
+        let mentorData = data[i]["dm"]["proto"]["fields"];
+        let researchAreas = [];
+        
+        for (let i=0; i<mentorData["researchArea"]["arrayValue"]["values"].length; i++) {
+          researchAreas.push(mentorData["researchArea"]["arrayValue"]["values"][i]["stringValue"]);
         }
-      })
-      .catch(error => {
-        console.log("Error getting document", error);
-      });
+
+        let pushData = {
+          "name": mentorData.firstName.stringValue + " " + mentorData.lastName.stringValue,
+          "email": mentorData.email.stringValue,
+          "researchArea": researchAreas.join(", ")
+        };
+
+        jsonData["mentors"].push(pushData);
+
+      }
+    }).finally(function() {
+      return jsonData.json();
+    });
   };
 }
 
