@@ -49,8 +49,8 @@ class AvailableMentors extends Component {
 
 const styles = StyleSheet.create({
   heading: {
-    marginTop: 100,
-    marginBottom: 20,
+    marginTop: 90,
+    marginBottom: 50,
     marginLeft: 80
   },
   title: {
