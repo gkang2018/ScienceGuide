@@ -78,6 +78,23 @@ class DatabaseService {
         });
     });
   }
+
+  signUpUserWithEmail(email, password, name, researchInterests, researchSkill) {
+    this.auth
+      .createUserWithEmailAndPassword(email, password)
+      .then(async cred => {
+        await firebase
+          .firestore()
+          .collection("students")
+          .doc(cred.user.uid)
+          .set({
+            name: name,
+            skillLevel: researchSkill,
+            researchAreas: researchInterests
+          });
+        console.log(cred.user);
+      });
+  }
 }
 
 export default DatabaseService;

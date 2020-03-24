@@ -8,7 +8,6 @@ class Signup extends Component {
     super(props);
 
     this.db = new DatabaseService();
-    this.auth = db.auth;
   }
 
   state = {
@@ -25,25 +24,13 @@ class Signup extends Component {
           title="Next"
           onPress={() => {
             // add navigation
-            this.auth
-              .createUserWithEmailAndPassword(
-                this.state.email,
-                this.state.password
-              )
-              .then(cred => {
-                return this.db
-                  .collection("student")
-                  .doc(cred.user.uid)
-                  .set({
-                    name: this.state.name,
-                    skillLevel: "Intermediate",
-                    researchAreas: ["Mathematics", "Chemistry"]
-                  })
-                  .then(() => {
-                    console.log(cred.user);
-                    this.handleNext();
-                  });
-              });
+            this.db.signUpUserWithEmail(
+              this.state.email,
+              this.state.password,
+              this.state.name,
+              "Intermediate",
+              ["Mathematics", "Chemistry"]
+            );
           }}
         ></Button>
       )

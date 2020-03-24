@@ -5,6 +5,7 @@ import "@firebase/firestore";
 import DatabaseService from "../config/firebase";
 import MentorCard from "./MentorCard";
 import Spinner from "react-native-loading-spinner-overlay";
+import { connect } from "react-redux";
 
 class AvailableMentors extends Component {
   constructor(props) {
@@ -72,4 +73,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AvailableMentors;
+const mapStateToProps = state => {
+  return {
+    mentor: state.mentorName.mentor
+  };
+};
+
+export default connect(mapStateToProps, null)(AvailableMentors);

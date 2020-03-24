@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { connect } from "react-redux";
+import { selectMentor } from "../actions/actions";
 
 class MentorCard extends Component {
   constructor(props) {
@@ -7,7 +9,7 @@ class MentorCard extends Component {
   }
 
   selectMentor() {
-    console.log("selected", this.props.name);
+    this.props.addMentor(this.props.name);
     // add the necessary info to redux
     this.props.navigation.navigate("Signup");
   }
@@ -57,4 +59,17 @@ const styles = StyleSheet.create({
   }
 });
 
-export default MentorCard;
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    mentor: state.mentorName.mentor
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addMentor: mentor => dispatch(selectMentor(mentor))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MentorCard);
