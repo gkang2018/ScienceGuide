@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
-
+import firebase from "firebase";
+import "@firebase/firestore";
 import DatabaseService from "../config/firebase";
 import MentorCard from "./MentorCard";
 
@@ -8,19 +9,17 @@ class AvailableMentors extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mentorData: {},
+      mentorData: undefined,
     };
   }
 
   componentDidMount() {
-    this.fetchMentorData().done();
-  }
-
-  async fetchMentorData() {
-    const firebase = new DatabaseService();
-    const response = await firebase.getAllMentors();
-    console.log(response);
-    this.setState({mentorData: response});
+    const db = new DatabaseService();
+    let resp = db.fetchMentors();
+    resp.then(value => {
+        console.log(value);
+       this.setState({mentorData: value});
+    });
   }
 
   renderMentors() {
@@ -37,7 +36,10 @@ class AvailableMentors extends Component {
   }
 
   render() {
-    
+    const { mentorData } = this.state;
+    if (mentorData == undefined) {
+      return null;
+    }
     return (
       <View>
         <View style={styles.heading}>
@@ -45,10 +47,11 @@ class AvailableMentors extends Component {
           <Text style={styles.subHeading}>Select one to proceed</Text>
         </View>
         <View style={styles.mentors}>
+          {this.renderMentors()}
         </View>
       </View>
-    );
-  }
+      );
+    }
 }
 
 const styles = StyleSheet.create({

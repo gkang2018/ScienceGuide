@@ -30,35 +30,38 @@ class DatabaseService {
     firebase.initializeApp(firebaseConfig);
   }
 
-  getAllMentors = () => {
-    let jsonData = {"mentors" : []};
 
-    let getData = firebase.firestore().collection("mentors").get().then((snapshot) => {
-      
-      let data = snapshot.docs;
+  fetchMentors() {
+    return new Promise((resolve, reject) => {
 
-      for (let i=0; i<data.length; i++) {
+        let jsonData = {"mentors" : []};
+        let getData = firebase.firestore().collection("mentors").get().then((snapshot) => {
+          
+          let data = snapshot.docs;
 
-        let mentorData = data[i]["dm"]["proto"]["fields"];
-        let researchAreas = [];
-        
-        for (let i=0; i<mentorData["researchArea"]["arrayValue"]["values"].length; i++) {
-          researchAreas.push(mentorData["researchArea"]["arrayValue"]["values"][i]["stringValue"]);
-        }
+          for (let i=0; i<data.length; i++) {
+              let mentorData = data[i]["dm"]["proto"]["fields"];
 
-        let pushData = {
-          "name": mentorData.firstName.stringValue + " " + mentorData.lastName.stringValue,
-          "email": mentorData.email.stringValue,
-          "researchArea": researchAreas.join(", ")
-        };
+              // parsing the research areas 
+              let researchAreas = [];
+              
+              for (let i=0; i<mentorData["researchArea"]["arrayValue"]["values"].length; i++) {
+                researchAreas.push(mentorData["researchArea"]["arrayValue"]["values"][i]["stringValue"]);
+              }
 
-        jsonData["mentors"].push(pushData);
+              let pushData = {
+                "name": mentorData.firstName.stringValue + " " + mentorData.lastName.stringValue,
+                "email": mentorData.email.stringValue,
+                "researchArea": researchAreas.join(", ")
+              };
 
-      }
-    }).finally(function() {
-      return jsonData.json();
-    });
-  };
+              jsonData["mentors"].push(pushData);
+              resolve(jsonData["mentors"]);
+          }
+        });
+      })
+  }
+
 }
 
 export default DatabaseService;
