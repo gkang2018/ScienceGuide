@@ -10,8 +10,7 @@ class AvailableMentors extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mentorData: undefined,
-      spinner: false
+      mentorData: undefined
     };
   }
 
@@ -28,6 +27,7 @@ class AvailableMentors extends Component {
     return this.state.mentorData.map(m => {
       return (
         <MentorCard
+          navigation={this.props.navigation}
           key={m.email}
           name={m.name}
           email={m.email}

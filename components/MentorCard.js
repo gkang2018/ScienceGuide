@@ -8,6 +8,8 @@ class MentorCard extends Component {
 
   selectMentor() {
     console.log("selected", this.props.name);
+    // add the necessary info to redux
+    this.props.navigation.navigate("Signup");
   }
 
   render() {

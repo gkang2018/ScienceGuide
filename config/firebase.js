@@ -1,5 +1,6 @@
 import firebase from "firebase";
 import "@firebase/firestore";
+import "firebase/auth";
 
 import {
   API_KEY,
@@ -29,6 +30,9 @@ class DatabaseService {
     if (firebase.apps.length === 0) {
       firebase.initializeApp(firebaseConfig);
     }
+
+    // Initialize Firebase Auth
+    this.auth = firebase.auth();
   }
 
   fetchMentors() {
