@@ -4,12 +4,14 @@ import firebase from "firebase";
 import "@firebase/firestore";
 import DatabaseService from "../config/firebase";
 import MentorCard from "./MentorCard";
+import Spinner from "react-native-loading-spinner-overlay";
 
 class AvailableMentors extends Component {
   constructor(props) {
     super(props);
     this.state = {
       mentorData: undefined,
+      spinner: false
     };
   }
 
@@ -17,19 +19,20 @@ class AvailableMentors extends Component {
     const db = new DatabaseService();
     let resp = db.fetchMentors();
     resp.then(value => {
-        console.log(value);
-       this.setState({mentorData: value});
+      console.log(value);
+      this.setState({ mentorData: value });
     });
   }
 
   renderMentors() {
-    return this.state.mentorData.map((m) => {
+    return this.state.mentorData.map(m => {
       return (
         <MentorCard
-            name={m.name}
-            email={m.email}
-            expertise={m.researchArea}
-            imageUri={"https://reactnative.dev/img/tiny_logo.png"}
+          key={m.email}
+          name={m.name}
+          email={m.email}
+          expertise={m.researchArea}
+          imageUri={"https://reactnative.dev/img/tiny_logo.png"}
         />
       );
     });
@@ -38,7 +41,7 @@ class AvailableMentors extends Component {
   render() {
     const { mentorData } = this.state;
     if (mentorData == undefined) {
-      return null;
+      return <Spinner visible={true} textContent={"Loading..."} />;
     }
     return (
       <View>
@@ -46,12 +49,10 @@ class AvailableMentors extends Component {
           <Text style={styles.title}>Available Mentors</Text>
           <Text style={styles.subHeading}>Select one to proceed</Text>
         </View>
-        <View style={styles.mentors}>
-          {this.renderMentors()}
-        </View>
+        <View style={styles.mentors}>{this.renderMentors()}</View>
       </View>
-      );
-    }
+    );
+  }
 }
 
 const styles = StyleSheet.create({

@@ -26,42 +26,54 @@ class DatabaseService {
     };
 
     // Initialize Firebase
-
-    firebase.initializeApp(firebaseConfig);
+    if (firebase.apps.length === 0) {
+      firebase.initializeApp(firebaseConfig);
+    }
   }
-
 
   fetchMentors() {
     return new Promise((resolve, reject) => {
-
-        let jsonData = {"mentors" : []};
-        let getData = firebase.firestore().collection("mentors").get().then((snapshot) => {
-          
+      let jsonData = { mentors: [] };
+      let getData = firebase
+        .firestore()
+        .collection("mentors")
+        .get()
+        .then(snapshot => {
           let data = snapshot.docs;
 
-          for (let i=0; i<data.length; i++) {
-              let mentorData = data[i]["dm"]["proto"]["fields"];
+          for (let i = 0; i < data.length; i++) {
+            let mentorData = data[i]["dm"]["proto"]["fields"];
 
-              // parsing the research areas 
-              let researchAreas = [];
-              
-              for (let i=0; i<mentorData["researchArea"]["arrayValue"]["values"].length; i++) {
-                researchAreas.push(mentorData["researchArea"]["arrayValue"]["values"][i]["stringValue"]);
-              }
+            // parsing the research areas
+            let researchAreas = [];
 
-              let pushData = {
-                "name": mentorData.firstName.stringValue + " " + mentorData.lastName.stringValue,
-                "email": mentorData.email.stringValue,
-                "researchArea": researchAreas.join(", ")
-              };
+            for (
+              let i = 0;
+              i < mentorData["researchArea"]["arrayValue"]["values"].length;
+              i++
+            ) {
+              researchAreas.push(
+                mentorData["researchArea"]["arrayValue"]["values"][i][
+                  "stringValue"
+                ]
+              );
+            }
 
-              jsonData["mentors"].push(pushData);
-              resolve(jsonData["mentors"]);
+            let pushData = {
+              name:
+                mentorData.firstName.stringValue +
+                " " +
+                mentorData.lastName.stringValue,
+              email: mentorData.email.stringValue,
+              researchArea: researchAreas.join(", ")
+            };
+
+            jsonData["mentors"].push(pushData);
+            resolve(jsonData["mentors"]);
           }
         });
-      })
+    });
   }
-
 }
 
 export default DatabaseService;
