@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     mentor: state.mentorName.mentor
   };

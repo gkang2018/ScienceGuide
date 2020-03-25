@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import { View, Text, TextInput, StyleSheet, Button } from "react-native";
 import DatabaseService from "../config/firebase";
 
+import { connect } from "react-redux";
+
 class Signup extends Component {
   constructor(props) {
     super(props);
@@ -28,8 +30,9 @@ class Signup extends Component {
               this.state.email,
               this.state.password,
               this.state.name,
-              "Intermediate",
-              ["Mathematics", "Chemistry"]
+              this.props.researchLevel,
+              this.props.researchAreas,
+              this.props.mentorName
             );
           }}
         ></Button>
@@ -123,4 +126,12 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Signup;
+const mapStateToProps = state => {
+  return {
+    researchLevel: state.level.level,
+    researchAreas: state.interests.selectedInterests,
+    mentorName: state.mentorName.mentor
+  };
+};
+
+export default connect(mapStateToProps, null)(Signup);

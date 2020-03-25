@@ -64,10 +64,7 @@ class DatabaseService {
             }
 
             let pushData = {
-              name:
-                mentorData.firstName.stringValue +
-                " " +
-                mentorData.lastName.stringValue,
+              name: mentorData.name.stringValue,
               email: mentorData.email.stringValue,
               researchArea: researchAreas.join(", ")
             };
@@ -79,20 +76,51 @@ class DatabaseService {
     });
   }
 
-  signUpUserWithEmail(email, password, name, researchInterests, researchSkill) {
-    this.auth
-      .createUserWithEmailAndPassword(email, password)
-      .then(async cred => {
-        await firebase
-          .firestore()
-          .collection("students")
-          .doc(cred.user.uid)
-          .set({
-            name: name,
-            skillLevel: researchSkill,
-            researchAreas: researchInterests
+  signUpUserWithEmail(
+    email,
+    password,
+    name,
+    researchSkill,
+    researchInterests,
+    mentorName
+  ) {
+    // first we need to retrieve the mentor from the mentor name
+
+    let mentorId = "";
+
+    let mentor = firebase
+      .firestore()
+      .collection("mentors")
+      .where("name", "==", mentorName)
+      .get()
+      .then(snapshot => {
+        let data = snapshot.docs;
+        let segments = data[0]["dm"]["key"]["path"]["segments"];
+        mentorId = segments[segments.length - 1];
+
+        this.auth
+          .createUserWithEmailAndPassword(email, password)
+          .then(async cred => {
+            await firebase
+              .firestore()
+              .collection("students")
+              .doc(cred.user.uid)
+              .set({
+                name: name,
+                skillLevel: researchSkill,
+                researchAreas: researchInterests,
+                mentorId: mentorId
+              });
+            firebase
+              .firestore()
+              .collection("mentors")
+              .doc(mentorId)
+              .update({
+                students: firebase.firestore.FieldValue.arrayUnion(
+                  cred.user.uid
+                )
+              });
           });
-        console.log(cred.user);
       });
   }
 }
