@@ -4,6 +4,7 @@ import { View, Text, TextInput, StyleSheet, Button } from "react-native";
 import DatabaseService from "../config/firebase";
 
 import { connect } from "react-redux";
+import Spinner from "react-native-loading-spinner-overlay";
 
 class Signup extends Component {
   constructor(props) {
@@ -16,7 +17,8 @@ class Signup extends Component {
     name: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    loading: false
   };
 
   componentDidMount() {
@@ -25,8 +27,12 @@ class Signup extends Component {
         <Button
           title="Next"
           onPress={() => {
+            // set loading to true
+            this.setState({ loading: true });
+
             // add navigation
-            this.db.signUpUserWithEmail(
+
+            let resp = this.db.signUpUserWithEmail(
               this.state.email,
               this.state.password,
               this.state.name,
@@ -34,6 +40,12 @@ class Signup extends Component {
               this.props.researchAreas,
               this.props.mentorName
             );
+
+            resp.then(val => {
+              console.log(val);
+              this.setState({ loading: false });
+              this.props.navigation.navigate("Dashboard");
+            });
           }}
         ></Button>
       )
@@ -61,6 +73,11 @@ class Signup extends Component {
   };
 
   render() {
+    if (this.state.loading) {
+      return (
+        <Spinner visible={this.state.loading} textContent={"Loading..."} />
+      );
+    }
     return (
       <View>
         <View style={styles.heading}>

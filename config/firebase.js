@@ -84,44 +84,46 @@ class DatabaseService {
     researchInterests,
     mentorName
   ) {
+    return new Promise((resolve, reject) => {
+      let mentorId = "";
+
+      let mentor = firebase
+        .firestore()
+        .collection("mentors")
+        .where("name", "==", mentorName)
+        .get()
+        .then(snapshot => {
+          let data = snapshot.docs;
+          let segments = data[0]["dm"]["key"]["path"]["segments"];
+          mentorId = segments[segments.length - 1];
+
+          this.auth
+            .createUserWithEmailAndPassword(email, password)
+            .then(async cred => {
+              await firebase
+                .firestore()
+                .collection("students")
+                .doc(cred.user.uid)
+                .set({
+                  name: name,
+                  skillLevel: researchSkill,
+                  researchAreas: researchInterests,
+                  mentorId: mentorId
+                });
+              firebase
+                .firestore()
+                .collection("mentors")
+                .doc(mentorId)
+                .update({
+                  students: firebase.firestore.FieldValue.arrayUnion(
+                    cred.user.uid
+                  )
+                });
+              resolve("Successful");
+            });
+        });
+    });
     // first we need to retrieve the mentor from the mentor name
-
-    let mentorId = "";
-
-    let mentor = firebase
-      .firestore()
-      .collection("mentors")
-      .where("name", "==", mentorName)
-      .get()
-      .then(snapshot => {
-        let data = snapshot.docs;
-        let segments = data[0]["dm"]["key"]["path"]["segments"];
-        mentorId = segments[segments.length - 1];
-
-        this.auth
-          .createUserWithEmailAndPassword(email, password)
-          .then(async cred => {
-            await firebase
-              .firestore()
-              .collection("students")
-              .doc(cred.user.uid)
-              .set({
-                name: name,
-                skillLevel: researchSkill,
-                researchAreas: researchInterests,
-                mentorId: mentorId
-              });
-            firebase
-              .firestore()
-              .collection("mentors")
-              .doc(mentorId)
-              .update({
-                students: firebase.firestore.FieldValue.arrayUnion(
-                  cred.user.uid
-                )
-              });
-          });
-      });
   }
 }
 
