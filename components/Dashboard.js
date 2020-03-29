@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { connect } from "react-redux";
 
 class Dashboard extends Component {
   constructor(props) {
@@ -9,10 +10,17 @@ class Dashboard extends Component {
   render() {
     return (
       <View>
-        <Text>Welcome to Dashboard</Text>
+        <Text>{this.props.user.email}</Text>
       </View>
     );
   }
 }
 
-export default Dashboard;
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    user: state.user
+  };
+};
+
+export default connect(mapStateToProps)(Dashboard);

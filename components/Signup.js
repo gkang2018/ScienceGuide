@@ -1,16 +1,14 @@
 import React, { Component } from "react";
 
 import { View, Text, TextInput, StyleSheet, Button } from "react-native";
-import DatabaseService from "../config/firebase";
-
 import { connect } from "react-redux";
+
+import { signup } from "../actions/actions";
 import Spinner from "react-native-loading-spinner-overlay";
 
 class Signup extends Component {
   constructor(props) {
     super(props);
-
-    this.db = new DatabaseService();
   }
 
   state = {
@@ -32,7 +30,22 @@ class Signup extends Component {
 
             // add navigation
 
-            let resp = this.db.signUpUserWithEmail(
+            // let resp = this.db.signUpUserWithEmail(
+            //   this.state.email,
+            //   this.state.password,
+            //   this.state.name,
+            //   this.props.researchLevel,
+            //   this.props.researchAreas,
+            //   this.props.mentorName
+            // );
+
+            // resp.then(val => {
+            //   console.log(val);
+            //   this.setState({ loading: false });
+            //   this.props.navigation.navigate("Dashboard");
+            // });
+
+            this.props.signup(
               this.state.email,
               this.state.password,
               this.state.name,
@@ -41,11 +54,8 @@ class Signup extends Component {
               this.props.mentorName
             );
 
-            resp.then(val => {
-              console.log(val);
-              this.setState({ loading: false });
-              this.props.navigation.navigate("Dashboard");
-            });
+            this.setState({ loading: false });
+            this.props.navigation.navigate("Dashboard");
           }}
         ></Button>
       )
@@ -147,8 +157,18 @@ const mapStateToProps = state => {
   return {
     researchLevel: state.level.level,
     researchAreas: state.interests.selectedInterests,
-    mentorName: state.mentorName.mentor
+    mentorName: state.mentorName.mentor,
+    user: state.user.user
   };
 };
 
-export default connect(mapStateToProps, null)(Signup);
+const mapDispatchToProps = dispatch => {
+  return {
+    signup: (email, password, name, researchLevel, researchAreas, mentorName) =>
+      dispatch(
+        signup(email, password, name, researchLevel, researchAreas, mentorName)
+      )
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);
