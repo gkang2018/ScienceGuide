@@ -23,6 +23,8 @@ import AvailableMentors from "./components/AvailableMentors";
 import Signup from "./components/Signup";
 import Dashboard from "./components/Dashboard";
 
+import Login from "./components/Login";
+
 import { decode, encode } from "base-64";
 
 if (!global.btoa) {
@@ -42,6 +44,11 @@ export default function App() {
             name="Home"
             component={LandingPage}
             options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ headerTransparent: true, headerTitle: "" }}
           />
           <Stack.Screen
             name="Level"

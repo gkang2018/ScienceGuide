@@ -77,13 +77,29 @@ export const signup = (
 };
 
 export const login = (email, password) => {
-  return (async = (dispatch, getState) => {
-    console.log("login");
-  });
+  return async (dispatch, getState) => {
+    try {
+      let resp = db.signInUserWithEmail(email, password);
+      resp
+        .then(cred => {
+          console.log(cred);
+          const user = {
+            uid: cred.user.uid,
+            email: cred.user.email
+          };
+          dispatch({ type: LOGIN, payload: user });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 };
 
 export const logout = () => {
-  return (async = (dispatch, getState) => {
+  return async (dispatch, getState) => {
     console.log("logout");
-  });
+  };
 };

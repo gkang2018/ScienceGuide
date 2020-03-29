@@ -76,6 +76,20 @@ class DatabaseService {
     });
   }
 
+  signInUserWithEmail(email, password) {
+    return new Promise((resolve, reject) => {
+      this.auth
+        .signInWithEmailAndPassword(email, password)
+        .then(cred => {
+          console.log(cred);
+          resolve(cred);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
   signUpUserWithEmail(
     email,
     password,

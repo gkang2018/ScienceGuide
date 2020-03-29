@@ -1,8 +1,22 @@
 import React, { Component } from "react";
 import { StyleSheet, Image, Text, Button, View, Alert } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-
+import DatabaseService from "../config/firebase";
 class LandingPage extends Component {
+  constructor(props) {
+    super(props);
+    this.db = new DatabaseService();
+  }
+
+  componentDidMount() {
+    this.db.auth.onAuthStateChanged(user => {
+      if (user) {
+        // populate user
+        console.log(user);
+      }
+    });
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -18,7 +32,12 @@ class LandingPage extends Component {
             <Text style={styles.startingButton}>Let's get started!</Text>
           </TouchableOpacity>
           <Text style={styles.smallText}>Already have an account?</Text>
-          <Text style={styles.signIn}>Sign In</Text>
+          <Text
+            style={styles.signIn}
+            onPress={() => this.props.navigation.navigate("Login")}
+          >
+            Sign In
+          </Text>
         </View>
       </View>
     );

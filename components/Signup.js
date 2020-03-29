@@ -30,21 +30,6 @@ class Signup extends Component {
 
             // add navigation
 
-            // let resp = this.db.signUpUserWithEmail(
-            //   this.state.email,
-            //   this.state.password,
-            //   this.state.name,
-            //   this.props.researchLevel,
-            //   this.props.researchAreas,
-            //   this.props.mentorName
-            // );
-
-            // resp.then(val => {
-            //   console.log(val);
-            //   this.setState({ loading: false });
-            //   this.props.navigation.navigate("Dashboard");
-            // });
-
             this.props.signup(
               this.state.email,
               this.state.password,
@@ -142,12 +127,14 @@ const styles = StyleSheet.create({
     color: "gray"
   },
   form: {
-    textAlign: "center"
+    textAlign: "center",
+    marginBottom: 5
   },
   input: {
     borderWidth: 1,
     borderColor: "gray",
-    margin: 25,
+    marginLeft: 55,
+    marginBottom: 15,
     height: 40,
     width: 260
   }
