@@ -91,13 +91,30 @@ class DatabaseService {
         .get()
         .then(snapshot => {
           let data = snapshot;
+
           // grab all of the student data
           let studentData = data["dm"]["proto"]["fields"];
           // parse through this data
 
           let mentorId = studentData["mentorId"]["stringValue"];
           let name = studentData["name"]["stringValue"];
+          let researchObject =
+            studentData["researchAreas"]["arrayValue"]["values"];
           let researchAreas = [];
+          for (let i = 0; i < researchObject.length; i++) {
+            researchAreas.push(researchObject[i]["stringValue"]);
+          }
+          let skillLevel = studentData["skillLevel"]["stringValue"];
+
+          let student = {
+            id: uid,
+            name: name,
+            researchAreas: researchAreas,
+            skillLevel: skillLevel,
+            mentorId: mentorId
+          };
+          console.log(student);
+          resolve(student);
         })
         .catch(error => {
           console.log(error);
@@ -212,9 +229,6 @@ class DatabaseService {
             });
         });
     });
-  }
-  updateStoreWithEmail(uid) {
-    console.log(this.getUserWithID("students", uid));
   }
 }
 

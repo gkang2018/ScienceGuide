@@ -78,7 +78,10 @@ export default function App() {
           <Stack.Screen
             name="Dashboard"
             component={Dashboard}
-            options={{ headerTransparent: true, headerTitle: "" }}
+            options={{
+              headerShown: false,
+              gestureEnabled: false
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>

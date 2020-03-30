@@ -42,6 +42,7 @@ class Login extends Component {
             style={styles.input}
             placeholder="Password"
             onChangeText={this.handlePassword}
+            secureTextEntry={true}
           />
           <Button title="Login" onPress={this.handleLogin} />
         </View>

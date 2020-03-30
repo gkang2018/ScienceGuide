@@ -5,3 +5,4 @@ export const SELECT_MENTOR = "SELECT_MENTOR";
 export const SIGNUP = "SIGNUP";
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
+export const UPDATE_USER = "UPDATE_USER";

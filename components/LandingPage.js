@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { StyleSheet, Image, Text, Button, View, Alert } from "react-native";
+import { connect } from "react-redux";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import DatabaseService from "../config/firebase";
+import { addInterest, addLevel, update } from "../actions/actions";
+
 class LandingPage extends Component {
   constructor(props) {
     super(props);
@@ -11,9 +14,28 @@ class LandingPage extends Component {
   componentDidMount() {
     this.db.auth.onAuthStateChanged(user => {
       if (user) {
+        // determine if credentials are for user or mentor
         let resp = this.db.getStudentWithID(user.uid);
+        resp.then(student => {
+          // populate the redux store with database
+          let update = {
+            uid: user.uid,
+            email: user.email
+          };
+          this.props.update(update);
+          this.populateReduxStore(student);
+          this.props.navigation.navigate("Dashboard");
+        });
       }
     });
+  }
+
+  populateReduxStore(student) {
+    // populate our research interests
+    for (let i = 0; i < student.researchAreas.length; i++) {
+      this.props.addInterest(student.researchAreas[i]);
+    }
+    this.props.addLevel(student.skillLevel);
   }
 
   render() {
@@ -80,4 +102,12 @@ const styles = StyleSheet.create({
   }
 });
 
-export default LandingPage;
+const mapDispatchToProps = dispatch => {
+  return {
+    addInterest: interest => dispatch(addInterest(interest)),
+    addLevel: level => dispatch(addLevel(level)),
+    update: user => dispatch(update(user))
+  };
+};
+
+export default connect(null, mapDispatchToProps)(LandingPage);

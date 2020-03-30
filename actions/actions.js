@@ -5,7 +5,8 @@ import {
   SELECT_MENTOR,
   LOGIN,
   SIGNUP,
-  LOGOUT
+  LOGOUT,
+  UPDATE_USER
 } from "./types";
 
 import DatabaseService from "../config/firebase";
@@ -59,7 +60,7 @@ export const signup = (
             email: val.user.email
           };
 
-          dispatch({ type: SIGNUP, payload: user });
+          dispatch({ type: SIGNUP, data: user });
         })
         .catch(error => {
           console.log(error);
@@ -81,7 +82,7 @@ export const login = (email, password) => {
             uid: cred.user.uid,
             email: cred.user.email
           };
-          dispatch({ type: LOGIN, payload: user });
+          dispatch({ type: LOGIN, data: user });
         })
         .catch(error => {
           console.log(error);
@@ -92,6 +93,10 @@ export const login = (email, password) => {
   };
 };
 
+export const update = user => ({
+  type: UPDATE_USER,
+  data: user
+});
 export const logout = () => {
   return async (dispatch, getState) => {
     console.log("logout");
