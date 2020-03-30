@@ -20,6 +20,7 @@ import LandingPage from "./components/LandingPage";
 import ResearchInterests from "./components/ResearchInterests";
 import ResearchAreas from "./components/ResearchAreas";
 import AvailableMentors from "./components/AvailableMentors";
+import MentorDetail from "./components/MentorDetail";
 
 import { decode, encode } from "base-64";
 
@@ -59,6 +60,11 @@ export default function App() {
           <Stack.Screen
             name="AvailableMentors"
             component={AvailableMentors}
+            options={{ headerTransparent: true, headerTitle: "" }}
+          />
+          <Stack.Screen
+            name="MentorDetail"
+            component={MentorDetail}
             options={{ headerTransparent: true, headerTitle: "" }}
           />
         </Stack.Navigator>

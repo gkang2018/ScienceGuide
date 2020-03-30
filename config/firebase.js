@@ -60,12 +60,10 @@ class DatabaseService {
             }
 
             let pushData = {
-              name:
-                mentorData.firstName.stringValue +
-                " " +
-                mentorData.lastName.stringValue,
+              name: mentorData.name.stringValue,
+              job: mentorData.job.stringValue,
               email: mentorData.email.stringValue,
-              researchArea: researchAreas.join(", ")
+              researchArea: researchAreas.join(",")
             };
 
             jsonData["mentors"].push(pushData);

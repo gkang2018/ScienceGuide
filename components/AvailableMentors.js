@@ -19,7 +19,6 @@ class AvailableMentors extends Component {
     const db = new DatabaseService();
     let resp = db.fetchMentors();
     resp.then(value => {
-      console.log(value);
       this.setState({ mentorData: value });
     });
   }
@@ -31,8 +30,10 @@ class AvailableMentors extends Component {
           key={m.email}
           name={m.name}
           email={m.email}
+          job={m.job}
           expertise={m.researchArea}
           imageUri={"https://reactnative.dev/img/tiny_logo.png"}
+          props={this.props}
         />
       );
     });

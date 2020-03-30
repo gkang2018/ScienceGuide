@@ -1,27 +1,31 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import MentorDetail from "./MentorDetail";
 
 class MentorCard extends Component {
   constructor(props) {
     super(props);
   }
 
-  selectMentor() {
-    console.log("selected", this.props.name);
-  }
-
   render() {
+    const {props, name, expertise, email, imageUri, job} = this.props;
     return (
-      <TouchableOpacity onPress={() => this.selectMentor()}>
+      <TouchableOpacity onPress={() => props.navigation.navigate("MentorDetail", {
+        name: name, 
+        expertise: expertise,
+        email: email,
+        imageUri: imageUri,
+        job: job
+      })}>
         <View style={styles.container}>
           <Image
             style={styles.imageStyle}
-            source={{ uri: this.props.imageUri }}
+            source={{ uri: imageUri }}
           />
           <View style={styles.details}>
-            <Text style={styles.text}>{this.props.name}</Text>
-            <Text style={styles.text}>{this.props.job}</Text>
-            <Text style={styles.text}>Expertise: {this.props.expertise}</Text>
+            <Text style={styles.text}>{name}</Text>
+            <Text style={styles.text}>{job}</Text>
+            <Text style={styles.text}>Expertise: {expertise}</Text>
           </View>
         </View>
       </TouchableOpacity>
