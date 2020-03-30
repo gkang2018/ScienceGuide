@@ -1,6 +1,5 @@
 import {
   ADD_INTEREST,
-  TOGGLE_INTEREST,
   DELETE_INTEREST,
   ADD_LEVEL,
   SELECT_MENTOR,
@@ -13,19 +12,14 @@ import DatabaseService from "../config/firebase";
 
 const db = new DatabaseService();
 
-export const addInterest = (interest, id) => ({
+export const addInterest = interest => ({
   type: ADD_INTEREST,
-  data: { id, interest }
+  data: { interest }
 });
 
-export const toggleInterest = (interest, id) => ({
-  type: TOGGLE_INTEREST,
-  data: { id, interest }
-});
-
-export const deleteInterest = (interest, id) => ({
+export const deleteInterest = interest => ({
   type: DELETE_INTEREST,
-  data: { id, interest }
+  data: { interest }
 });
 
 export const addLevel = level => ({

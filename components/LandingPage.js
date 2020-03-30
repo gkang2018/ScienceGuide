@@ -11,8 +11,7 @@ class LandingPage extends Component {
   componentDidMount() {
     this.db.auth.onAuthStateChanged(user => {
       if (user) {
-        // populate user
-        console.log(user);
+        let resp = this.db.getStudentWithID(user.uid);
       }
     });
   }

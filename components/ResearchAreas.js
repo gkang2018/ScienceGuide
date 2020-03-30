@@ -24,13 +24,13 @@ class ResearchAreas extends Component {
     this.props.interests.forEach((interest, index) => {
       switch (index) {
         case 0:
-          this.setState({ firstInterest: interest.interest });
+          this.setState({ firstInterest: interest });
           break;
         case 1:
-          this.setState({ secondInterest: interest.interest });
+          this.setState({ secondInterest: interest });
           break;
         case 2:
-          this.setState({ thirdInterest: interest.interest });
+          this.setState({ thirdInterest: interest });
           break;
       }
     });

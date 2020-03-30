@@ -10,15 +10,11 @@ const interestReducer = (state = initialState, action) => {
       // spread operator (...) makes it so that we don't change the entire state
       return {
         ...state,
-        selectedInterests: state.selectedInterests.concat({
-          id: action.data.id,
-          interest: action.data.interest,
-          completed: true
-        })
+        selectedInterests: state.selectedInterests.concat(action.data.interest)
       };
     case DELETE_INTEREST:
       let vals = state.selectedInterests.filter(
-        interest => interest.interest !== action.data.interest
+        interest => interest !== action.data.interest
       );
       return {
         ...state,

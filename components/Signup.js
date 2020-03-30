@@ -28,6 +28,12 @@ class Signup extends Component {
             // set loading to true
             this.setState({ loading: true });
 
+            // parse research interests:
+            let researchAreas = [];
+            for (let i = 0; i < this.props.researchAreas.length; i++) {
+              researchAreas.push(this.props.researchAreas[i]["interest"]);
+            }
+
             // add navigation
 
             this.props.signup(
@@ -35,7 +41,7 @@ class Signup extends Component {
               this.state.password,
               this.state.name,
               this.props.researchLevel,
-              this.props.researchAreas,
+              researchAreas,
               this.props.mentorName
             );
 

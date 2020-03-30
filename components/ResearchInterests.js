@@ -87,6 +87,7 @@ class ResearchInterests extends Component {
 }
 
 const mapStateToProps = state => {
+  console.log(state);
   return {
     interests: state.interests.selectedInterests
   };

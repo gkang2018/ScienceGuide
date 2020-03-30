@@ -35,6 +35,76 @@ class DatabaseService {
     this.auth = firebase.auth();
   }
 
+  getMentorWithID(uid) {
+    return new Promise((resolve, reject) => {
+      let user = firebase
+        .firestore()
+        .collection("mentors")
+        .doc(uid)
+        .get()
+        .then(snapshot => {
+          let data = snapshot;
+          // grab all of the mentor data
+          let mentorData = data["dm"]["proto"]["fields"];
+
+          // parse through this data
+
+          let email = mentorData["email"]["stringValue"];
+          let job = mentorData["job"]["stringValue"];
+          let location = mentorData["location"]["geoPointValue"];
+          let name = mentorData["name"]["stringValue"];
+          let researchObject =
+            mentorData["researchArea"]["arrayValue"]["values"];
+          let researchAreas = [];
+          for (let i = 0; i < researchObject.length; i++) {
+            researchAreas.push(researchObject[i]["stringValue"]);
+          }
+
+          let studentObject = mentorData["students"]["arrayValue"]["values"];
+          let students = [];
+          for (let j = 0; j < studentObject.length; j++) {
+            students.push(studentObject[j]["stringValue"]);
+          }
+
+          let mentor = {
+            name: name,
+            email: email,
+            location: location,
+            job: job,
+            researchAreas: researchAreas,
+            students: students
+          };
+          resolve(mentor);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+  }
+
+  getStudentWithID(uid) {
+    return new Promise((resolve, reject) => {
+      let user = firebase
+        .firestore()
+        .collection("students")
+        .doc(uid)
+        .get()
+        .then(snapshot => {
+          let data = snapshot;
+          // grab all of the student data
+          let studentData = data["dm"]["proto"]["fields"];
+          // parse through this data
+
+          let mentorId = studentData["mentorId"]["stringValue"];
+          let name = studentData["name"]["stringValue"];
+          let researchAreas = [];
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+  }
+
   fetchMentors() {
     return new Promise((resolve, reject) => {
       let jsonData = { mentors: [] };
@@ -81,7 +151,6 @@ class DatabaseService {
       this.auth
         .signInWithEmailAndPassword(email, password)
         .then(cred => {
-          console.log(cred);
           resolve(cred);
         })
         .catch(error => {
@@ -143,7 +212,9 @@ class DatabaseService {
             });
         });
     });
-    // first we need to retrieve the mentor from the mentor name
+  }
+  updateStoreWithEmail(uid) {
+    console.log(this.getUserWithID("students", uid));
   }
 }
 
