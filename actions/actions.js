@@ -97,8 +97,17 @@ export const update = user => ({
   type: UPDATE_USER,
   data: user
 });
+
 export const logout = () => {
   return async (dispatch, getState) => {
-    console.log("logout");
+    let resp = db.signOutUser();
+    resp
+      .then(() => {
+        console.log("successfully signed out");
+        dispatch({ type: LOGOUT, data: {} });
+      })
+      .catch(error => {
+        console.log("Error signing out", error);
+      });
   };
 };

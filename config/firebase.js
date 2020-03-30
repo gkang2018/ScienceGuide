@@ -176,6 +176,19 @@ class DatabaseService {
     });
   }
 
+  signOutUser() {
+    return new Promise((resolve, reject) => {
+      this.auth
+        .signOut()
+        .then(() => {
+          resolve("Succesfully Sign Out");
+        })
+        .catch(error => {
+          reject("Unsuccessful Sign Out", error);
+        });
+    });
+  }
+
   signUpUserWithEmail(
     email,
     password,

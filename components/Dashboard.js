@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, Button, StyleSheet } from "react-native";
+import { logout } from "../actions/actions";
 import { connect } from "react-redux";
 import Spinner from "react-native-loading-spinner-overlay";
 
@@ -8,13 +9,16 @@ class Dashboard extends Component {
     super(props);
   }
 
+  handleSignout = () => {
+    this.props.logout();
+    this.props.navigation.navigate("Home");
+  };
+
   render() {
-    if (this.props.user == {}) {
-      return <Spinner visible={true} textContent={"Loading..."} />;
-    }
     return (
       <View style={styles.heading}>
-        <Text>Welcome to Science Guide, {this.props.user.email}</Text>
+        <Text>Welcome to Science Guide</Text>
+        <Button title="Log Out" onPress={this.handleSignout} />
       </View>
     );
   }
@@ -22,7 +26,7 @@ class Dashboard extends Component {
 
 const styles = StyleSheet.create({
   heading: {
-    margin: 50
+    margin: 75
   }
 });
 
@@ -33,4 +37,10 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Dashboard);
+const mapDispatchToProps = dispatch => {
+  return {
+    logout: () => dispatch(logout())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
