@@ -1,94 +1,130 @@
 import React, { Component } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  KeyboardAvoidingView,
+  ActivityIndicator
+} from "react-native";
 import { connect } from "react-redux";
 import { login, clear } from "../actions/actions";
+import { Formik } from "formik";
+import * as Yup from "yup";
 
 class Login extends Component {
   constructor(props) {
     super(props);
-  }
 
-  state = {
-    email: "",
-    password: "",
-    error: null
-  };
+    this.FormValidationSchema = Yup.object().shape({
+      email: Yup.string()
+        .email("Invalid Email.")
+        .required("Required"),
+      password: Yup.string()
+        .min(6, "Password must be at least 6 characters long!")
+        .required("Required")
+    });
+  }
 
   componentDidMount() {
     this.props.clear();
   }
 
-  handleEmail = text => {
-    this.setState({ email: text });
-  };
-
-  handlePassword = text => {
-    this.setState({ password: text });
-  };
-
-  handleLogin = () => {
-    this.props
-      .login(this.state.email, this.state.password)
-      .then(() => {
-        this.setState({ error: null });
-      })
-      // update redux store()
-      .catch(error => {
-        console.log(error);
-        this.setState({ error: "Invalid Username or Password" });
-      });
+  handleLogin = (email, password) => {
+    return new Promise((resolve, reject) => {
+      this.props
+        .login(email, password)
+        .then(() => {
+          resolve();
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
   };
 
   render() {
     return (
-      <View>
-        <View style={styles.heading}>
-          <Text style={styles.title}>Login Page</Text>
-        </View>
-        <View style={styles.form}>
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            onChangeText={this.handleEmail}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            onChangeText={this.handlePassword}
-            secureTextEntry={true}
-          />
-          <Button title="Login" onPress={this.handleLogin} />
-        </View>
-        <Text>{this.state.error}</Text>
-      </View>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+        <Formik
+          initialValues={{
+            email: "",
+            password: ""
+          }}
+          validationSchema={this.FormValidationSchema}
+          onSubmit={(values, actions) =>
+            this.handleLogin(values.email, values.password)
+              .then(() => {
+                console.log("successful");
+                this.props.navigation.navigate("Dashboard");
+              })
+              .catch(error => {
+                actions.setFieldError("general", error.message);
+              })
+              .finally(() => {
+                actions.setSubmitting(false);
+              })
+          }
+        >
+          {props => {
+            return (
+              <View style={styles.container}>
+                <View style={styles.inputStyle}>
+                  <TextInput
+                    placeholder="Email"
+                    value={props.values.email}
+                    onChangeText={props.handleChange("email")}
+                    onBlur={props.handleBlur("email")}
+                  />
+                </View>
+
+                <Text style={{ color: "red" }}>
+                  {props.touched.email && props.errors.email}
+                </Text>
+                <View style={styles.inputStyle}>
+                  <TextInput
+                    placeholder="Password"
+                    value={props.values.password}
+                    onChangeText={props.handleChange("password")}
+                    onBlur={props.handleBlur("password")}
+                    secureTextEntry={true}
+                  />
+                </View>
+
+                <Text style={{ color: "red" }}>
+                  {props.touched.password && props.errors.password}
+                </Text>
+
+                {props.isSubmitting ? (
+                  <ActivityIndicator />
+                ) : (
+                  <Button onPress={props.handleSubmit} title="Submit" />
+                )}
+                {<Text style={{ color: "red" }}>{props.errors.general}</Text>}
+              </View>
+            );
+          }}
+        </Formik>
+      </KeyboardAvoidingView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  heading: {
-    marginTop: 90,
-    marginBottom: 50,
-    marginLeft: 90
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
   },
-  title: {
-    fontSize: 30,
-    fontWeight: "600"
-  },
-  form: {
-    textAlign: "center",
-    marginBottom: 5
-  },
-  input: {
+  inputStyle: {
+    padding: 10,
+    width: "60%",
     borderWidth: 1,
-    borderColor: "gray",
-    marginLeft: 55,
-    marginBottom: 15,
-    height: 40,
-    width: 260
+    borderColor: "black"
   }
 });
-
 const mapDispatchToProps = dispatch => {
   return {
     login: (email, password) => dispatch(login(email, password)),
