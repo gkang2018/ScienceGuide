@@ -5,13 +5,13 @@ import "@firebase/firestore";
 import DatabaseService from "../config/firebase";
 import MentorCard from "./MentorCard";
 import Spinner from "react-native-loading-spinner-overlay";
+import { connect } from "react-redux";
 
 class AvailableMentors extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mentorData: undefined,
-      spinner: false
+      mentorData: undefined
     };
   }
 
@@ -27,6 +27,8 @@ class AvailableMentors extends Component {
     return this.state.mentorData.map(m => {
       return (
         <MentorCard
+          navigation={this.props.navigation}
+          id={m.id}
           key={m.email}
           name={m.name}
           email={m.email}
@@ -73,4 +75,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AvailableMentors;
+const mapStateToProps = state => {
+  return {
+    mentor: state.mentorName.mentor
+  };
+};
+
+export default connect(mapStateToProps, null)(AvailableMentors);

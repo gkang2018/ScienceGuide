@@ -21,6 +21,10 @@ import ResearchInterests from "./components/ResearchInterests";
 import ResearchAreas from "./components/ResearchAreas";
 import AvailableMentors from "./components/AvailableMentors";
 import MentorDetail from "./components/MentorDetail";
+import Signup from "./components/Signup";
+import Dashboard from "./components/Dashboard";
+
+import Login from "./components/Login";
 
 import { decode, encode } from "base-64";
 
@@ -41,6 +45,11 @@ export default function App() {
             name="Home"
             component={LandingPage}
             options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ headerTransparent: true, headerTitle: "" }}
           />
           <Stack.Screen
             name="Level"
@@ -67,6 +76,12 @@ export default function App() {
             component={MentorDetail}
             options={{ headerTransparent: true, headerTitle: "" }}
           />
+          <Stack.Screen
+            name="Signup"
+            component={Signup}
+            options={{ headerTransparent: true, headerTitle: "" }}
+          />
+          <Stack.Screen name="Dashboard" component={Dashboard} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

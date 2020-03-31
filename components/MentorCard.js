@@ -1,27 +1,36 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import MentorDetail from "./MentorDetail";
+import { connect } from "react-redux";
+import { selectMentor } from "../actions/actions";
 
 class MentorCard extends Component {
   constructor(props) {
     super(props);
   }
 
+  selectMentor() {
+    this.props.addMentor(this.props.name, this.props.id);
+    // add the necessary info to redux
+  }
+
   render() {
-    const {props, name, expertise, email, imageUri, job} = this.props;
+    const { props, name, expertise, email, imageUri, job } = this.props;
     return (
-      <TouchableOpacity onPress={() => props.navigation.navigate("MentorDetail", {
-        name: name, 
-        expertise: expertise,
-        email: email,
-        imageUri: imageUri,
-        job: job
-      })}>
+      <TouchableOpacity
+        onPress={() => {
+          this.selectMentor();
+          props.navigation.navigate("MentorDetail", {
+            name: name,
+            expertise: expertise,
+            email: email,
+            imageUri: imageUri,
+            job: job
+          });
+        }}
+      >
         <View style={styles.container}>
-          <Image
-            style={styles.imageStyle}
-            source={{ uri: imageUri }}
-          />
+          <Image style={styles.imageStyle} source={{ uri: imageUri }} />
           <View style={styles.details}>
             <Text style={styles.text}>{name}</Text>
             <Text style={styles.text}>{job}</Text>
@@ -59,4 +68,16 @@ const styles = StyleSheet.create({
   }
 });
 
-export default MentorCard;
+const mapStateToProps = state => {
+  return {
+    mentor: state.mentorName.mentor
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addMentor: (mentor, id) => dispatch(selectMentor(mentor, id))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MentorCard);

@@ -101,17 +101,6 @@ const styles = StyleSheet.create({
   headerContainer: {
     marginTop: 75,
     marginBottom: 25
-
-    // learn to create shadow
-    // shadowColor: "#000",
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 1
-    // },
-    // shadowOpacity: 0.18,
-    // shadowRadius: 1.0,
-
-    // elevation: 1
   },
   subHeading: {
     paddingLeft: 50,

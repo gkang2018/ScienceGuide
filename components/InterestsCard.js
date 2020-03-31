@@ -21,8 +21,8 @@ class InterestsCard extends Component {
 
     let addToArray = true;
     this.props.interests.forEach(interest => {
-      if (interest.interest === this.props.interest) {
-        this.props.delete(this.props.interest, this.props.id);
+      if (interest === this.props.interest) {
+        this.props.delete(this.props.interest);
         // local variable indicates whether we need to add to our redux selected interests array
         addToArray = false;
         this.setState({
@@ -31,7 +31,7 @@ class InterestsCard extends Component {
       }
     });
     if (addToArray) {
-      this.props.add(this.props.interest, this.props.id);
+      this.props.add(this.props.interest);
       this.setState({
         isSelected: true
       });
@@ -41,7 +41,7 @@ class InterestsCard extends Component {
   componentDidMount() {
     // checks if the user has pressed the back button without de-selecting interests
     this.props.interests.forEach(val => {
-      if (val.interest === this.props.interest) {
+      if (val === this.props.interest) {
         this.setState({ isSelected: true });
       }
     });
@@ -78,8 +78,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    add: (interests, id) => dispatch(addInterest(interests, id)),
-    delete: (interests, id) => dispatch(deleteInterest(interests, id))
+    add: interests => dispatch(addInterest(interests)),
+    delete: interests => dispatch(deleteInterest(interests))
   };
 };
 

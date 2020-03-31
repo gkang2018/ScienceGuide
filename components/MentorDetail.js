@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity, Button } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Button
+} from "react-native";
 
 class MentorDetail extends Component {
   constructor(props) {
@@ -7,51 +14,48 @@ class MentorDetail extends Component {
   }
 
   onPress() {
-    console.log("start chat");
+    this.props.navigation.navigate("Signup");
   }
 
   renderResearchAreas() {
-    let { expertise } = this.props.route.params; 
+    let { expertise } = this.props.route.params;
     expertise = expertise.split(",");
     return expertise.map(e => {
       return (
-        <View style={styles.researchArea}>
+        <View key={e} style={styles.researchArea}>
           <Text style={styles.researchText}>{e}</Text>
         </View>
-      )
+      );
     });
   }
 
   render() {
-    const {name, job, email, expertise, imageUri} = this.props.route.params; 
+    const { name, job, email, expertise, imageUri } = this.props.route.params;
     return (
-        <View>
-          <View style={styles.heading}>
-            <Text style={styles.title}>Mentor Information</Text>
-          </View>
+      <View>
+        <View style={styles.heading}>
+          <Text style={styles.title}>Mentor Information</Text>
+        </View>
 
-          <View style={styles.details}>
-            <Image
-            style={styles.imageStyle}
-            source={{ uri: imageUri }}
-            />
-            <View style={styles.generalInfo}>
-              <Text style={styles.subHeading}>{name}</Text>
-              <Text style={styles.text}>{job}</Text>
-            </View>
+        <View style={styles.details}>
+          <Image style={styles.imageStyle} source={{ uri: imageUri }} />
+          <View style={styles.generalInfo}>
+            <Text style={styles.subHeading}>{name}</Text>
+            <Text style={styles.text}>{job}</Text>
           </View>
+        </View>
 
-          <View style={styles.buttonView}>
+        <View style={styles.buttonView}>
           <TouchableOpacity onPress={() => this.onPress()}>
             <Text style={styles.button}>Start Chat</Text>
           </TouchableOpacity>
-          </View>
-
-          <View style={styles.researchAreas}>
-              <Text style={styles.subHeading2}>Research Areas:</Text>
-              {this.renderResearchAreas()}
-          </View>
         </View>
+
+        <View style={styles.researchAreas}>
+          <Text style={styles.subHeading2}>Research Areas:</Text>
+          {this.renderResearchAreas()}
+        </View>
+      </View>
     );
   }
 }
@@ -77,17 +81,17 @@ const styles = StyleSheet.create({
   researchAreas: {
     marginTop: 50,
     marginLeft: 40,
-    marginRight: 40,
+    marginRight: 40
   },
   researchArea: {
     marginBottom: 30,
-    borderWidth: 1,
+    borderWidth: 1
   },
   researchText: {
     fontSize: 15,
     paddingBottom: 12,
     paddingTop: 12,
-    textAlign: 'center'
+    textAlign: "center"
   },
   title: {
     fontSize: 30,
@@ -98,7 +102,7 @@ const styles = StyleSheet.create({
   },
   details: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     marginLeft: 35,
     paddingBottom: 10,
     marginRight: 125
@@ -119,7 +123,7 @@ const styles = StyleSheet.create({
     paddingBottom: 3,
     borderWidth: 1,
     borderRadius: 5,
-    textAlign: 'center'
+    textAlign: "center"
   }
 });
 
