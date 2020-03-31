@@ -40,17 +40,13 @@ class Signup extends Component {
     });
   }
 
-  state = {
-    error: null
-  };
-
-  componentDidMount() {
-    this.props.navigation.setOptions({
-      headerRight: () => (
-        <Button title="Next" onPress={this.handleSignup}></Button>
-      )
-    });
-  }
+  // componentDidMount() {
+  //   this.props.navigation.setOptions({
+  //     headerRight: () => (
+  //       <Button title="Next" onPress={this.handleSignup}></Button>
+  //     )
+  //   });
+  // }
 
   handleSignup = (email, password, name) => {
     return new Promise((resolve, reject) => {

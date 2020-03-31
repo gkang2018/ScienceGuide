@@ -31,14 +31,6 @@ class Login extends Component {
     this.props.clear();
   }
 
-  handleEmail = text => {
-    this.setState({ email: text });
-  };
-
-  handlePassword = text => {
-    this.setState({ password: text });
-  };
-
   handleLogin = (email, password) => {
     return new Promise((resolve, reject) => {
       this.props
