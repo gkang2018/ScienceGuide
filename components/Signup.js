@@ -4,7 +4,6 @@ import { View, Text, TextInput, StyleSheet, Button } from "react-native";
 import { connect } from "react-redux";
 
 import { signup } from "../actions/actions";
-import Spinner from "react-native-loading-spinner-overlay";
 
 class Signup extends Component {
   constructor(props) {
@@ -16,39 +15,36 @@ class Signup extends Component {
     email: "",
     password: "",
     confirmPassword: "",
-    loading: false
+    error: null
   };
 
   componentDidMount() {
     this.props.navigation.setOptions({
       headerRight: () => (
-        <Button
-          title="Next"
-          onPress={() => {
-            // set loading to true
-            this.setState({ loading: true });
-
-            // parse research interests:
-
-            // add navigation
-
-            this.props.signup(
-              this.state.email,
-              this.state.password,
-              this.state.name,
-              this.props.researchLevel,
-              this.props.researchAreas,
-              this.props.mentorName
-            );
-
-            this.setState({ loading: false });
-            this.props.navigation.navigate("Dashboard");
-          }}
-        ></Button>
+        <Button title="Next" onPress={this.handleSignup}></Button>
       )
     });
   }
 
+  handleSignup = () => {
+    this.props
+      .signup(
+        this.state.email,
+        this.state.password,
+        this.state.name,
+        this.props.researchLevel,
+        this.props.researchAreas,
+        this.props.mentorName
+      )
+      .then(() => {
+        console.log("successful");
+        this.props.navigation.navigate("Dashboard");
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({ error: "Unable to sign in" });
+      });
+  };
   handleName = text => {
     this.setState({ name: text });
   };
@@ -70,11 +66,6 @@ class Signup extends Component {
   };
 
   render() {
-    if (this.state.loading) {
-      return (
-        <Spinner visible={this.state.loading} textContent={"Loading..."} />
-      );
-    }
     return (
       <View>
         <View style={styles.heading}>
@@ -108,6 +99,7 @@ class Signup extends Component {
             onChangeText={this.handleConfirmPassword}
           />
         </View>
+        <Text>{this.state.error}</Text>
       </View>
     );
   }

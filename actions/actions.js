@@ -40,35 +40,31 @@ export const signup = (
   researchLevel,
   researchAreas,
   mentorName
-) => {
-  return async (dispatch, getState) => {
-    try {
-      let resp = db.signUpUserWithEmail(
-        email,
-        password,
-        name,
-        researchLevel,
-        researchAreas,
-        mentorName
-      );
+) => dispatch => {
+  return new Promise((resolve, reject) => {
+    let resp = db.signUpUserWithEmail(
+      email,
+      password,
+      name,
+      researchLevel,
+      researchAreas,
+      mentorName
+    );
+    resp
+      .then(val => {
+        const user = {
+          uid: val.user.uid,
+          email: val.user.email
+        };
 
-      resp
-        .then(val => {
-          console.log(val);
-          const user = {
-            uid: val.user.uid,
-            email: val.user.email
-          };
-
-          dispatch({ type: SIGNUP, data: user });
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+        dispatch({ type: SIGNUP, data: user });
+        resolve();
+      })
+      .catch(error => {
+        console.log(error);
+        reject(error);
+      });
+  });
 };
 
 export const login = (email, password) => dispatch => {
@@ -76,7 +72,6 @@ export const login = (email, password) => dispatch => {
     let resp = db.signInUserWithEmail(email, password);
     resp
       .then(cred => {
-        console.log(cred);
         const user = {
           uid: cred.user.uid,
           email: cred.user.email
@@ -85,7 +80,6 @@ export const login = (email, password) => dispatch => {
         resolve();
       })
       .catch(error => {
-        console.log("here");
         reject(error);
       });
   });
@@ -96,16 +90,17 @@ export const update = user => ({
   data: user
 });
 
-export const logout = () => {
-  return async (dispatch, getState) => {
+export const logout = () => dispatch => {
+  return new Promise((resolve, reject) => {
     let resp = db.signOutUser();
     resp
       .then(() => {
-        console.log("successfully signed out");
         dispatch({ type: LOGOUT });
+        resolve();
       })
       .catch(error => {
         console.log("Error signing out", error);
+        reject(error);
       });
-  };
+  });
 };

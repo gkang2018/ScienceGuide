@@ -27,7 +27,6 @@ class Login extends Component {
       .login(this.state.email, this.state.password)
       .then(() => {
         this.setState({ error: null });
-        console.log();
       })
       // update redux store()
       .catch(error => {

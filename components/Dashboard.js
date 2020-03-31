@@ -8,9 +8,20 @@ class Dashboard extends Component {
     super(props);
   }
 
+  state = {
+    error: null
+  };
+
   handleSignout = () => {
-    this.props.logout();
-    this.props.navigation.navigate("Home");
+    this.props
+      .logout()
+      .then(() => {
+        this.props.navigation.navigate("Home");
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({ error: "Unable to log out. Please try again" });
+      });
   };
 
   componentDidMount() {
@@ -26,6 +37,7 @@ class Dashboard extends Component {
     return (
       <View style={styles.heading}>
         <Text style={styles.title}>Welcome to Science Guide</Text>
+        <Text>{this.state.error}</Text>
       </View>
     );
   }
@@ -42,7 +54,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     user: state.user
   };

@@ -15,32 +15,52 @@ class LandingPage extends Component {
   constructor(props) {
     super(props);
     this.db = new DatabaseService();
+
+    this.compMounted = false;
   }
 
   state = {
-    isLoading: true
+    isLoading: false
   };
 
   componentDidMount() {
+    this.compMounted = true;
     this.db.auth.onAuthStateChanged(user => {
       if (user) {
-        // determine if credentials are for user or mentor
-        let resp = this.db.getStudentWithID(user.uid);
-        resp.then(student => {
-          // populate the redux store with database
-          let update = {
-            uid: user.uid,
-            email: user.email
-          };
-          this.props.update(update);
-          this.populateReduxStore(student);
-          this.props.navigation.navigate("Dashboard");
-          this.setState({ isLoading: false });
-        });
+        // TODO: determine if credentials are for user or mentor
+        // checks if redux store is empty
+        if (this.props.selectedInterests.length == 0) {
+          let resp = this.db.getStudentWithID(user.uid);
+          resp
+            .then(student => {
+              // populate the redux store with database
+              let update = {
+                uid: user.uid,
+                email: user.email
+              };
+              this.props.update(update);
+              this.populateReduxStore(student);
+              this.props.navigation.navigate("Dashboard");
+
+              // only set state if the component is mounted
+              if (this.compMounted) {
+                this.setState({ isLoading: false });
+              }
+            })
+            .catch(error => {
+              console.log("Unable to fetch student credentials");
+            });
+        }
       } else {
-        this.setState({ isLoading: false });
+        if (this.compMounted) {
+          this.setState({ isLoading: false });
+        }
       }
     });
+  }
+
+  componentWillUnmount() {
+    this.compMounted = false;
   }
 
   populateReduxStore(student) {
