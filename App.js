@@ -2,7 +2,6 @@ import React from "react";
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { StyleSheet, Text, View } from "react-native";
 import { Provider } from "react-redux";
 
 // import store
@@ -23,7 +22,7 @@ import AvailableMentors from "./components/AvailableMentors";
 import MentorDetail from "./components/MentorDetail";
 import Signup from "./components/Signup";
 import Dashboard from "./components/Dashboard";
-
+import LoadingScreen from "./components/LoadingScreen";
 import Login from "./components/Login";
 
 import { decode, encode } from "base-64";
@@ -42,9 +41,14 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
+            name="Loading"
+            component={LoadingScreen}
+            options={{ headerShown: false, gestureEnabled: false }}
+          />
+          <Stack.Screen
             name="Home"
             component={LandingPage}
-            options={{ headerShown: false }}
+            options={{ headerShown: false, gestureEnabled: false }}
           />
           <Stack.Screen
             name="Login"
@@ -87,12 +91,3 @@ export default function App() {
     </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-  }
-});

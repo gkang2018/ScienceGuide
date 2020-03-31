@@ -1,62 +1,10 @@
 import React, { Component } from "react";
 import { StyleSheet, Image, Text, Button, View, Alert } from "react-native";
-import { connect } from "react-redux";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import DatabaseService from "../config/firebase";
-import {
-  addInterest,
-  addLevel,
-  selectMentor,
-  update
-} from "../actions/actions";
 
 class LandingPage extends Component {
   constructor(props) {
     super(props);
-    this.db = new DatabaseService();
-  }
-
-  componentDidMount() {
-    this.db.auth.onAuthStateChanged(user => {
-      if (user) {
-        // TODO: determine if credentials are for user or mentor
-        // checks if redux store is empty
-        if (this.props.selectedInterests.length == 0) {
-          let resp = this.db.getStudentWithID(user.uid);
-          resp
-            .then(student => {
-              // populate the redux store with database
-              let update = {
-                uid: user.uid,
-                email: user.email
-              };
-              this.props.update(update);
-              this.populateReduxStore(student);
-              this.props.navigation.navigate("Dashboard");
-
-              // only set state if the component is mounted
-              if (this.compMounted) {
-                this.setState({ isLoading: false });
-              }
-            })
-            .catch(error => {
-              console.log(error);
-              console.log("Unable to fetch student credentials");
-            });
-        }
-      }
-    });
-  }
-
-  populateReduxStore(student) {
-    // check to see that our store doesn't already have these values populated
-    if (this.props.selectedInterests.length == 0) {
-      for (let i = 0; i < student.researchAreas.length; i++) {
-        this.props.addInterest(student.researchAreas[i]);
-      }
-      this.props.selectMentor(student.mentorName, student.mentorId);
-      this.props.addLevel(student.skillLevel);
-    }
   }
 
   render() {
@@ -123,19 +71,4 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = state => {
-  return {
-    selectedInterests: state.interests.selectedInterests
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    addInterest: interest => dispatch(addInterest(interest)),
-    addLevel: level => dispatch(addLevel(level)),
-    selectMentor: (mentor, id) => dispatch(selectMentor(mentor, id)),
-    update: user => dispatch(update(user))
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(LandingPage);
+export default LandingPage;

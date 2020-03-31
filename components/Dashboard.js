@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 import { logout } from "../actions/actions";
 import { connect } from "react-redux";
-
+import { StackActions } from "@react-navigation/native";
 class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -28,6 +28,7 @@ class Dashboard extends Component {
     this.props.navigation.setOptions({
       gestureEnabled: false,
       headerTitle: "",
+      headerTransparent: true,
       headerLeft: null,
       headerRight: () => <Button title="Logout" onPress={this.handleSignout} />
     });
