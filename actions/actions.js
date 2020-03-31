@@ -44,7 +44,7 @@ export const signup = (
 ) => dispatch => {
   return new Promise((resolve, reject) => {
     let resp = db.signUpUserWithEmail(
-      email,
+      "email",
       password,
       name,
       researchLevel,
