@@ -10,7 +10,8 @@ class Login extends Component {
 
   state = {
     email: "",
-    password: ""
+    password: "",
+    error: null
   };
 
   handleEmail = text => {
@@ -22,8 +23,17 @@ class Login extends Component {
   };
 
   handleLogin = () => {
-    this.props.login(this.state.email, this.state.password);
-    this.props.navigation.navigate("Dashboard");
+    this.props
+      .login(this.state.email, this.state.password)
+      .then(() => {
+        this.setState({ error: null });
+        console.log();
+      })
+      // update redux store()
+      .catch(error => {
+        console.log(error);
+        this.setState({ error: "Invalid Username or Password" });
+      });
   };
 
   render() {
@@ -46,6 +56,7 @@ class Login extends Component {
           />
           <Button title="Login" onPress={this.handleLogin} />
         </View>
+        <Text>{this.state.error}</Text>
       </View>
     );
   }

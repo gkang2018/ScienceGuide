@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 import { logout } from "../actions/actions";
 import { connect } from "react-redux";
-import Spinner from "react-native-loading-spinner-overlay";
 
 class Dashboard extends Component {
   constructor(props) {
@@ -14,11 +13,19 @@ class Dashboard extends Component {
     this.props.navigation.navigate("Home");
   };
 
+  componentDidMount() {
+    this.props.navigation.setOptions({
+      gestureEnabled: false,
+      headerTitle: "",
+      headerLeft: null,
+      headerRight: () => <Button title="Logout" onPress={this.handleSignout} />
+    });
+  }
+
   render() {
     return (
       <View style={styles.heading}>
-        <Text>Welcome to Science Guide</Text>
-        <Button title="Log Out" onPress={this.handleSignout} />
+        <Text style={styles.title}>Welcome to Science Guide</Text>
       </View>
     );
   }
@@ -27,6 +34,10 @@ class Dashboard extends Component {
 const styles = StyleSheet.create({
   heading: {
     margin: 75
+  },
+  title: {
+    fontSize: 25,
+    marginBottom: 25
   }
 });
 

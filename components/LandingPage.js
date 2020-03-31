@@ -2,14 +2,24 @@ import React, { Component } from "react";
 import { StyleSheet, Image, Text, Button, View, Alert } from "react-native";
 import { connect } from "react-redux";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import Spinner from "react-native-loading-spinner-overlay";
 import DatabaseService from "../config/firebase";
-import { addInterest, addLevel, update } from "../actions/actions";
+import {
+  addInterest,
+  addLevel,
+  selectMentor,
+  update
+} from "../actions/actions";
 
 class LandingPage extends Component {
   constructor(props) {
     super(props);
     this.db = new DatabaseService();
   }
+
+  state = {
+    isLoading: true
+  };
 
   componentDidMount() {
     this.db.auth.onAuthStateChanged(user => {
@@ -25,20 +35,32 @@ class LandingPage extends Component {
           this.props.update(update);
           this.populateReduxStore(student);
           this.props.navigation.navigate("Dashboard");
+          this.setState({ isLoading: false });
         });
+      } else {
+        this.setState({ isLoading: false });
       }
     });
   }
 
   populateReduxStore(student) {
-    // populate our research interests
-    for (let i = 0; i < student.researchAreas.length; i++) {
-      this.props.addInterest(student.researchAreas[i]);
+    // check to see that our store doesn't already have these values populated
+    if (this.props.selectedInterests.length == 0) {
+      for (let i = 0; i < student.researchAreas.length; i++) {
+        this.props.addInterest(student.researchAreas[i]);
+      }
+      this.props.addLevel(student.skillLevel);
+      this.props.selectMentor(student.mentorName);
     }
-    this.props.addLevel(student.skillLevel);
   }
 
   render() {
+    if (this.state.isLoading) {
+      return (
+        <Spinner visible={this.state.isLoading} textContent={"Loading..."} />
+      );
+    }
+
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Science Guide</Text>
@@ -102,12 +124,19 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = state => {
+  return {
+    selectedInterests: state.interests.selectedInterests
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     addInterest: interest => dispatch(addInterest(interest)),
     addLevel: level => dispatch(addLevel(level)),
+    selectMentor: mentor => dispatch(selectMentor(mentor)),
     update: user => dispatch(update(user))
   };
 };
 
-export default connect(null, mapDispatchToProps)(LandingPage);
+export default connect(mapStateToProps, mapDispatchToProps)(LandingPage);

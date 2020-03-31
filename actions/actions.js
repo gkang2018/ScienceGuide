@@ -71,26 +71,24 @@ export const signup = (
   };
 };
 
-export const login = (email, password) => {
-  return async (dispatch, getState) => {
-    try {
-      let resp = db.signInUserWithEmail(email, password);
-      resp
-        .then(cred => {
-          console.log(cred);
-          const user = {
-            uid: cred.user.uid,
-            email: cred.user.email
-          };
-          dispatch({ type: LOGIN, data: user });
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+export const login = (email, password) => dispatch => {
+  return new Promise((resolve, reject) => {
+    let resp = db.signInUserWithEmail(email, password);
+    resp
+      .then(cred => {
+        console.log(cred);
+        const user = {
+          uid: cred.user.uid,
+          email: cred.user.email
+        };
+        dispatch({ type: LOGIN, data: user });
+        resolve();
+      })
+      .catch(error => {
+        console.log("here");
+        reject(error);
+      });
+  });
 };
 
 export const update = user => ({
@@ -104,7 +102,7 @@ export const logout = () => {
     resp
       .then(() => {
         console.log("successfully signed out");
-        dispatch({ type: LOGOUT, data: {} });
+        dispatch({ type: LOGOUT });
       })
       .catch(error => {
         console.log("Error signing out", error);

@@ -35,6 +35,25 @@ class DatabaseService {
     this.auth = firebase.auth();
   }
 
+  getMentorName(uid) {
+    return new Promise((resolve, reject) => {
+      let mentor = firebase
+        .firestore()
+        .collection("mentors")
+        .doc(uid)
+        .get()
+        .then(snapshot => {
+          let data = snapshot;
+          let mentorData = data["dm"]["proto"]["fields"];
+          let name = mentorData["name"]["stringValue"];
+          resolve(name);
+        })
+        .catch(error => {
+          reject("Could not retrieve Mentor Name by Id", error);
+        });
+    });
+  }
+
   getMentorWithID(uid) {
     return new Promise((resolve, reject) => {
       let user = firebase
@@ -77,7 +96,7 @@ class DatabaseService {
           resolve(mentor);
         })
         .catch(error => {
-          console.log(error);
+          reject(error);
         });
     });
   }
@@ -97,27 +116,37 @@ class DatabaseService {
           // parse through this data
 
           let mentorId = studentData["mentorId"]["stringValue"];
-          let name = studentData["name"]["stringValue"];
-          let researchObject =
-            studentData["researchAreas"]["arrayValue"]["values"];
-          let researchAreas = [];
-          for (let i = 0; i < researchObject.length; i++) {
-            researchAreas.push(researchObject[i]["stringValue"]);
-          }
-          let skillLevel = studentData["skillLevel"]["stringValue"];
 
-          let student = {
-            id: uid,
-            name: name,
-            researchAreas: researchAreas,
-            skillLevel: skillLevel,
-            mentorId: mentorId
-          };
-          console.log(student);
-          resolve(student);
+          // retrieve mentor name by their id
+
+          let mentorName = this.getMentorName(mentorId);
+          mentorName
+            .then(val => {
+              let name = studentData["name"]["stringValue"];
+              let researchObject =
+                studentData["researchAreas"]["arrayValue"]["values"];
+              let researchAreas = [];
+              for (let i = 0; i < researchObject.length; i++) {
+                researchAreas.push(researchObject[i]["stringValue"]);
+              }
+              let skillLevel = studentData["skillLevel"]["stringValue"];
+
+              let student = {
+                id: uid,
+                name: name,
+                researchAreas: researchAreas,
+                skillLevel: skillLevel,
+                mentorId: mentorId,
+                mentorName: val
+              };
+              resolve(student);
+            })
+            .catch(error => {
+              reject(error);
+            });
         })
         .catch(error => {
-          console.log(error);
+          reject(error);
         });
     });
   }
@@ -159,6 +188,9 @@ class DatabaseService {
             jsonData["mentors"].push(pushData);
             resolve(jsonData["mentors"]);
           }
+        })
+        .catch(error => {
+          reject(error);
         });
     });
   }
@@ -235,11 +267,11 @@ class DatabaseService {
               resolve(cred);
             })
             .catch(error => {
-              console.log(error);
-            })
-            .catch(error => {
-              console.log(error);
+              reject(error);
             });
+        })
+        .catch(error => {
+          reject(error);
         });
     });
   }

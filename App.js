@@ -75,14 +75,7 @@ export default function App() {
             component={Signup}
             options={{ headerTransparent: true, headerTitle: "" }}
           />
-          <Stack.Screen
-            name="Dashboard"
-            component={Dashboard}
-            options={{
-              headerShown: false,
-              gestureEnabled: false
-            }}
-          />
+          <Stack.Screen name="Dashboard" component={Dashboard} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
