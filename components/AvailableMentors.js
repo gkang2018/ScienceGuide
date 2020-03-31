@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import firebase from "firebase";
 import "@firebase/firestore";
 import DatabaseService from "../config/firebase";
 import MentorCard from "./MentorCard";
-import Spinner from "react-native-loading-spinner-overlay";
 import { connect } from "react-redux";
 
 class AvailableMentors extends Component {
@@ -44,7 +43,11 @@ class AvailableMentors extends Component {
   render() {
     const { mentorData } = this.state;
     if (mentorData == undefined) {
-      return <Spinner visible={true} textContent={"Loading..."} />;
+      return (
+        <View style={styles.container}>
+          <ActivityIndicator size="large" color="#0000ff" animating={true} />
+        </View>
+      );
     }
     return (
       <View>
@@ -59,6 +62,11 @@ class AvailableMentors extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    flexDirection: "column"
+  },
   heading: {
     marginTop: 90,
     marginBottom: 50,

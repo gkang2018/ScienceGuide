@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 import { logout } from "../actions/actions";
 import { connect } from "react-redux";
-import { StackActions } from "@react-navigation/native";
 class Dashboard extends Component {
   constructor(props) {
     super(props);
