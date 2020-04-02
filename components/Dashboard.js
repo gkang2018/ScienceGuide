@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
 import { logout } from "../actions/actions";
 import { connect } from "react-redux";
 class Dashboard extends Component {
@@ -35,10 +35,14 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <View style={styles.heading}>
-        <Text style={styles.title}>Welcome to Science Guide</Text>
-        <Text>{this.state.error}</Text>
-      </View>
+      <TouchableOpacity
+        onPress={() => this.props.navigation.navigate("DirectoryPage")}
+      >
+        <View style={styles.heading}>
+          <Text style={styles.title}>Welcome to Science Guide</Text>
+          <Text>{this.state.error}</Text>
+        </View>
+      </TouchableOpacity>
     );
   }
 }
