@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { View, Text, StyleSheet } from "react-native";
 
-class MessagesScreen extends Component {
+class ProfileScreen extends Component {
   constructor(props) {
     super(props);
   }
@@ -11,7 +11,7 @@ class MessagesScreen extends Component {
     return (
       <View>
         <View style={styles.heading}>
-          <Text style={styles.title}>Messages</Text>
+          <Text style={styles.title}>Profile</Text>
         </View>
       </View>
     );
@@ -31,4 +31,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default MessagesScreen;
+export default ProfileScreen;

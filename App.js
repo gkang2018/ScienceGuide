@@ -29,6 +29,7 @@ import LoadingScreen from "./components/LoadingScreen";
 import Login from "./components/Login";
 import Directory from "./components/Directory";
 import MessagesScreen from "./components/MessagesScreen";
+import ProfileScreen from "./components/ProfileScreen";
 
 import { decode, encode } from "base-64";
 
@@ -53,6 +54,8 @@ function DirectoryPage() {
               : "ios-information-circle-outline";
           } else if (route.name === "Messages") {
             iconName = focused ? "ios-list-box" : "ios-list";
+          } else if (route.name === "Profile") {
+            iconName = focused ? "md-person" : "md-person";
           }
 
           // You can return any component that you like here!
@@ -66,6 +69,7 @@ function DirectoryPage() {
     >
       <Tab.Screen name="Directory" component={Directory} />
       <Tab.Screen name="Messages" component={MessagesScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 }
