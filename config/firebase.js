@@ -73,7 +73,7 @@ class DatabaseService {
           let location = mentorData["location"]["geoPointValue"];
           let name = mentorData["name"]["stringValue"];
           let researchObject =
-            mentorData["researchArea"]["arrayValue"]["values"];
+            mentorData["researchAreas"]["arrayValue"]["values"];
           let researchAreas = [];
           for (let i = 0; i < researchObject.length; i++) {
             researchAreas.push(researchObject[i]["stringValue"]);
@@ -171,11 +171,11 @@ class DatabaseService {
 
             for (
               let i = 0;
-              i < mentorData["researchArea"]["arrayValue"]["values"].length;
+              i < mentorData["researchAreas"]["arrayValue"]["values"].length;
               i++
             ) {
               researchAreas.push(
-                mentorData["researchArea"]["arrayValue"]["values"][i][
+                mentorData["researchAreas"]["arrayValue"]["values"][i][
                   "stringValue"
                 ]
               );
