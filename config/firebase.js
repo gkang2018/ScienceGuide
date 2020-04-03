@@ -1,7 +1,6 @@
 import firebase from "firebase";
 import "@firebase/firestore";
 import "firebase/auth";
-
 import {
   API_KEY,
   AUTH_DOMAIN,
@@ -282,6 +281,7 @@ class DatabaseService {
       let message = {};
       for (let i = 0; i < messages.length; i++) {
         const { text, user } = messages[i];
+        user = user._id;
         message = {
           text,
           user,
@@ -294,17 +294,43 @@ class DatabaseService {
         .collection("chats")
         .doc(chatID)
         .collection("messages")
-        .doc("message1")
-        .set({
+        .add({
           from: message.user,
           text: message.text,
           time: message.timestamp
         })
-        .then(val => {
-          console.log(val);
+        .then(() => {
+          resolve("Successful");
         })
         .catch(error => {
           console.log(error);
+        });
+    });
+  }
+
+  getMessages(senderID, recipientID) {
+    return new Promise((resolve, reject) => {
+      // get chat room
+      let chatID = this.getChatRoom(senderID, recipientID);
+
+      firebase
+        .firestore()
+        .collection("chats")
+        .doc(chatID)
+        .collection("messages")
+        .onSnapshot(snapshot => {
+          let parse = [];
+          snapshot.forEach(doc => {
+            parse.push({
+              _id: doc.id,
+              text: doc.data().text,
+              time: new Date(doc.data().time),
+              user: { _id: doc.data().from }
+            });
+          });
+
+          console.log(parse);
+          resolve(parse);
         });
     });
   }

@@ -21,27 +21,24 @@ class ChatRoom extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      messages: [
-        {
-          _id: 1,
-          text: "Hello developer",
-          createdAt: "04/01",
-          user: {
-            _id: 1,
-            name: "React Native",
-            avatar: "https://placeimg.com/140/140/any"
-          }
-        }
-      ]
-    });
+    this.db
+      .getMessages(this.props.userID, "huFEL1uRzxFcNJYWMjS9")
+      .then(val => {
+        val.map(message => {
+          this.setState(previousState => ({
+            messages: GiftedChat.append(previousState.messages, message)
+          }));
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   // figure out how to hold mentor IDs,
   // manually send it now
 
   onSend(messages) {
-    console.log(messages);
     this.db.sendMessage(messages, this.props.userID, "huFEL1uRzxFcNJYWMjS9");
   }
 
