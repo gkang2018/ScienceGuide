@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 class ChatCard extends Component {
   constructor(props) {
@@ -8,7 +9,13 @@ class ChatCard extends Component {
 
   render() {
     return (
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() =>
+          this.props.navigation.navigate("ChatRoom", {
+            recipient: this.props.recipient
+          })
+        }
+      >
         <View style={styles.container}>
           <Image
             style={styles.avatar}

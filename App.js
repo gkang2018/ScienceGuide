@@ -30,7 +30,9 @@ import Login from "./components/Login";
 import Directory from "./components/Directory";
 import MessagesScreen from "./components/MessagesScreen";
 import ProfileScreen from "./components/ProfileScreen";
+import ChatRoom from "./components/ChatRoom";
 
+// do we need this import stil ????
 import { decode, encode } from "base-64";
 
 if (!global.btoa) {
@@ -135,6 +137,7 @@ export default function App() {
               headerLeft: null
             }}
           />
+          <Stack.Screen name="ChatRoom" component={ChatRoom} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

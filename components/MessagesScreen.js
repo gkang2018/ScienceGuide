@@ -36,7 +36,12 @@ class MessagesScreen extends Component {
           <FlatList
             data={this.state.userChatRooms}
             renderItem={({ item }) => (
-              <ChatCard recipient={"Gagan"} lastMessage={"Hello World "} />
+              <ChatCard
+                navigation={this.props.navigation}
+                recipient={"Gagan"}
+                lastMessage={"Hello World "}
+                props={this.props}
+              />
             )}
           />
         </View>

@@ -262,6 +262,52 @@ class DatabaseService {
         });
     });
   }
+
+  // MESSAGE SENDING
+
+  getChatRoom(senderID, recipientID) {
+    const comparison = senderID.localeCompare(recipientID);
+    if (comparison === -1) {
+      return senderID + recipientID;
+    } else if (comparison === 0) {
+      recipientID + comparisonID;
+    } else {
+      recipientID + senderID;
+    }
+  }
+
+  sendMessage(messages, senderID, recipientID) {
+    return new Promise((resolve, reject) => {
+      let chatID = this.getChatRoom(senderID, recipientID);
+      let message = {};
+      for (let i = 0; i < messages.length; i++) {
+        const { text, user } = messages[i];
+        message = {
+          text,
+          user,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        };
+      }
+
+      firebase
+        .firestore()
+        .collection("chats")
+        .doc(chatID)
+        .collection("messages")
+        .doc("message1")
+        .set({
+          from: message.user,
+          text: message.text,
+          time: message.timestamp
+        })
+        .then(val => {
+          console.log(val);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+  }
 }
 
 export default DatabaseService;
