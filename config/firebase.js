@@ -9,7 +9,7 @@ import {
   STORAGE_BUCKET,
   MESSAGING_SENDER_ID,
   APP_ID,
-  MEASUREMENT_ID
+  MEASUREMENT_ID,
 } from "react-native-dotenv";
 
 class DatabaseService {
@@ -22,7 +22,7 @@ class DatabaseService {
       storageBucket: STORAGE_BUCKET,
       messagingSenderId: MESSAGING_SENDER_ID,
       appId: APP_ID,
-      measurementId: MEASUREMENT_ID
+      measurementId: MEASUREMENT_ID,
     };
 
     // Initialize Firebase
@@ -43,11 +43,11 @@ class DatabaseService {
         .collection("students")
         .doc(uid)
         .get()
-        .then(val => {
+        .then((val) => {
           let studentName = val.data().name;
           resolve(studentName);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
           reject(error);
         });
@@ -61,13 +61,13 @@ class DatabaseService {
         .collection("mentors")
         .doc(uid)
         .get()
-        .then(snapshot => {
+        .then((snapshot) => {
           let data = snapshot;
           let mentorData = data["dm"]["proto"]["fields"];
           let name = mentorData["name"]["stringValue"];
           resolve(name);
         })
-        .catch(error => {
+        .catch((error) => {
           reject("Could not retrieve Mentor Name by Id", error);
         });
     });
@@ -76,14 +76,14 @@ class DatabaseService {
   getRecipientName(recipientID) {
     return new Promise((resolve, reject) => {
       let status = this.determineStudentOrMentor(recipientID)
-        .then(val => {
+        .then((val) => {
           if (val === "Student") {
             resolve(this.getStudentName(recipientID));
           } else if (val === "Mentor") {
             resolve(this.getMentorName(recipientID));
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log("unable to determine user's status");
           reject(error);
         });
@@ -99,7 +99,7 @@ class DatabaseService {
         .collection("mentors")
         .doc(id)
         .get()
-        .then(snapshot => {
+        .then((snapshot) => {
           if (snapshot.data()) {
             console.log("Mentor");
             resolve("Mentor");
@@ -108,7 +108,7 @@ class DatabaseService {
             resolve("Student");
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log("error determinning student or mentor");
           resolve(error);
         });
@@ -122,7 +122,7 @@ class DatabaseService {
         .collection("mentors")
         .doc(uid)
         .get()
-        .then(snapshot => {
+        .then((snapshot) => {
           let data = snapshot;
           // grab all of the mentor data
           let mentorData = data["dm"]["proto"]["fields"];
@@ -152,11 +152,11 @@ class DatabaseService {
             location: location,
             job: job,
             researchAreas: researchAreas,
-            students: students
+            students: students,
           };
           resolve(mentor);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -169,7 +169,7 @@ class DatabaseService {
         .collection("students")
         .doc(uid)
         .get()
-        .then(snapshot => {
+        .then((snapshot) => {
           let data = snapshot;
 
           // grab all of the student data
@@ -182,7 +182,7 @@ class DatabaseService {
 
           let mentorName = this.getMentorName(mentorId);
           mentorName
-            .then(val => {
+            .then((val) => {
               let name = studentData["name"]["stringValue"];
               let researchObject =
                 studentData["researchAreas"]["arrayValue"]["values"];
@@ -198,15 +198,15 @@ class DatabaseService {
                 researchAreas: researchAreas,
                 skillLevel: skillLevel,
                 mentorId: mentorId,
-                mentorName: val
+                mentorName: val,
               };
               resolve(student);
             })
-            .catch(error => {
+            .catch((error) => {
               reject(error);
             });
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -219,7 +219,7 @@ class DatabaseService {
         .firestore()
         .collection("mentors")
         .get()
-        .then(snapshot => {
+        .then((snapshot) => {
           let data = snapshot.docs;
 
           for (let i = 0; i < data.length; i++) {
@@ -247,14 +247,14 @@ class DatabaseService {
               name: mentorData.name.stringValue,
               job: mentorData.job.stringValue,
               email: mentorData.email.stringValue,
-              researchArea: researchAreas.join(",")
+              researchArea: researchAreas.join(","),
             };
 
             jsonData["mentors"].push(pushData);
             resolve(jsonData["mentors"]);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -264,10 +264,10 @@ class DatabaseService {
     return new Promise((resolve, reject) => {
       this.auth
         .signInWithEmailAndPassword(email, password)
-        .then(cred => {
+        .then((cred) => {
           resolve(cred);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -280,7 +280,7 @@ class DatabaseService {
         .then(() => {
           resolve("Succesfully Sign Out");
         })
-        .catch(error => {
+        .catch((error) => {
           reject("Unsuccessful Sign Out", error);
         });
     });
@@ -298,7 +298,7 @@ class DatabaseService {
     return new Promise((resolve, reject) => {
       this.auth
         .createUserWithEmailAndPassword(email, password)
-        .then(async cred => {
+        .then(async (cred) => {
           // get the chat id
           let chatID = this.getChatRoom(cred.user.uid, mentorId);
           await firebase
@@ -310,7 +310,7 @@ class DatabaseService {
               skillLevel: researchSkill,
               researchAreas: researchInterests,
               mentorId: mentorId,
-              chatRooms: firebase.firestore.FieldValue.arrayUnion(chatID)
+              chatRooms: firebase.firestore.FieldValue.arrayUnion(chatID),
             });
           // create the chat room
           this.createChatRoom(cred.user.uid, mentorId);
@@ -320,11 +320,11 @@ class DatabaseService {
             .collection("mentors")
             .doc(mentorId)
             .update({
-              students: firebase.firestore.FieldValue.arrayUnion(cred.user.uid)
+              students: firebase.firestore.FieldValue.arrayUnion(cred.user.uid),
             });
           resolve(cred);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -351,11 +351,11 @@ class DatabaseService {
         .collection("students")
         .doc(userID)
         .get()
-        .then(snapshot => {
+        .then((snapshot) => {
           let chatRooms = snapshot.data().chatRooms;
           resolve(chatRooms);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
           reject(error);
         });
@@ -364,19 +364,16 @@ class DatabaseService {
 
   createChatRoom(senderID, recipientID) {
     let chatID = this.getChatRoom(senderID, recipientID);
-    let chat = firebase
-      .firestore()
-      .collection("chats")
-      .doc(chatID);
+    let chat = firebase.firestore().collection("chats").doc(chatID);
     chat
       .set({
         lastMessage: "",
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       })
       .then(() => {
         chat.collection("messages").add();
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("unable to create chat room");
       });
   }
@@ -385,32 +382,31 @@ class DatabaseService {
     return new Promise((resolve, reject) => {
       let chatId = this.getChatRoom(senderID, recipientID);
       let recipientName = this.getRecipientName(recipientID)
-        .then(val => {
+        .then((val) => {
           let status = val;
           firebase
             .firestore()
             .collection("chats")
             .doc(chatId)
             .get()
-            .then(snapshot => {
+            .then((snapshot) => {
               let lastMessage = snapshot.data().lastMessage;
               let timeStamp = snapshot.data().timestamp;
               timeStamp = new Date(timeStamp);
-              console.log(timeStamp);
               let data = {
                 lastMessage,
                 status,
                 timeStamp,
-                recipientID
+                recipientID,
               };
               resolve(data);
             })
-            .catch(error => {
+            .catch((error) => {
               console.log("Chat Room Does Not Exist");
               reject(error);
             });
         })
-        .catch(error => {
+        .catch((error) => {
           console.log("user id not linked to a mentor or a student");
           reject(error);
         });
@@ -427,25 +423,41 @@ class DatabaseService {
         message = {
           text,
           user,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         };
       }
+
+      // update the last message and timestamp then send the message
 
       firebase
         .firestore()
         .collection("chats")
         .doc(chatID)
-        .collection("messages")
-        .add({
-          from: message.user,
-          text: message.text,
-          time: message.timestamp
+        .set({
+          lastMessage: message.text,
+          timestamp: message.timestamp,
         })
         .then(() => {
-          resolve("Successful");
+          firebase
+            .firestore()
+            .collection("chats")
+            .doc(chatID)
+            .collection("messages")
+            .add({
+              from: message.user,
+              text: message.text,
+              time: message.timestamp,
+            })
+            .then(() => {
+              resolve("Successful");
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         })
-        .catch(error => {
-          console.log(error);
+        .catch((error) => {
+          console.log("Unable to set last message and timestamp");
+          reject(error);
         });
     });
   }
@@ -459,15 +471,16 @@ class DatabaseService {
       .collection("chats")
       .doc(chatID)
       .collection("messages")
-      .onSnapshot(snapshot => {
+      .onSnapshot((snapshot) => {
         let parse = [];
-        snapshot.forEach(doc => {
+        snapshot.forEach((doc) => {
           parse.push({
             _id: doc.id,
             text: doc.data().text,
             time: new Date(doc.data().time),
-            user: { _id: doc.data().from }
+            user: { _id: doc.data().from },
           });
+          console.log(parse.time);
         });
 
         return parse;

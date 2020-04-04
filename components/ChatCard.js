@@ -12,7 +12,7 @@ class ChatCard extends Component {
         onPress={() =>
           this.props.navigation.navigate("ChatRoom", {
             recipientName: this.props.recipientName,
-            recipientID: this.props.recipientID
+            recipientID: this.props.recipientID,
           })
         }
       >
@@ -36,20 +36,20 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     borderRadius: 100 / 2,
-    margin: 10
+    margin: 10,
   },
   details: {
     marginLeft: 35,
     paddingTop: 20,
-    marginRight: 125
+    marginRight: 125,
   },
   container: {
     borderWidth: 2,
     flexDirection: "row",
     marginLeft: 25,
     marginRight: 25,
-    marginBottom: 15
-  }
+    marginBottom: 15,
+  },
 });
 
 export default ChatCard;
