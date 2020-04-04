@@ -1,11 +1,26 @@
 import React, { Component } from "react";
 
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Button } from "react-native";
+
+import { connect } from "react-redux";
+import { logout } from "../actions/actions";
 
 class ProfileScreen extends Component {
   constructor(props) {
     super(props);
   }
+
+  handleSignout = () => {
+    this.props
+      .logout()
+      .then(() => {
+        this.props.navigation.navigate("Home");
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({ error: "Unable to log out. Please try again" });
+      });
+  };
 
   render() {
     return (
@@ -13,6 +28,7 @@ class ProfileScreen extends Component {
         <View style={styles.heading}>
           <Text style={styles.title}>Profile</Text>
         </View>
+        <Button title="Logout" onPress={this.handleSignout} />
       </View>
     );
   }
@@ -31,4 +47,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ProfileScreen;
+const mapDispatchToProps = dispatch => {
+  return {
+    logout: () => dispatch(logout())
+  };
+};
+
+export default connect(null, mapDispatchToProps)(ProfileScreen);

@@ -29,13 +29,43 @@ class MessagesScreen extends Component {
       .getUsersChatRooms(this.props.user.uid)
       .then(chatRooms => {
         // we are going to populate our state with mentor name, mentor id, and last message between them if it exists
-
         chatRooms.forEach(id => {
           let split = id.split("-");
           // determine which is the user's id
-          let otherUser = split[0] === user.id ? split[1] : split[0];
+          let otherUser = split[0] === this.props.user.id ? split[1] : split[0];
+          this.db
+            .lastMessageSent(this.props.user.uid, otherUser)
+            .then(val => {
+              let chat = {
+                timestamp: val.timeStamp,
+                lastMessage: val.lastMessage,
+                recipientName: val.status,
+                recipientID: val.recipientID
+              };
+              console.log(this.state.userChatRooms.length);
+              if (this.state.userChatRooms.length === 0) {
+                console.log("here");
+                this.setState({
+                  userChatRooms: [chat]
+                });
+              } else {
+                this.setState(previousState => ({
+                  userChatRooms: [previousState.userChatRooms, chat]
+                }));
+              }
 
-          this.db.lastMessageSent(this.props.user.uid, otherUser);
+              console.log(this.state.userChatRooms);
+            })
+            .catch(error => {
+              // unable to fetch last message
+              console.log(error);
+            });
+          // sort our state array
+          let toSort = [...this.state.userChatRooms];
+          toSort.sort((a, b) => b.timestamp - a.timestamp);
+          this.setState({
+            userChatRooms: toSort
+          });
         });
       })
       .catch(error => {
@@ -45,7 +75,7 @@ class MessagesScreen extends Component {
   }
 
   render() {
-    if (this.state.userChatRooms == undefined) {
+    if (this.state.userChatRooms == []) {
       return (
         <View>
           <View style={styles.heading}>
@@ -68,11 +98,13 @@ class MessagesScreen extends Component {
             renderItem={({ item }) => (
               <ChatCard
                 navigation={this.props.navigation}
-                recipient={"Gagan"}
-                lastMessage={"Hello World "}
+                recipientName={item.recipientName}
+                recipientID={item.recipientID}
+                lastMessage={item.lastMessage}
                 props={this.props}
               />
             )}
+            keyExtractor={item => item.recipientID}
           />
         </View>
       </View>

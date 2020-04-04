@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
 class ChatCard extends Component {
   constructor(props) {
@@ -12,7 +11,8 @@ class ChatCard extends Component {
       <TouchableOpacity
         onPress={() =>
           this.props.navigation.navigate("ChatRoom", {
-            recipient: this.props.recipient
+            recipientName: this.props.recipientName,
+            recipientID: this.props.recipientID
           })
         }
       >
@@ -22,7 +22,7 @@ class ChatCard extends Component {
             source={{ uri: this.props.profileImage }}
           />
           <View style={styles.details}>
-            <Text style={styles.recipient}>{this.props.recipient}</Text>
+            <Text style={styles.recipient}>{this.props.recipientName}</Text>
             <Text style={styles.lastMessage}>{this.props.lastMessage}</Text>
           </View>
         </View>

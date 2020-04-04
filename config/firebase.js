@@ -74,30 +74,43 @@ class DatabaseService {
   }
 
   getRecipientName(recipientID) {
-    // determine if the user is a student or a mentor
-    let status = this.determineStudentOrMentor(recipientID).then(val => {
-      if (val === "Student") {
-        return this.getStudentName(recipientID);
-      } else if (val === "Mentor") {
-        return this.getMentorName(recipientID);
-      }
+    return new Promise((resolve, reject) => {
+      let status = this.determineStudentOrMentor(recipientID)
+        .then(val => {
+          if (val === "Student") {
+            resolve(this.getStudentName(recipientID));
+          } else if (val === "Mentor") {
+            resolve(this.getMentorName(recipientID));
+          }
+        })
+        .catch(error => {
+          console.log("unable to determine user's status");
+          reject(error);
+        });
     });
+    // determine if the user is a student or a mentor
   }
 
   determineStudentOrMentor(id) {
     return new Promise((resolve, reject) => {
+      console.log(id);
       firebase
         .firestore()
         .collection("mentors")
         .doc(id)
         .get()
         .then(snapshot => {
-          console.log("Mentor");
-          resolve("Mentor");
+          if (snapshot.data()) {
+            console.log("Mentor");
+            resolve("Mentor");
+          } else {
+            console.log("student");
+            resolve("Student");
+          }
         })
         .catch(error => {
-          console.log("student");
-          resolve("Student");
+          console.log("error determinning student or mentor");
+          resolve(error);
         });
     });
   }
@@ -299,6 +312,9 @@ class DatabaseService {
               mentorId: mentorId,
               chatRooms: firebase.firestore.FieldValue.arrayUnion(chatID)
             });
+          // create the chat room
+          this.createChatRoom(cred.user.uid, mentorId);
+
           firebase
             .firestore()
             .collection("mentors")
@@ -319,11 +335,11 @@ class DatabaseService {
   getChatRoom(senderID, recipientID) {
     const comparison = senderID.localeCompare(recipientID);
     if (comparison === -1) {
-      return senderID + recipientID;
+      return senderID + "-" + recipientID;
     } else if (comparison === 0) {
-      return recipientID + comparisonID;
+      return recipientID + "-" + comparisonID;
     } else {
-      return recipientID + senderID;
+      return recipientID + "-" + senderID;
     }
   }
 
@@ -346,10 +362,29 @@ class DatabaseService {
     });
   }
 
+  createChatRoom(senderID, recipientID) {
+    let chatID = this.getChatRoom(senderID, recipientID);
+    let chat = firebase
+      .firestore()
+      .collection("chats")
+      .doc(chatID);
+    chat
+      .set({
+        lastMessage: "",
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      })
+      .then(() => {
+        chat.collection("messages").add();
+      })
+      .catch(error => {
+        console.log("unable to create chat room");
+      });
+  }
+
   lastMessageSent(senderID, recipientID) {
     return new Promise((resolve, reject) => {
       let chatId = this.getChatRoom(senderID, recipientID);
-      let recipientName = this.getRecipientName()
+      let recipientName = this.getRecipientName(recipientID)
         .then(val => {
           let status = val;
           firebase
@@ -361,12 +396,14 @@ class DatabaseService {
               let lastMessage = snapshot.data().lastMessage;
               let timeStamp = snapshot.data().timestamp;
               timeStamp = new Date(timeStamp);
+              console.log(timeStamp);
               let data = {
                 lastMessage,
                 status,
-                timestamp
+                timeStamp,
+                recipientID
               };
-              resolve(lastMessage);
+              resolve(data);
             })
             .catch(error => {
               console.log("Chat Room Does Not Exist");

@@ -12,9 +12,11 @@ class ChatRoom extends Component {
     };
 
     this.props.navigation.setOptions({
-      headerTitle: this.props.route.params.recipient,
+      headerTitle: this.props.route.params.recipientName,
       headerTransparent: true
     });
+
+    this.recipientID = this.props.route.params.recipientID;
 
     // initialize db
     this.db = new DatabaseService();
@@ -23,7 +25,7 @@ class ChatRoom extends Component {
   }
 
   componentDidMount() {
-    let chatID = this.db.getChatRoom(this.props.userID, "huFEL1uRzxFcNJYWMjS9");
+    let chatID = this.db.getChatRoom(this.props.userID, this.recipientID);
 
     this.unsubscribe = this.db.fire
       .collection("chats")
@@ -78,7 +80,7 @@ class ChatRoom extends Component {
   // manually send it now
 
   onSend(messages) {
-    this.db.sendMessage(messages, this.props.userID, "huFEL1uRzxFcNJYWMjS9");
+    this.db.sendMessage(messages, this.props.userID, this.recipientID);
   }
 
   componentWillUnmount() {
