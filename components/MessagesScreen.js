@@ -34,7 +34,8 @@ class MessagesScreen extends Component {
         chatRooms.forEach((id) => {
           let split = id.split("-");
           // determine which is the user's id
-          let otherUser = split[0] === this.props.user.id ? split[1] : split[0];
+          let otherUser =
+            split[0] === this.props.user.uid ? split[1] : split[0];
           this.db
             .lastMessageSent(this.props.user.uid, otherUser)
             .then((val) => {
@@ -46,7 +47,7 @@ class MessagesScreen extends Component {
               };
               if (this.state.userChatRooms.length === 0) {
                 this.setState({
-                  userChatRooms: [chat],
+                  userChatRooms: chat,
                 });
               } else {
                 this.setState((previousState) => ({

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
 import { connect } from "react-redux";
 import DatabaseService from "../config/firebase";
@@ -25,6 +24,7 @@ class ChatRoom extends Component {
     // grab user name
     this.userName = "";
     // initialize the unsubscribe function to be accessed later
+    this.unsubscribe = undefined;
   }
 
   componentDidMount() {
@@ -70,25 +70,11 @@ class ChatRoom extends Component {
                 });
               }
             });
-            console.log(this.state.messages);
           });
       })
       .catch((error) => {
         console.log("Unable to fetch the current user's name");
       });
-
-    // this.db
-    //   .getMessages(this.props.userID, "huFEL1uRzxFcNJYWMjS9")
-    //   .then(val => {
-    //     val.map(message => {
-    //       this.setState(previousState => ({
-    //         messages: GiftedChat.append(previousState.messages, message)
-    //       }));
-    //     });
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
   }
 
   checkMessageDuplicate(message) {

@@ -312,7 +312,7 @@ class DatabaseService {
               mentorId: mentorId,
               chatRooms: firebase.firestore.FieldValue.arrayUnion(chatID),
             });
-          // create the chat room
+
           this.createChatRoom(cred.user.uid, mentorId);
 
           firebase
@@ -337,7 +337,7 @@ class DatabaseService {
     if (comparison === -1) {
       return senderID + "-" + recipientID;
     } else if (comparison === 0) {
-      return recipientID + "-" + comparisonID;
+      return recipientID + "-" + senderID;
     } else {
       return recipientID + "-" + senderID;
     }
@@ -353,6 +353,7 @@ class DatabaseService {
         .get()
         .then((snapshot) => {
           let chatRooms = snapshot.data().chatRooms;
+          console.log(chatRooms);
           resolve(chatRooms);
         })
         .catch((error) => {
@@ -363,18 +364,106 @@ class DatabaseService {
   }
 
   createChatRoom(senderID, recipientID) {
+    return new Promise((resolve, reject) => {
+      let chatID = this.getChatRoom(senderID, recipientID);
+      let chat = firebase.firestore().collection("chats").doc(chatID);
+      console.log(chatID);
+      chat
+        .set({
+          lastMessage: "",
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        })
+        .then(() => {
+          // chat.collection("messages").add();
+          console.log("created chat room");
+          resolve();
+        })
+        .catch((error) => {
+          console.log("unable to create chat room");
+          console.log(error);
+          reject(error);
+        });
+    });
+  }
+
+  chatExists(senderID, recipientID) {
     let chatID = this.getChatRoom(senderID, recipientID);
-    let chat = firebase.firestore().collection("chats").doc(chatID);
-    chat
-      .set({
-        lastMessage: "",
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      })
-      .then(() => {
-        chat.collection("messages").add();
+    firebase
+      .firestore()
+      .collection("chats")
+      .doc(chatID)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+  }
+
+  appendChatToUser(senderID, recipientID) {
+    let chatID = this.getChatRoom(senderID, recipientID);
+    this.determineStudentOrMentor(senderID)
+      .then((val) => {
+        let user = val;
+        let recipient = user === "Mentor" ? "Student" : "Mentor";
+        if (user === "Student") {
+          firebase
+            .firestore()
+            .collection("students")
+            .doc(senderID)
+            .update({
+              chatRooms: firebase.firestore.FieldValue.arrayUnion(chatID),
+            })
+            .then(() => {
+              console.log("Success!");
+            })
+            .catch((error) => {
+              console.log("error");
+            });
+          firebase
+            .firestore()
+            .collection("mentors")
+            .doc(recipientID)
+            .update({
+              chatRooms: firebase.firestore.FieldValue.arrayUnion(chatID),
+            })
+            .then(() => console.log("Successfully appended chat id to mentor"))
+            .catch((error) => {
+              console.log("Unable to append chat to mentor");
+              console.log(error);
+            });
+        } else {
+          firebase
+            .firestore()
+            .collection("mentors")
+            .doc(senderID)
+            .update({
+              chatRooms: firebase.firestore.FieldValue.arrayUnion(chatID),
+            })
+            .then(() => {
+              console.log("Success!");
+            })
+            .catch((error) => {
+              console.log("error");
+            });
+          firebase
+            .firestore()
+            .collection("students")
+            .doc(recipientID)
+            .update({
+              chatRooms: firebase.firestore.FieldValue.arrayUnion(chatID),
+            })
+            .then(() => console.log("Successfully appended chat id to student"))
+            .catch((error) => {
+              console.log("Unable to append chat to student");
+              console.log(error);
+            });
+        }
       })
       .catch((error) => {
-        console.log("unable to create chat room");
+        console.log("Unable to determine student or mentor");
       });
   }
 
@@ -403,6 +492,7 @@ class DatabaseService {
             })
             .catch((error) => {
               console.log("Chat Room Does Not Exist");
+              console.log(error);
               reject(error);
             });
         })
@@ -433,7 +523,7 @@ class DatabaseService {
         .firestore()
         .collection("chats")
         .doc(chatID)
-        .set({
+        .update({
           lastMessage: message.text,
           timestamp: message.timestamp,
         })
@@ -480,7 +570,6 @@ class DatabaseService {
             time: new Date(doc.data().time),
             user: { _id: doc.data().from },
           });
-          console.log(parse.time);
         });
 
         return parse;
