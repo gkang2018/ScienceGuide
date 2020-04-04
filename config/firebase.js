@@ -30,8 +30,28 @@ class DatabaseService {
       firebase.initializeApp(firebaseConfig);
     }
 
+    this.fire = firebase.firestore();
+
     // Initialize Firebase Auth
     this.auth = firebase.auth();
+  }
+
+  getStudentName(uid) {
+    return new Promise((resolve, reject) => {
+      let student = firebase
+        .firestore()
+        .collection("students")
+        .doc(uid)
+        .get()
+        .then(val => {
+          let studentName = val.data().name;
+          resolve(studentName);
+        })
+        .catch(error => {
+          console.log(error);
+          reject(error);
+        });
+    });
   }
 
   getMentorName(uid) {
@@ -49,6 +69,35 @@ class DatabaseService {
         })
         .catch(error => {
           reject("Could not retrieve Mentor Name by Id", error);
+        });
+    });
+  }
+
+  getRecipientName(recipientID) {
+    // determine if the user is a student or a mentor
+    let status = this.determineStudentOrMentor(recipientID).then(val => {
+      if (val === "Student") {
+        return this.getStudentName(recipientID);
+      } else if (val === "Mentor") {
+        return this.getMentorName(recipientID);
+      }
+    });
+  }
+
+  determineStudentOrMentor(id) {
+    return new Promise((resolve, reject) => {
+      firebase
+        .firestore()
+        .collection("mentors")
+        .doc(id)
+        .get()
+        .then(snapshot => {
+          console.log("Mentor");
+          resolve("Mentor");
+        })
+        .catch(error => {
+          console.log("student");
+          resolve("Student");
         });
     });
   }
@@ -237,6 +286,8 @@ class DatabaseService {
       this.auth
         .createUserWithEmailAndPassword(email, password)
         .then(async cred => {
+          // get the chat id
+          let chatID = this.getChatRoom(cred.user.uid, mentorId);
           await firebase
             .firestore()
             .collection("students")
@@ -245,7 +296,8 @@ class DatabaseService {
               name: name,
               skillLevel: researchSkill,
               researchAreas: researchInterests,
-              mentorId: mentorId
+              mentorId: mentorId,
+              chatRooms: firebase.firestore.FieldValue.arrayUnion(chatID)
             });
           firebase
             .firestore()
@@ -269,10 +321,63 @@ class DatabaseService {
     if (comparison === -1) {
       return senderID + recipientID;
     } else if (comparison === 0) {
-      recipientID + comparisonID;
+      return recipientID + comparisonID;
     } else {
-      recipientID + senderID;
+      return recipientID + senderID;
     }
+  }
+
+  getUsersChatRooms(userID) {
+    return new Promise((resolve, reject) => {
+      // handle situation to determine whether the student or the mentor is asking for chat rooms
+      firebase
+        .firestore()
+        .collection("students")
+        .doc(userID)
+        .get()
+        .then(snapshot => {
+          let chatRooms = snapshot.data().chatRooms;
+          resolve(chatRooms);
+        })
+        .catch(error => {
+          console.log(error);
+          reject(error);
+        });
+    });
+  }
+
+  lastMessageSent(senderID, recipientID) {
+    return new Promise((resolve, reject) => {
+      let chatId = this.getChatRoom(senderID, recipientID);
+      let recipientName = this.getRecipientName()
+        .then(val => {
+          let status = val;
+          firebase
+            .firestore()
+            .collection("chats")
+            .doc(chatId)
+            .get()
+            .then(snapshot => {
+              let lastMessage = snapshot.data().lastMessage;
+              let timeStamp = snapshot.data().timestamp;
+              timeStamp = new Date(timeStamp);
+              let data = {
+                lastMessage,
+                status,
+                timestamp
+              };
+              resolve(lastMessage);
+            })
+            .catch(error => {
+              console.log("Chat Room Does Not Exist");
+              reject(error);
+            });
+        })
+        .catch(error => {
+          console.log("user id not linked to a mentor or a student");
+          reject(error);
+        });
+    });
   }
 
   sendMessage(messages, senderID, recipientID) {
@@ -309,30 +414,27 @@ class DatabaseService {
   }
 
   getMessages(senderID, recipientID) {
-    return new Promise((resolve, reject) => {
-      // get chat room
-      let chatID = this.getChatRoom(senderID, recipientID);
+    // get chat room
+    let chatID = this.getChatRoom(senderID, recipientID);
 
-      firebase
-        .firestore()
-        .collection("chats")
-        .doc(chatID)
-        .collection("messages")
-        .onSnapshot(snapshot => {
-          let parse = [];
-          snapshot.forEach(doc => {
-            parse.push({
-              _id: doc.id,
-              text: doc.data().text,
-              time: new Date(doc.data().time),
-              user: { _id: doc.data().from }
-            });
+    firebase
+      .firestore()
+      .collection("chats")
+      .doc(chatID)
+      .collection("messages")
+      .onSnapshot(snapshot => {
+        let parse = [];
+        snapshot.forEach(doc => {
+          parse.push({
+            _id: doc.id,
+            text: doc.data().text,
+            time: new Date(doc.data().time),
+            user: { _id: doc.data().from }
           });
-
-          console.log(parse);
-          resolve(parse);
         });
-    });
+
+        return parse;
+      });
   }
 }
 

@@ -1,8 +1,15 @@
 import React, { Component } from "react";
 
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  FlatList
+} from "react-native";
+import DatabaseService from "../config/firebase";
 import ChatCard from "./ChatCard";
+import { connect } from "react-redux";
 
 class MessagesScreen extends Component {
   constructor(props) {
@@ -10,8 +17,31 @@ class MessagesScreen extends Component {
 
     // pull the chatrooms that the user currently has
     this.state = {
-      userChatRooms: ["", "", "", ""]
+      userChatRooms: []
     };
+
+    this.db = new DatabaseService();
+  }
+
+  componentDidMount() {
+    // fetch the mentors that the user will chat with
+    this.db
+      .getUsersChatRooms(this.props.user.uid)
+      .then(chatRooms => {
+        // we are going to populate our state with mentor name, mentor id, and last message between them if it exists
+
+        chatRooms.forEach(id => {
+          let split = id.split("-");
+          // determine which is the user's id
+          let otherUser = split[0] === user.id ? split[1] : split[0];
+
+          this.db.lastMessageSent(this.props.user.uid, otherUser);
+        });
+      })
+      .catch(error => {
+        // unable to fetch available mentors
+        console.log(error);
+      });
   }
 
   render() {
@@ -69,4 +99,12 @@ const styles = StyleSheet.create({
   }
 });
 
-export default MessagesScreen;
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    mentor: state.mentorName,
+    user: state.user
+  };
+};
+
+export default connect(mapStateToProps, null)(MessagesScreen);
