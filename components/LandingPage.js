@@ -12,8 +12,8 @@ class LandingPage extends Component {
       <View style={styles.container}>
         <Text style={styles.title}>Science Guide</Text>
         <Image
-          style={{ width: 250, height: 250, marginBottom: 80 }}
-          source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
+          style={{ width: 350, height: 350, marginBottom: 80 }}
+          source={require('../assets/logo-main.png')}
         />
         <View style={styles.smallTextContainer}>
           <TouchableOpacity
@@ -27,6 +27,13 @@ class LandingPage extends Component {
             onPress={() => this.props.navigation.navigate("Login")}
           >
             Sign In
+          </Text>
+          <Text style={styles.smallText}>Interested in being a Mentor?</Text>
+          <Text
+            style={styles.signIn}
+            //onPress={() => this.props.navigation.navigate("Login")}
+          >
+            Contact Us
           </Text>
         </View>
       </View>
@@ -43,7 +50,7 @@ const styles = StyleSheet.create({
   },
   smallTextContainer: {
     marginBottom: 60,
-    alignItems: "center"
+    alignItems: "center",
   },
   smallText: {
     marginTop: 20
@@ -60,13 +67,13 @@ const styles = StyleSheet.create({
   },
   startingButton: {
     borderColor: "black",
-    borderWidth: 1.5,
-    borderRadius: 8,
-    paddingLeft: 25,
-    paddingRight: 25,
-    paddingTop: 10,
-    paddingBottom: 10,
-    fontSize: 24,
+    borderWidth: 1.75,
+    borderRadius: 30,
+    paddingLeft: 35,
+    paddingRight: 35,
+    paddingTop: 15,
+    paddingBottom: 15,
+    fontSize: 23,
     textAlign: "center"
   }
 });
