@@ -6,6 +6,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   FlatList,
+  Button,
 } from "react-native";
 import DatabaseService from "../config/firebase";
 import ChatCard from "./ChatCard";
@@ -23,7 +24,7 @@ class MessagesScreen extends Component {
     this.db = new DatabaseService();
   }
 
-  componentDidMount() {
+  updateChat = () => {
     this.db
       .getUsersChatRooms(this.props.user.uid)
       .then((chatRooms) => {
@@ -47,31 +48,75 @@ class MessagesScreen extends Component {
                   userChatRooms: [chat],
                 });
               } else {
-                this.setState((previousState) => ({
-                  userChatRooms: [...previousState.userChatRooms, chat],
-                }));
+                if (this.checkDuplicate(chat)) {
+                  this.updateLastMessage(chat);
+                } else {
+                  this.setState((previousState) => ({
+                    userChatRooms: [...previousState.userChatRooms, chat],
+                  }));
+                }
+              }
+
+              if (this.state.userChatRooms.length > 1) {
+                // sort our state array
+                let { userChatRooms } = this.state;
+                userChatRooms.sort((a, b) => b.timestamp - a.timestamp);
+                this.setState({
+                  userChatRooms: userChatRooms,
+                });
               }
             })
             .catch((error) => {
               // unable to fetch last message
               console.log(error);
             });
-
-          if (this.state.userChatRooms.length > 1) {
-            // sort our state array
-            let { userChatRooms } = this.state;
-            userChatRooms.sort((a, b) => b.timestamp - a.timestamp);
-            this.setState({
-              userChatRooms: userChatRooms,
-            });
-          }
         });
       })
       .catch((error) => {
         // unable to fetch available mentors
         console.log(error);
       });
-    // fetch the mentors that the user will chat with
+  };
+
+  checkDuplicate(chat) {
+    for (let i = 0; i < this.state.userChatRooms.length; i++) {
+      if (this.state.userChatRooms[i].recipientID === chat.recipientID) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  updateLastMessage(chat) {
+    // make a shallow copy of state
+    let chatrooms = [...this.state.userChatRooms];
+    let index = chatrooms.findIndex(
+      (val) => val.recipientID === chat.recipientID
+    );
+    let specificChat = chatrooms[index];
+    if (
+      specificChat.lastMessage !== chat.lastMessage ||
+      specificChat.timstamp !== chat.timestamp
+    ) {
+      specificChat.lastMessage = chat.lastMessage;
+      specificChat.timestamp = chat.timestamp;
+      chatrooms[index] = specificChat;
+      this.setState({
+        userChatRooms: chatrooms,
+      });
+      return;
+    }
+  }
+
+  componentDidMount() {
+    // add listener so that once the component mounts we update the chatrooms and last messages
+    this.focusSubscription = this.props.navigation.addListener("focus", () =>
+      this.updateChat()
+    );
+  }
+
+  componentWillUnmount() {
+    this.focusSubscription.remove();
   }
 
   render() {
@@ -91,6 +136,7 @@ class MessagesScreen extends Component {
       <View>
         <View style={styles.heading}>
           <Text style={styles.title}>Messages</Text>
+          <Button title="refresh" onPress={this.updateChat} />
         </View>
         <View>
           <FlatList
