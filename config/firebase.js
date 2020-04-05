@@ -481,7 +481,7 @@ class DatabaseService {
             .then((snapshot) => {
               let lastMessage = snapshot.data().lastMessage;
               let timeStamp = snapshot.data().timestamp;
-              timeStamp = new Date(timeStamp);
+              timeStamp = timeStamp.toDate();
               let data = {
                 lastMessage,
                 status,

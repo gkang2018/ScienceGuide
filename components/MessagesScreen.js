@@ -24,9 +24,6 @@ class MessagesScreen extends Component {
   }
 
   componentDidMount() {
-    // figure out how to add the listener for last message to order it
-
-    // fetch the mentors that the user will chat with
     this.db
       .getUsersChatRooms(this.props.user.uid)
       .then((chatRooms) => {
@@ -47,11 +44,11 @@ class MessagesScreen extends Component {
               };
               if (this.state.userChatRooms.length === 0) {
                 this.setState({
-                  userChatRooms: chat,
+                  userChatRooms: [chat],
                 });
               } else {
                 this.setState((previousState) => ({
-                  userChatRooms: [previousState.userChatRooms, chat],
+                  userChatRooms: [...previousState.userChatRooms, chat],
                 }));
               }
             })
@@ -59,22 +56,26 @@ class MessagesScreen extends Component {
               // unable to fetch last message
               console.log(error);
             });
-          // sort our state array
-          let toSort = [...this.state.userChatRooms];
-          toSort.sort((a, b) => b.timestamp - a.timestamp);
-          this.setState({
-            userChatRooms: toSort,
-          });
+
+          if (this.state.userChatRooms.length > 1) {
+            // sort our state array
+            let { userChatRooms } = this.state;
+            userChatRooms.sort((a, b) => b.timestamp - a.timestamp);
+            this.setState({
+              userChatRooms: userChatRooms,
+            });
+          }
         });
       })
       .catch((error) => {
         // unable to fetch available mentors
         console.log(error);
       });
+    // fetch the mentors that the user will chat with
   }
 
   render() {
-    if (this.state.userChatRooms == []) {
+    if (this.state.userChatRooms.length === 0) {
       return (
         <View>
           <View style={styles.heading}>
