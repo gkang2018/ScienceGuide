@@ -59,6 +59,7 @@ class ResearchInterests extends Component {
   }
 
   render() {
+
     return (
       <View>
         <View style={styles.headerContainer}>

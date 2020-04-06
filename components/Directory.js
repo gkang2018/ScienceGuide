@@ -22,7 +22,7 @@ class Directory extends Component {
   }
 
   componentDidMount() {
-    let mentorsFetched = this.db.fetchMentors();
+    let mentorsFetched = this.db.fetchAllMentors();
     mentorsFetched.then(vals => {
       this.setState({ directoryMentors: vals });
     });

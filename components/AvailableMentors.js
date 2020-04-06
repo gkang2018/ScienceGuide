@@ -4,6 +4,7 @@ import firebase from "firebase";
 import "@firebase/firestore";
 import DatabaseService from "../config/firebase";
 import MentorCard from "./MentorCard";
+import matchMentor from "../actions/actions";
 import { connect } from "react-redux";
 
 class AvailableMentors extends Component {
@@ -15,8 +16,11 @@ class AvailableMentors extends Component {
   }
 
   componentDidMount() {
+    const {researchAreas, researchLevel} = this.props;
+    const {englishSpeaker} = this.props.route.params;
+
     const db = new DatabaseService();
-    let resp = db.fetchMentors();
+    let resp = db.getCuratedMentors(englishSpeaker, researchAreas, researchLevel);
     resp.then(value => {
       this.setState({ mentorData: value });
     });
@@ -32,7 +36,7 @@ class AvailableMentors extends Component {
           name={m.name}
           email={m.email}
           job={m.job}
-          expertise={m.researchArea}
+          expertise={m.researchArea.join(", ")}
           imageUri={"https://reactnative.dev/img/tiny_logo.png"}
           props={this.props}
         />
@@ -85,7 +89,11 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    mentor: state.mentorName.mentor
+    researchLevel: state.level.level,
+    researchAreas: state.interests.selectedInterests,
+    mentorName: state.mentorName.mentor,
+    mentorId: state.mentorName.id,
+    user: state.user.user
   };
 };
 

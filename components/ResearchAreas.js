@@ -36,11 +36,6 @@ class ResearchAreas extends Component {
     });
   }
 
-  matchMentors() {
-    // retrieve database queries based on our three selected interests and the research level
-    console.log("here");
-  }
-
   render() {
     return (
       <View>
@@ -68,7 +63,9 @@ class ResearchAreas extends Component {
             </View>
           </View>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("AvailableMentors")}
+            onPress={() => this.props.navigation.navigate("AvailableMentors", {
+              'englishSpeaker': true, // In the future, we will have a screen to check for english speaker or not
+            })}
           >
             <View style={styles.matchButton}>
               <Text style={styles.matchText}>Match New Mentors</Text>

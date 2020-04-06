@@ -54,6 +54,66 @@ class DatabaseService {
     });
   }
 
+  filterMentorByLanguage(allMentors, englishSpeaker) {
+    /*
+      Gets mentors that can speak english/spanish or just spanish depending on the param value
+      param englishSpeaker- boolean value (student is comfortable speaking english)
+    */
+
+    if (englishSpeaker) {
+      return allMentors;
+    }  else {
+      // here if the student is only comfortable with spanish, in this case we filter mentors that can 
+      return allMentors.filter(function(mentor) {
+          return mentor.languages.includes("spanish");
+      });
+    }
+  }
+
+  filterMentorByReasearchAreas(allMentors, researchAreas) {
+    /*
+      Gets mentors that have the given research areas
+      param researchAreas- array of string research areas 
+    */
+    let a = allMentors.filter(function(mentor) {
+      for (let i=0; i< researchAreas.length; i++) {
+        if ( researchAreas[i] && mentor.researchArea.includes(researchAreas[i])) {
+          return true;
+        }  
+      } return false;
+    });
+    return a;
+  }
+
+  filterMentorByReasearchExp(allMentors, level) {
+    /*
+      Gets mentors that have the given research levels/experience
+      param level-  String (can be Beginner, Intermediate, Experienced)! 
+    */
+    let researchLevel = allMentors.filter(function(mentor) {
+      if (level == "Intermediate" || level == "Experienced") {
+          return mentor.researchLevel === "Intermediate" ||  mentor.researchLevel === "Experienced";
+      } return mentor.researchLevel === level;
+    });
+    return researchLevel;
+  }
+  
+
+  async getCuratedMentors(englishSpeaker, researchAreas, researchLevel) {
+    const allMentors = await this.fetchAllMentors();
+    let language = this.filterMentorByLanguage(allMentors, englishSpeaker);
+    let levels = this.filterMentorByReasearchExp(allMentors, researchLevel);
+    let interests = this.filterMentorByReasearchAreas(allMentors, researchAreas);
+
+    let firstFilter = language.filter(val => levels.includes(val));
+    let secFilter = firstFilter.filter(val => interests.includes(val));
+    if (secFilter.length == 0) {
+      return firstFilter.slice(0, 3);
+    } else {
+      return secFilter.slice(0, 3);
+    }
+  }
+
   getMentorWithID(uid) {
     return new Promise((resolve, reject) => {
       let user = firebase
@@ -151,9 +211,23 @@ class DatabaseService {
     });
   }
 
-  fetchMentors() {
+  parseArrayFields(data, field) {
+    let parsedField = [];
+    let vals = data[field]["arrayValue"]["values"];
+
+    for (
+      let i = 0;
+      i < vals.length;
+      i++
+    ) {
+      parsedField.push(vals[i]["stringValue"]);
+    }
+    return parsedField;
+  }
+
+  fetchAllMentors() {
     return new Promise((resolve, reject) => {
-      let jsonData = { mentors: [] };
+      let jsonData = { "mentors": [] };
       let getData = firebase
         .firestore()
         .collection("mentors")
@@ -166,27 +240,14 @@ class DatabaseService {
             let id = idArray[idArray.length - 1];
             let mentorData = data[i]["dm"]["proto"]["fields"];
 
-            // parsing the research areas
-            let researchAreas = [];
-
-            for (
-              let i = 0;
-              i < mentorData["researchAreas"]["arrayValue"]["values"].length;
-              i++
-            ) {
-              researchAreas.push(
-                mentorData["researchAreas"]["arrayValue"]["values"][i][
-                  "stringValue"
-                ]
-              );
-            }
-
             let pushData = {
               id: id,
               name: mentorData.name.stringValue,
               job: mentorData.job.stringValue,
               email: mentorData.email.stringValue,
-              researchArea: researchAreas.join(",")
+              researchArea: this.parseArrayFields(mentorData, "researchAreas"),
+              researchLevel: mentorData.researchLevel.stringValue,
+              languages: this.parseArrayFields(mentorData, "languages")
             };
 
             jsonData["mentors"].push(pushData);
