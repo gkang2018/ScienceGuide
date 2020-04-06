@@ -48,7 +48,7 @@ class ChatRoom extends Component {
               _id: doc.id,
               text: doc.data().text,
               createdAt: doc.data().time.toDate(),
-              user: { _id: doc.data().from, name: this.userName },
+              user: { _id: doc.data().from, name: userName },
             });
           }
         });
