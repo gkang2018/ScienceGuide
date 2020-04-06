@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
 import { logout } from "../actions/actions";
 import { connect } from "react-redux";
 class Dashboard extends Component {
@@ -11,34 +11,25 @@ class Dashboard extends Component {
     error: null
   };
 
-  handleSignout = () => {
-    this.props
-      .logout()
-      .then(() => {
-        this.props.navigation.navigate("Home");
-      })
-      .catch(error => {
-        console.log(error);
-        this.setState({ error: "Unable to log out. Please try again" });
-      });
-  };
-
   componentDidMount() {
     this.props.navigation.setOptions({
       gestureEnabled: false,
       headerTitle: "",
       headerTransparent: true,
-      headerLeft: null,
-      headerRight: () => <Button title="Logout" onPress={this.handleSignout} />
+      headerLeft: null
     });
   }
 
   render() {
     return (
-      <View style={styles.heading}>
-        <Text style={styles.title}>Welcome to Science Guide</Text>
-        <Text>{this.state.error}</Text>
-      </View>
+      <TouchableOpacity
+        onPress={() => this.props.navigation.navigate("DirectoryPage")}
+      >
+        <View style={styles.heading}>
+          <Text style={styles.title}>Welcome to Science Guide</Text>
+          <Text>{this.state.error}</Text>
+        </View>
+      </TouchableOpacity>
     );
   }
 }
@@ -54,7 +45,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     user: state.user
   };

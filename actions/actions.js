@@ -6,31 +6,31 @@ import {
   LOGIN,
   SIGNUP,
   LOGOUT,
-  UPDATE_USER
+  UPDATE_USER,
 } from "./types";
 
 import DatabaseService from "../config/firebase";
 
 const db = new DatabaseService();
 
-export const addInterest = interest => ({
+export const addInterest = (interest) => ({
   type: ADD_INTEREST,
-  data: { interest }
+  data: { interest },
 });
 
-export const deleteInterest = interest => ({
+export const deleteInterest = (interest) => ({
   type: DELETE_INTEREST,
-  data: { interest }
+  data: { interest },
 });
 
-export const addLevel = level => ({
+export const addLevel = (level) => ({
   type: ADD_LEVEL,
-  data: { level }
+  data: { level },
 });
 
 export const selectMentor = (mentor, id) => ({
   type: SELECT_MENTOR,
-  data: { mentor, id }
+  data: { mentor, id },
 });
 
 export const signup = (
@@ -41,7 +41,7 @@ export const signup = (
   researchAreas,
   mentorName,
   mentorId
-) => dispatch => {
+) => (dispatch) => {
   return new Promise((resolve, reject) => {
     let resp = db.signUpUserWithEmail(
       email,
@@ -53,50 +53,53 @@ export const signup = (
       mentorId
     );
     resp
-      .then(val => {
+      .then((val) => {
         const user = {
-          uid: val.user.uid,
-          email: val.user.email
+          uid: val.cred.user.uid,
+          email: val.cred.user.email,
+          name: val.name,
+          type: "Student",
         };
 
         dispatch({ type: SIGNUP, data: user });
         resolve();
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
         reject(error);
       });
   });
 };
 
-export const login = (email, password) => dispatch => {
+export const login = (email, password) => (dispatch) => {
   return new Promise((resolve, reject) => {
     let resp = db.signInUserWithEmail(email, password);
     resp
-      .then(cred => {
+      .then((val) => {
         const user = {
-          uid: cred.user.uid,
-          email: cred.user.email
+          uid: val.cred.user.uid,
+          email: val.cred.user.email,
+          name: val.name,
         };
         dispatch({ type: LOGIN, data: user });
         resolve();
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });
 };
 
-export const update = user => ({
+export const update = (user) => ({
   type: UPDATE_USER,
-  data: user
+  data: user,
 });
 
 export const clear = () => ({
-  type: LOGOUT
+  type: LOGOUT,
 });
 
-export const logout = () => dispatch => {
+export const logout = () => (dispatch) => {
   return new Promise((resolve, reject) => {
     let resp = db.signOutUser();
     resp
@@ -104,7 +107,7 @@ export const logout = () => dispatch => {
         dispatch({ type: LOGOUT });
         resolve();
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("Error signing out", error);
         reject(error);
       });
