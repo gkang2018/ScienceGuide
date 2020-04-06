@@ -30,24 +30,33 @@ class MentorDetail extends Component {
       this.props.navigation.navigate("Signup");
     } else {
       // check if chat already exists
-      if (this.db.chatExists(this.props.user.uid, id) !== true) {
-        this.db
-          .createChatRoom(this.props.user.uid, id)
-          .then(() => {
-            this.db.appendChatToUser(this.props.user.uid, id);
-            this.props.navigation.navigate("ChatRoom", {
-              recipientName: name,
-              recipientID: id,
-            });
-          })
-          .catch((error) => {
-            console.log(error);
+      this.db
+        .chatExists(this.props.user.uid, id)
+        .then((resp) => {
+          console.log(resp);
+          if (resp !== true) {
+            this.db
+              .createChatRoom(this.props.user.uid, id)
+              .then(() => {
+                this.db.appendChatToUser(this.props.user.uid, id);
+                this.props.navigation.navigate("ChatRoom", {
+                  recipientName: name,
+                  recipientID: id,
+                });
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
+          this.props.navigation.navigate("ChatRoom", {
+            recipientName: name,
+            recipientID: id,
           });
-      }
-      this.props.navigation.navigate("ChatRoom", {
-        recipientName: name,
-        recipientID: id,
-      });
+        })
+        .catch((error) => {
+          console.log("unable to determine chat existence");
+          console.log(error);
+        });
     }
   }
 
@@ -169,7 +178,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     user: state.user,
   };

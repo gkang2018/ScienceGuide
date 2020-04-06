@@ -93,7 +93,6 @@ class DatabaseService {
 
   determineStudentOrMentor(id) {
     return new Promise((resolve, reject) => {
-      console.log(id);
       firebase
         .firestore()
         .collection("mentors")
@@ -406,7 +405,6 @@ class DatabaseService {
         .get()
         .then((snapshot) => {
           let chatRooms = snapshot.data().chatRooms;
-          console.log(chatRooms);
           resolve(chatRooms);
         })
         .catch((error) => {
@@ -420,7 +418,6 @@ class DatabaseService {
     return new Promise((resolve, reject) => {
       let chatID = this.getChatRoom(senderID, recipientID);
       let chat = firebase.firestore().collection("chats").doc(chatID);
-      console.log(chatID);
       chat
         .set({
           lastMessage: "",
@@ -440,19 +437,25 @@ class DatabaseService {
   }
 
   chatExists(senderID, recipientID) {
-    let chatID = this.getChatRoom(senderID, recipientID);
-    firebase
-      .firestore()
-      .collection("chats")
-      .doc(chatID)
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          return true;
-        } else {
-          return false;
-        }
-      });
+    return new Promise((resolve, reject) => {
+      let chatID = this.getChatRoom(senderID, recipientID);
+      firebase
+        .firestore()
+        .collection("chats")
+        .doc(chatID)
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        })
+        .catch((error) => {
+          console.log("unable to determine whether the chat exists");
+          reject(error);
+        });
+    });
   }
 
   appendChatToUser(senderID, recipientID) {
