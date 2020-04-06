@@ -359,6 +359,7 @@ class DatabaseService {
             .collection("mentors")
             .doc(mentorId)
             .update({
+              chatRooms: firebase.firestore.FieldValue.arrayUnion(chatID),
               students: firebase.firestore.FieldValue.arrayUnion(cred.user.uid),
             });
 
