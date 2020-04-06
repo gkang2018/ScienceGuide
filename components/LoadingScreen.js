@@ -6,7 +6,7 @@ import {
   addInterest,
   addLevel,
   selectMentor,
-  update
+  update,
 } from "../actions/actions";
 
 class LoadingScreen extends Component {
@@ -16,25 +16,27 @@ class LoadingScreen extends Component {
   }
 
   componentDidMount() {
-    this.db.auth.onAuthStateChanged(user => {
+    this.db.auth.onAuthStateChanged((user) => {
       if (user) {
         // TODO: determine if credentials are for user or mentor
         // checks if redux store is empty
 
         if (this.props.selectedInterests.length == 0) {
-          let resp = this.db.getStudentWithID(user.uid);
+          let resp = this.db.getUserData(user.uid);
           resp
-            .then(student => {
+            .then((userData) => {
               // populate the redux store with database
               let update = {
                 uid: user.uid,
-                email: user.email
+                email: user.email,
+                name: userData.name,
+                type: userData.type,
               };
               this.props.update(update);
-              this.populateReduxStore(student);
+              this.populateReduxStore(userData);
               this.props.navigation.navigate("Dashboard");
             })
-            .catch(error => {
+            .catch((error) => {
               console.log(error);
               console.log("Unable to fetch student credentials");
             });
@@ -47,7 +49,7 @@ class LoadingScreen extends Component {
 
   populateReduxStore(student) {
     // check to see that our store doesn't already have these values populated
-    if (this.props.selectedInterests.length == 0) {
+    if (this.props.selectedInterests.length == 0 && student.type !== "Mentor") {
       for (let i = 0; i < student.researchAreas.length; i++) {
         this.props.addInterest(student.researchAreas[i]);
       }
@@ -65,18 +67,18 @@ class LoadingScreen extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    selectedInterests: state.interests.selectedInterests
+    selectedInterests: state.interests.selectedInterests,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    addInterest: interest => dispatch(addInterest(interest)),
-    addLevel: level => dispatch(addLevel(level)),
+    addInterest: (interest) => dispatch(addInterest(interest)),
+    addLevel: (level) => dispatch(addLevel(level)),
     selectMentor: (mentor, id) => dispatch(selectMentor(mentor, id)),
-    update: user => dispatch(update(user))
+    update: (user) => dispatch(update(user)),
   };
 };
 
@@ -84,8 +86,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    flexDirection: "column"
-  }
+    flexDirection: "column",
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoadingScreen);

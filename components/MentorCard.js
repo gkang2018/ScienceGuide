@@ -10,12 +10,13 @@ class MentorCard extends Component {
   }
 
   selectMentor() {
+    // only select mentor if the user isn't signed in
     this.props.addMentor(this.props.name, this.props.id);
     // add the necessary info to redux
   }
 
   render() {
-    const { props, name, expertise, email, imageUri, job } = this.props;
+    const { props, name, expertise, email, imageUri, job, id } = this.props;
     return (
       <TouchableOpacity
         onPress={() => {
@@ -25,7 +26,8 @@ class MentorCard extends Component {
             expertise: expertise,
             email: email,
             imageUri: imageUri,
-            job: job
+            job: job,
+            id: id,
           });
         }}
       >
@@ -48,35 +50,35 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginLeft: 25,
     marginRight: 25,
-    marginBottom: 15
+    marginBottom: 15,
   },
   imageContainer: {},
   details: {
     marginLeft: 35,
     paddingTop: 20,
-    marginRight: 125
+    marginRight: 125,
   },
   imageStyle: {
     height: 100,
     width: 100,
     borderRadius: 100 / 2,
-    margin: 10
+    margin: 10,
   },
   text: {
     fontSize: 15,
-    paddingBottom: 5
-  }
+    paddingBottom: 5,
+  },
 });
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    mentor: state.mentorName.mentor
+    mentor: state.mentorName.mentor,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    addMentor: (mentor, id) => dispatch(selectMentor(mentor, id))
+    addMentor: (mentor, id) => dispatch(selectMentor(mentor, id)),
   };
 };
 

@@ -11,25 +11,12 @@ class Dashboard extends Component {
     error: null
   };
 
-  handleSignout = () => {
-    this.props
-      .logout()
-      .then(() => {
-        this.props.navigation.navigate("Home");
-      })
-      .catch(error => {
-        console.log(error);
-        this.setState({ error: "Unable to log out. Please try again" });
-      });
-  };
-
   componentDidMount() {
     this.props.navigation.setOptions({
       gestureEnabled: false,
       headerTitle: "",
       headerTransparent: true,
-      headerLeft: null,
-      headerRight: () => <Button title="Logout" onPress={this.handleSignout} />
+      headerLeft: null
     });
   }
 

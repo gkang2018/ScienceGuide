@@ -1,8 +1,6 @@
 import { SIGNUP, LOGIN, LOGOUT, UPDATE_USER } from "../actions/types";
 
-const initialState = {
-  user: {}
-};
+const initialState = {};
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
