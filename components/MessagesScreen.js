@@ -26,7 +26,7 @@ class MessagesScreen extends Component {
 
   updateChat = () => {
     this.db
-      .getUsersChatRooms(this.props.user.uid)
+      .getUsersChatRooms(this.props.user.uid, this.props.user.type)
       .then((chatRooms) => {
         // we are going to populate our state with mentor name, mentor id, and last message between them if it exists
         chatRooms.forEach((id) => {
@@ -110,13 +110,13 @@ class MessagesScreen extends Component {
 
   componentDidMount() {
     // add listener so that once the component mounts we update the chatrooms and last messages
-    this.focusSubscription = this.props.navigation.addListener("focus", () =>
+    this.unsubscribe = this.props.navigation.addListener("focus", () =>
       this.updateChat()
     );
   }
 
   componentWillUnmount() {
-    this.focusSubscription.remove();
+    this.unsubscribe();
   }
 
   render() {
@@ -136,7 +136,6 @@ class MessagesScreen extends Component {
       <View>
         <View style={styles.heading}>
           <Text style={styles.title}>Messages</Text>
-          <Button title="refresh" onPress={this.updateChat} />
         </View>
         <View>
           <FlatList

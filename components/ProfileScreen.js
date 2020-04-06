@@ -16,7 +16,7 @@ class ProfileScreen extends Component {
       .then(() => {
         this.props.navigation.navigate("Home");
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
         this.setState({ error: "Unable to log out. Please try again" });
       });
@@ -28,6 +28,7 @@ class ProfileScreen extends Component {
         <View style={styles.heading}>
           <Text style={styles.title}>Profile</Text>
         </View>
+        <Text>{this.props.user.name}</Text>
         <Button title="Logout" onPress={this.handleSignout} />
       </View>
     );
@@ -39,18 +40,24 @@ const styles = StyleSheet.create({
     marginTop: 20,
     paddingBottom: 20,
     borderBottomWidth: 1,
-    marginBottom: 20
+    marginBottom: 20,
   },
   title: {
     fontSize: 25,
-    fontWeight: "700"
-  }
+    fontWeight: "700",
+  },
 });
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = (state) => {
   return {
-    logout: () => dispatch(logout())
+    user: state.user,
   };
 };
 
-export default connect(null, mapDispatchToProps)(ProfileScreen);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: () => dispatch(logout()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);

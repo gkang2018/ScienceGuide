@@ -30,11 +30,15 @@ class MentorDetail extends Component {
       this.props.navigation.navigate("Signup");
     } else {
       // check if chat already exists
-      if (this.db.chatExists(this.props.user.uid, id !== true)) {
+      if (this.db.chatExists(this.props.user.uid, id) !== true) {
         this.db
           .createChatRoom(this.props.user.uid, id)
           .then(() => {
             this.db.appendChatToUser(this.props.user.uid, id);
+            this.props.navigation.navigate("ChatRoom", {
+              recipientName: name,
+              recipientID: id,
+            });
           })
           .catch((error) => {
             console.log(error);

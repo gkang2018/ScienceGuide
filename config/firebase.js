@@ -123,28 +123,17 @@ class DatabaseService {
         .doc(uid)
         .get()
         .then((snapshot) => {
-          let data = snapshot;
           // grab all of the mentor data
-          let mentorData = data["dm"]["proto"]["fields"];
 
           // parse through this data
 
-          let email = mentorData["email"]["stringValue"];
-          let job = mentorData["job"]["stringValue"];
-          let location = mentorData["location"]["geoPointValue"];
-          let name = mentorData["name"]["stringValue"];
-          let researchObject =
-            mentorData["researchAreas"]["arrayValue"]["values"];
-          let researchAreas = [];
-          for (let i = 0; i < researchObject.length; i++) {
-            researchAreas.push(researchObject[i]["stringValue"]);
-          }
+          let email = snapshot.data().email;
+          let job = snapshot.data().job;
+          let location = snapshot.data().location;
+          let name = snapshot.data().name;
+          let researchAreas = snapshot.data().researchAreas;
 
-          let studentObject = mentorData["students"]["arrayValue"]["values"];
-          let students = [];
-          for (let j = 0; j < studentObject.length; j++) {
-            students.push(studentObject[j]["stringValue"]);
-          }
+          let students = snapshot.data().students;
 
           let mentor = {
             name: name,
@@ -170,27 +159,18 @@ class DatabaseService {
         .doc(uid)
         .get()
         .then((snapshot) => {
-          let data = snapshot;
-
-          // grab all of the student data
-          let studentData = data["dm"]["proto"]["fields"];
-          // parse through this data
-
-          let mentorId = studentData["mentorId"]["stringValue"];
+          let mentorId = snapshot.data().mentorId;
 
           // retrieve mentor name by their id
 
           let mentorName = this.getMentorName(mentorId);
           mentorName
             .then((val) => {
-              let name = studentData["name"]["stringValue"];
-              let researchObject =
-                studentData["researchAreas"]["arrayValue"]["values"];
-              let researchAreas = [];
-              for (let i = 0; i < researchObject.length; i++) {
-                researchAreas.push(researchObject[i]["stringValue"]);
-              }
-              let skillLevel = studentData["skillLevel"]["stringValue"];
+              let name = snapshot.data().name;
+
+              let researchAreas = snapshot.data().researchAreas;
+
+              let skillLevel = snapshot.data().skillLevel;
 
               let student = {
                 id: uid,
@@ -207,6 +187,56 @@ class DatabaseService {
             });
         })
         .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
+  getUserData(id) {
+    return new Promise((resolve, reject) => {
+      this.determineStudentOrMentor(id)
+        .then((val) => {
+          if (val === "Student") {
+            this.getStudentWithID(id)
+              .then((student) => {
+                let responseObj = {
+                  id: student.id,
+                  name: student.name,
+                  researchAreas: student.researchAreas,
+                  skillLevel: student.skillLevel,
+                  mentorId: student.mentorId,
+                  mentorName: student.mentorName,
+                  type: val,
+                };
+                resolve(responseObj);
+              })
+              .catch((error) => {
+                console.log("unable to get student based on id");
+                reject(error);
+              });
+          } else if (val === "Mentor") {
+            this.getMentorWithID(id)
+              .then((mentor) => {
+                let responseObj = {
+                  id: id,
+                  name: mentor.name,
+                  email: mentor.email,
+                  location: mentor.location,
+                  job: mentor.job,
+                  researchAreas: mentor.researchAreas,
+                  students: mentor.students,
+                  type: val,
+                };
+                resolve(responseObj);
+              })
+              .catch((error) => {
+                console.log("unable to fetch mentor by their id");
+                reject(error);
+              });
+          }
+        })
+        .catch((error) => {
+          console.log("unable to determine if student or mentor");
           reject(error);
         });
     });
@@ -265,7 +295,18 @@ class DatabaseService {
       this.auth
         .signInWithEmailAndPassword(email, password)
         .then((cred) => {
-          resolve(cred);
+          this.getRecipientName(cred.user.uid)
+            .then((val) => {
+              let responseVal = {
+                cred: cred,
+                name: val,
+              };
+              resolve(responseVal);
+            })
+            .catch((error) => {
+              console.log("Unable to get recipient name after log in");
+              reject(error);
+            });
         })
         .catch((error) => {
           reject(error);
@@ -314,7 +355,6 @@ class DatabaseService {
             });
 
           this.createChatRoom(cred.user.uid, mentorId);
-
           firebase
             .firestore()
             .collection("mentors")
@@ -322,7 +362,19 @@ class DatabaseService {
             .update({
               students: firebase.firestore.FieldValue.arrayUnion(cred.user.uid),
             });
-          resolve(cred);
+
+          this.getRecipientName(cred.user.uid)
+            .then((val) => {
+              let responseVal = {
+                cred: cred,
+                name: val,
+              };
+              resolve(responseVal);
+            })
+            .catch((error) => {
+              console.log("Unable to get recipient name after sign up");
+              reject(error);
+            });
         })
         .catch((error) => {
           reject(error);
@@ -343,12 +395,13 @@ class DatabaseService {
     }
   }
 
-  getUsersChatRooms(userID) {
+  getUsersChatRooms(userID, type) {
     return new Promise((resolve, reject) => {
       // handle situation to determine whether the student or the mentor is asking for chat rooms
+      let collection = type === "Mentor" ? "mentors" : "students";
       firebase
         .firestore()
-        .collection("students")
+        .collection(collection)
         .doc(userID)
         .get()
         .then((snapshot) => {

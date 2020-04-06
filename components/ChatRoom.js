@@ -29,51 +29,46 @@ class ChatRoom extends Component {
 
   componentDidMount() {
     let chatID = this.db.getChatRoom(this.props.user.uid, this.recipientID);
-    let fetchName = this.db
-      .getRecipientName(this.props.user.uid)
-      .then((val) => {
-        this.userName = val;
-        this.unsubscribe = this.db.fire
-          .collection("chats")
-          .doc(chatID)
-          .collection("messages")
-          .onSnapshot((snapshot) => {
-            let parse = [];
-            snapshot.forEach((doc) => {
-              if (doc.data().time != null) {
-                let userName =
-                  doc.data().from === this.props.user.uid
-                    ? this.userName
-                    : this.recipientName;
-                parse.push({
-                  _id: doc.id,
-                  text: doc.data().text,
-                  createdAt: doc.data().time.toDate(),
-                  user: { _id: doc.data().from, name: this.userName },
-                });
-              }
-            });
-            parse.map((message) => {
-              // check that message id doesn't match others in state
-              const shouldAdd = this.checkMessageDuplicate(message);
+    this.userName = this.props.user.name;
+    // set the user name in our redux store so we have it
 
-              if (shouldAdd) {
-                this.setState((previousState) => ({
-                  messages: GiftedChat.append(previousState.messages, message),
-                }));
-                // sorted the array of messages
-
-                const { messages } = this.state;
-                messages.sort((a, b) => b.createdAt - a.createdAt);
-                this.setState({
-                  messages: messages,
-                });
-              }
+    this.unsubscribe = this.db.fire
+      .collection("chats")
+      .doc(chatID)
+      .collection("messages")
+      .onSnapshot((snapshot) => {
+        let parse = [];
+        snapshot.forEach((doc) => {
+          if (doc.data().time != null) {
+            let userName =
+              doc.data().from === this.props.user.uid
+                ? this.userName
+                : this.recipientName;
+            parse.push({
+              _id: doc.id,
+              text: doc.data().text,
+              createdAt: doc.data().time.toDate(),
+              user: { _id: doc.data().from, name: this.userName },
             });
-          });
-      })
-      .catch((error) => {
-        console.log("Unable to fetch the current user's name");
+          }
+        });
+        parse.map((message) => {
+          // check that message id doesn't match others in state
+          const shouldAdd = this.checkMessageDuplicate(message);
+
+          if (shouldAdd) {
+            this.setState((previousState) => ({
+              messages: GiftedChat.append(previousState.messages, message),
+            }));
+            // sorted the array of messages
+
+            const { messages } = this.state;
+            messages.sort((a, b) => b.createdAt - a.createdAt);
+            this.setState({
+              messages: messages,
+            });
+          }
+        });
       });
   }
 
@@ -109,6 +104,7 @@ class ChatRoom extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
     user: state.user,
   };

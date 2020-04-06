@@ -10,6 +10,7 @@ class MentorCard extends Component {
   }
 
   selectMentor() {
+    // only select mentor if the user isn't signed in
     this.props.addMentor(this.props.name, this.props.id);
     // add the necessary info to redux
   }

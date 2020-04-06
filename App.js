@@ -49,7 +49,6 @@ function DirectoryPage() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-
           if (route.name === "Directory") {
             iconName = focused
               ? "ios-information-circle"
@@ -62,11 +61,11 @@ function DirectoryPage() {
 
           // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={color} />;
-        }
+        },
       })}
       tabBarOptions={{
         activeTintColor: "tomato",
-        inactiveTintColor: "gray"
+        inactiveTintColor: "gray",
       }}
     >
       <Tab.Screen name="Directory" component={Directory} />
@@ -134,7 +133,7 @@ export default function App() {
               gestureEnabled: false,
               headerTitle: "",
               headerTransparent: true,
-              headerLeft: null
+              headerLeft: null,
             }}
           />
           <Stack.Screen name="ChatRoom" component={ChatRoom} />
