@@ -73,7 +73,7 @@ class DatabaseService {
     });
   }
 
-<<<<<<< HEAD
+
   filterMentorByLanguage(allMentors, englishSpeaker) {
     /*
       Gets mentors that can speak english/spanish or just spanish depending on the param value
@@ -132,7 +132,7 @@ class DatabaseService {
     } else {
       return secFilter.slice(0, 3);
     }
-=======
+
   getRecipientName(recipientID) {
     return new Promise((resolve, reject) => {
       let status = this.determineStudentOrMentor(recipientID)
