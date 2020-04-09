@@ -241,6 +241,31 @@ class DatabaseService {
     });
   }
 
+  updateProfileInformation(user, type, changedInfo) {
+    return new Promise((resolve, reject) => {
+      switch (type) {
+        case "Name":
+          let collection = user.type === "Mentor" ? "mentors" : "students";
+          firebase
+            .firestore()
+            .collection(collection)
+            .doc(user.uid)
+            .update({
+              name: changedInfo,
+            })
+            .then(() => {
+              console.log("Succesfully updated the users name");
+              resolve();
+            })
+            .catch((error) => {
+              console.log("Unable to change the user's name");
+              reject("Unable to change the user's name", error);
+            });
+          break;
+      }
+    });
+  }
+
   fetchMentors() {
     return new Promise((resolve, reject) => {
       let jsonData = { mentors: [] };

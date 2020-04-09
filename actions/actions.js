@@ -7,6 +7,7 @@ import {
   SIGNUP,
   LOGOUT,
   UPDATE_USER,
+  UPDATE_PROFILE,
 } from "./types";
 
 import DatabaseService from "../config/firebase";
@@ -87,6 +88,41 @@ export const login = (email, password) => (dispatch) => {
       .catch((error) => {
         reject(error);
       });
+  });
+};
+
+export const updateProfileInformation = (user, type, changedInfo) => (
+  dispatch
+) => {
+  return new Promise((resolve, reject) => {
+    if (type === "Name") {
+      if (user.name === changedInfo) {
+        const error = {
+          message: "Must update your name to a different one that before",
+        };
+        reject(error);
+      } else {
+        db.updateProfileInformation(user, type, changedInfo)
+          .then(() => {
+            console.log(user.type);
+            console.log("succesfully updated the user's name");
+
+            const updatedUser = {
+              uid: user.uid,
+              email: user.email,
+              name: changedInfo,
+              type: user.type,
+            };
+            console.log(updatedUser);
+            dispatch({ type: UPDATE_PROFILE, data: updatedUser });
+            resolve();
+          })
+          .catch((error) => {
+            console.log(error);
+            reject(error);
+          });
+      }
+    }
   });
 };
 
