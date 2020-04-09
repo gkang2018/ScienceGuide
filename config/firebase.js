@@ -132,6 +132,7 @@ class DatabaseService {
     } else {
       return secFilter.slice(0, 3);
     }
+  }
 
   getRecipientName(recipientID) {
     return new Promise((resolve, reject) => {
