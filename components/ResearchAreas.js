@@ -63,9 +63,7 @@ class ResearchAreas extends Component {
             </View>
           </View>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("AvailableMentors", {
-              'englishSpeaker': true, // In the future, we will have a screen to check for english speaker or not
-            })}
+            onPress={() => this.props.navigation.navigate("AvailableMentors")}
           >
             <View style={styles.matchButton}>
               <Text style={styles.matchText}>Match New Mentors</Text>

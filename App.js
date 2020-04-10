@@ -23,6 +23,7 @@ import ResearchInterests from "./components/ResearchInterests";
 import ResearchAreas from "./components/ResearchAreas";
 import AvailableMentors from "./components/AvailableMentors";
 import MentorDetail from "./components/MentorDetail";
+import Language from "./components/Language";
 import Signup from "./components/Signup";
 import Dashboard from "./components/Dashboard";
 import LoadingScreen from "./components/LoadingScreen";
@@ -118,6 +119,11 @@ export default function App() {
           <Stack.Screen
             name="MentorDetail"
             component={MentorDetail}
+            options={{ headerTransparent: true, headerTitle: "" }}
+          />
+          <Stack.Screen
+            name="Language"
+            component={Language}
             options={{ headerTransparent: true, headerTitle: "" }}
           />
           <Stack.Screen

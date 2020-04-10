@@ -127,8 +127,11 @@ class DatabaseService {
 
     let firstFilter = language.filter(val => levels.includes(val));
     let secFilter = firstFilter.filter(val => interests.includes(val));
-    if (secFilter.length == 0) {
-      return firstFilter.slice(0, 3);
+    
+    if (firstFilter.length == 0) {
+      return language.slice(0, 3);
+    } else if (secFilter.length == 0) {
+      return firstFilter.slice(0,3);
     } else {
       return secFilter.slice(0, 3);
     }

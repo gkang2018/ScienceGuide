@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { addLevel } from "../actions/actions";
 
+
 class ResearchLevel extends Component {
   render() {
     return (

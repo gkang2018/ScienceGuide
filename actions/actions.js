@@ -3,6 +3,7 @@ import {
   DELETE_INTEREST,
   ADD_LEVEL,
   SELECT_MENTOR,
+  ENGLISH_SPEAKER,
   LOGIN,
   SIGNUP,
   LOGOUT,
@@ -31,6 +32,11 @@ export const addLevel = (level) => ({
 export const selectMentor = (mentor, id) => ({
   type: SELECT_MENTOR,
   data: { mentor, id },
+});
+
+export const englishSpeaker = (speaksEnglish) => ({
+  type: ENGLISH_SPEAKER,
+  data: { speaksEnglish },
 });
 
 export const signup = (

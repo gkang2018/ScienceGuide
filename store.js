@@ -2,6 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import interestReducer from "./reducers/addInterest";
 import levelReducer from "./reducers/addLevel";
 import mentorReducer from "./reducers/selectMentor";
+import languageReducer from "./reducers/englishSpeaker";
 import userReducer from "./reducers/user";
 import thunk from "redux-thunk";
 
@@ -11,7 +12,8 @@ const appReducer = combineReducers({
   interests: interestReducer,
   level: levelReducer,
   mentorName: mentorReducer,
-  user: userReducer
+  user: userReducer,
+  englishSpeaker: languageReducer
 });
 
 const rootReducer = (state, action) => {

@@ -4,7 +4,6 @@ import firebase from "firebase";
 import "@firebase/firestore";
 import DatabaseService from "../config/firebase";
 import MentorCard from "./MentorCard";
-import matchMentor from "../actions/actions";
 import { connect } from "react-redux";
 
 class AvailableMentors extends Component {
@@ -16,9 +15,8 @@ class AvailableMentors extends Component {
   }
 
   componentDidMount() {
-    const {researchAreas, researchLevel} = this.props;
-    const {englishSpeaker} = this.props.route.params;
-
+    const {researchAreas, researchLevel, englishSpeaker} = this.props;
+    console.log(englishSpeaker);
     const db = new DatabaseService();
     let resp = db.getCuratedMentors(englishSpeaker, researchAreas, researchLevel);
     resp.then(value => {
@@ -93,7 +91,8 @@ const mapStateToProps = state => {
     researchAreas: state.interests.selectedInterests,
     mentorName: state.mentorName.mentor,
     mentorId: state.mentorName.id,
-    user: state.user.user
+    user: state.user.user,
+    englishSpeaker: state.englishSpeaker.englishSpeaker
   };
 };
 

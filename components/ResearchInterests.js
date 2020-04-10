@@ -42,7 +42,7 @@ class ResearchInterests extends Component {
         <Button
           title="Confirm"
           onPress={() => {
-            this.props.navigation.navigate("Areas");
+            this.props.navigation.navigate("Language");
           }}
         ></Button>
       )
