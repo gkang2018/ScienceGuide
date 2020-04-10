@@ -126,6 +126,37 @@ export const updateProfileInformation = (user, type, changedInfo) => (
   });
 };
 
+export const updatePassword = (
+  user,
+  currentPassword,
+  newPassword,
+  confirmNewPassword
+) => (dispatch) => {
+  return new Promise((resolve, reject) => {
+    if (newPassword !== confirmNewPassword) {
+      const error = {
+        message: "Your new password and confirm password should match",
+      };
+      reject(error);
+    } else if (currentPassword === newPassword) {
+      const error = {
+        message: "You must select a password that you haven't used before",
+      };
+      reject(error);
+    } else {
+      db.updatePassword(user, currentPassword, newPassword, confirmNewPassword)
+        .then(() => {
+          console.log("successfully updated your password");
+          dispatch({ type: UPDATE_PROFILE, data: user });
+          resolve();
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    }
+  });
+};
+
 export const update = (user) => ({
   type: UPDATE_USER,
   data: user,

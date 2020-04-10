@@ -266,6 +266,36 @@ class DatabaseService {
     });
   }
 
+  updatePassword(user, currentPassword, newPassword, confirmPassword) {
+    return new Promise((resolve, reject) => {
+      let authUser = this.auth.currentUser;
+      console.log(authUser);
+      let credential = firebase.auth.EmailAuthProvider.credential(
+        authUser.email,
+        currentPassword
+      );
+
+      authUser
+        .reauthenticateWithCredential(credential)
+        .then(() => {
+          authUser
+            .updatePassword(newPassword)
+            .then(() => {
+              console.log("Successfully updated password");
+              resolve();
+            })
+            .catch((error) => {
+              console.log(error);
+              reject(error);
+            });
+        })
+        .catch((error) => {
+          console.log("unable to reauthenticate with credential");
+          reject(error);
+        });
+    });
+  }
+
   fetchMentors() {
     return new Promise((resolve, reject) => {
       let jsonData = { mentors: [] };
