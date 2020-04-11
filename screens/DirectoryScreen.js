@@ -40,7 +40,7 @@ class DirectoryScreen extends Component {
             name={item.name}
             email={item.email}
             job={item.job}
-            expertise={item.researchArea}
+            expertise={item.researchAreas}
             imageUri={"https://reactnative.dev/img/tiny_logo.png"}
             props={this.props}
           />

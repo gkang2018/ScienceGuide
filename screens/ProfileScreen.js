@@ -20,11 +20,12 @@ import {
 } from "../actions/actions";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import ResearchInterests from "./ResearchInterests";
 
 class ProfileScreen extends Component {
   constructor(props) {
     super(props);
+
+    this.mounted = false;
 
     this.state = {
       nameModal: false,
@@ -67,8 +68,12 @@ class ProfileScreen extends Component {
         this.setState({ error: "Unable to log out. Please try again" });
       });
   };
-  handleNameModal = () => {
-    this.setState((previousState) => ({ nameModal: !previousState.nameModal }));
+  handleNameModal = (visible) => {
+    this.setState({ nameModal: visible });
+  };
+
+  handlePasswordModal = (visible) => {
+    this.setState({ passwordModal: visible });
   };
 
   render() {
@@ -79,7 +84,10 @@ class ProfileScreen extends Component {
         </View>
         <Modal animationType={"slide"} visible={this.state.nameModal}>
           <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
-            <Button title="cancel" onPress={this.handleNameModal} />
+            <Button
+              title="cancel"
+              onPress={() => this.handleNameModal(false)}
+            />
 
             <Formik
               initialValues={{
@@ -95,13 +103,13 @@ class ProfileScreen extends Component {
                   )
                   .then(() => {
                     console.log("successful");
-                    this.setState({ nameModal: false });
                   })
                   .catch((error) => {
                     actions.setFieldError("general", error.message);
                   })
                   .finally(() => {
                     actions.setSubmitting(false);
+                    this.handleNameModal(false);
                   })
               }
             >
@@ -141,7 +149,7 @@ class ProfileScreen extends Component {
           <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
             <Button
               title="cancel"
-              onPress={() => this.setState({ passwordModal: false })}
+              onPress={() => this.handlePasswordModal(false)}
             />
 
             <Formik
@@ -161,13 +169,13 @@ class ProfileScreen extends Component {
                   )
                   .then(() => {
                     console.log("successful");
-                    this.setState({ passwordModal: false });
                   })
                   .catch((error) => {
                     actions.setFieldError("general", error.message);
                   })
                   .finally(() => {
                     actions.setSubmitting(false);
+                    this.handlePasswordModal(false);
                   })
               }
             >
@@ -241,14 +249,12 @@ class ProfileScreen extends Component {
         <Text>{this.props.user.name}</Text>
         <Button title="Logout" onPress={this.handleSignout} />
         <View>
-          <TouchableOpacity onPress={this.handleNameModal}>
+          <TouchableOpacity onPress={() => this.handleNameModal(true)}>
             <Text>Change Name</Text>
           </TouchableOpacity>
         </View>
         <View>
-          <TouchableOpacity
-            onPress={() => this.setState({ passwordModal: true })}
-          >
+          <TouchableOpacity onPress={() => this.handlePasswordModal(true)}>
             <Text>Change Password</Text>
           </TouchableOpacity>
         </View>

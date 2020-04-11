@@ -62,9 +62,7 @@ class DatabaseService {
         .doc(uid)
         .get()
         .then((snapshot) => {
-          let data = snapshot;
-          let mentorData = data["dm"]["proto"]["fields"];
-          let name = mentorData["name"]["stringValue"];
+          let name = snapshot.data().name;
           resolve(name);
         })
         .catch((error) => {
@@ -98,7 +96,7 @@ class DatabaseService {
       for (let i = 0; i < researchAreas.length; i++) {
         if (
           researchAreas[i] &&
-          mentor.researchArea.includes(researchAreas[i])
+          mentor.researchAreas.includes(researchAreas[i])
         ) {
           return true;
         }
@@ -329,26 +327,22 @@ class DatabaseService {
         .collection("mentors")
         .get()
         .then((snapshot) => {
-          let data = snapshot.docs;
-
-          for (let i = 0; i < data.length; i++) {
-            let idArray = data[i]["dm"]["proto"]["name"].split("/");
-            let id = idArray[idArray.length - 1];
-            let mentorData = data[i]["dm"]["proto"]["fields"];
+          snapshot.forEach((doc) => {
+            let id = doc.id;
 
             let pushData = {
               id: id,
-              name: mentorData.name.stringValue,
-              job: mentorData.job.stringValue,
-              email: mentorData.email.stringValue,
-              researchArea: this.parseArrayFields(mentorData, "researchAreas"),
-              researchLevel: mentorData.researchLevel.stringValue,
-              languages: this.parseArrayFields(mentorData, "languages"),
+              name: doc.data().name,
+              job: doc.data().job,
+              email: doc.data().email,
+              researchAreas: doc.data().researchAreas,
+              researchLevel: doc.data().researchLevel,
+              languages: doc.data().languages,
             };
 
             jsonData["mentors"].push(pushData);
             resolve(jsonData["mentors"]);
-          }
+          });
         })
         .catch((error) => {
           reject(error);

@@ -15,7 +15,17 @@ class AvailableMentors extends Component {
     };
   }
 
+  isEmpty(obj) {
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) return false;
+    }
+    return true;
+  }
+
   componentDidMount() {
+    if (this.isEmpty(this.props.user !== true)) {
+      this.props.navigation.navigate("DirectoryPage");
+    }
     const { researchAreas, researchLevel } = this.props;
     const { englishSpeaker } = this.props.route.params;
 
@@ -40,7 +50,7 @@ class AvailableMentors extends Component {
           name={m.name}
           email={m.email}
           job={m.job}
-          expertise={m.researchArea.join(", ")}
+          expertise={m.researchAreas}
           imageUri={"https://reactnative.dev/img/tiny_logo.png"}
           props={this.props}
         />
@@ -97,7 +107,7 @@ const mapStateToProps = (state) => {
     researchAreas: state.interests.selectedInterests,
     mentorName: state.mentorName.mentor,
     mentorId: state.mentorName.id,
-    user: state.user.user,
+    user: state.user,
   };
 };
 
