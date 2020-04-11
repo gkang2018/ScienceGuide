@@ -98,20 +98,20 @@ const mapStateToProps = state => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: 'red'
+    backgroundColor: 'white'
   },
   headerContainer: {
     flex: 1,
     marginTop: '0%',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'blue'
+    //backgroundColor: 'blue'
   },
   lowerContainer: {
     flex: 3,
     //marginTop: '5%',
     alignItems: 'center',
-    backgroundColor: 'pink'
+    //backgroundColor: 'pink'
   },
   title: {
     fontSize: RFPercentage(5),
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   },
   flatList: {
     width: '100%',
-    backgroundColor: 'red'
+    //backgroundColor: 'red'
   },
 });
 
