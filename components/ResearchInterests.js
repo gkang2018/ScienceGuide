@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, FlatList, StyleSheet, Button, Text } from "react-native";
+import {
+  View,
+  FlatList,
+  StyleSheet,
+  Button,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import InterestsCard from "./InterestsCard";
 import { interestsData } from "../interestData";
 import { updateProfileInformation } from "../actions/actions";
@@ -138,7 +145,12 @@ class ResearchInterests extends Component {
           keyExtractor={(item) => item.id}
           numColumns={2}
         />
-        <Button title="Confirm" onPress={this.handleInterestsSelection} />
+        <TouchableOpacity
+          style={styles.confirm}
+          onPress={this.handleInterestsSelection}
+        >
+          <Text>Confirm</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -177,6 +189,15 @@ const styles = StyleSheet.create({
   },
   flatList: {
     marginBottom: 175,
+  },
+  confirm: {
+    position: "absolute",
+    width: 50,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    right: 30,
+    bottom: 30,
   },
 });
 
