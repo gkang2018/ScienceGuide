@@ -9,7 +9,7 @@ import {
   Button,
 } from "react-native";
 import DatabaseService from "../config/firebase";
-import ChatCard from "./ChatCard";
+import ChatCard from "../components/ChatCard";
 import { connect } from "react-redux";
 
 class MessagesScreen extends Component {

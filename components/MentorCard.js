@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import MentorDetail from "./MentorDetail";
+import MentorDetail from "../screens/MentorDetail";
 import { connect } from "react-redux";
 import { selectMentor } from "../actions/actions";
 

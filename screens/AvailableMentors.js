@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import firebase from "firebase";
 import "@firebase/firestore";
 import DatabaseService from "../config/firebase";
-import MentorCard from "./MentorCard";
+import MentorCard from "../components/MentorCard";
 import matchMentor from "../actions/actions";
 import { connect } from "react-redux";
 
@@ -11,23 +11,27 @@ class AvailableMentors extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mentorData: undefined
+      mentorData: undefined,
     };
   }
 
   componentDidMount() {
-    const {researchAreas, researchLevel} = this.props;
-    const {englishSpeaker} = this.props.route.params;
+    const { researchAreas, researchLevel } = this.props;
+    const { englishSpeaker } = this.props.route.params;
 
     const db = new DatabaseService();
-    let resp = db.getCuratedMentors(englishSpeaker, researchAreas, researchLevel);
-    resp.then(value => {
+    let resp = db.getCuratedMentors(
+      englishSpeaker,
+      researchAreas,
+      researchLevel
+    );
+    resp.then((value) => {
       this.setState({ mentorData: value });
     });
   }
 
   renderMentors() {
-    return this.state.mentorData.map(m => {
+    return this.state.mentorData.map((m) => {
       return (
         <MentorCard
           navigation={this.props.navigation}
@@ -69,31 +73,31 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   heading: {
     marginTop: 90,
     marginBottom: 50,
-    marginLeft: 80
+    marginLeft: 80,
   },
   title: {
     fontSize: 30,
-    fontWeight: "600"
+    fontWeight: "600",
   },
   subHeading: {
     fontSize: 20,
     fontWeight: "500",
-    color: "gray"
-  }
+    color: "gray",
+  },
 });
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     researchLevel: state.level.level,
     researchAreas: state.interests.selectedInterests,
     mentorName: state.mentorName.mentor,
     mentorId: state.mentorName.id,
-    user: state.user.user
+    user: state.user.user,
   };
 };
 

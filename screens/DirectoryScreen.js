@@ -9,7 +9,7 @@ import {
 } from "react-native";
 
 import DatabaseService from "../config/firebase";
-import MentorCard from "./MentorCard";
+import MentorCard from "../components/MentorCard";
 
 class DirectoryScreen extends Component {
   constructor(props) {

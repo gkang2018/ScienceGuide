@@ -17,19 +17,19 @@ const Tab = createBottomTabNavigator();
 
 // import the components
 
-import ResearchLevel from "./components/ResearchLevel";
-import LandingPage from "./components/LandingPage";
-import ResearchInterests from "./components/ResearchInterests";
-import ResearchAreas from "./components/ResearchAreas";
-import AvailableMentors from "./components/AvailableMentors";
-import MentorDetail from "./components/MentorDetail";
-import Signup from "./components/Signup";
-import Dashboard from "./components/Dashboard";
-import LoadingScreen from "./components/LoadingScreen";
-import Login from "./components/Login";
-import DirectoryScreen from "./components/DirectoryScreen";
-import MessagesScreen from "./components/MessagesScreen";
-import ProfileScreen from "./components/ProfileScreen";
+import ResearchLevel from "./screens/ResearchLevel";
+import LandingPage from "./screens/LandingPage";
+import ResearchInterests from "./screens/ResearchInterests";
+import ResearchAreas from "./screens/ResearchAreas";
+import AvailableMentors from "./screens/AvailableMentors";
+import MentorDetail from "./screens/MentorDetail";
+import Signup from "./screens/Signup";
+import Dashboard from "./screens/Dashboard";
+import LoadingScreen from "./screens/LoadingScreen";
+import Login from "./screens/Login";
+import DirectoryScreen from "./screens/DirectoryScreen";
+import MessagesScreen from "./screens/MessagesScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 import ChatRoom from "./components/ChatRoom";
 
 // do we need this import stil ????

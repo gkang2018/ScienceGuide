@@ -7,7 +7,7 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import InterestsCard from "./InterestsCard";
+import InterestsCard from "../components/InterestsCard";
 import { interestsData } from "../interestData";
 import { updateProfileInformation } from "../actions/actions";
 import { connect } from "react-redux";
@@ -122,7 +122,6 @@ class ResearchInterests extends Component {
   }
 
   render() {
-
     return (
       <View>
         <View style={styles.headerContainer}>
