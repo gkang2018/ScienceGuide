@@ -73,7 +73,6 @@ class DatabaseService {
     });
   }
 
-
   filterMentorByLanguage(allMentors, englishSpeaker) {
     /*
       Gets mentors that can speak english/spanish or just spanish depending on the param value
@@ -82,10 +81,10 @@ class DatabaseService {
 
     if (englishSpeaker) {
       return allMentors;
-    }  else {
-      // here if the student is only comfortable with spanish, in this case we filter mentors that can 
-      return allMentors.filter(function(mentor) {
-          return mentor.languages.includes("spanish");
+    } else {
+      // here if the student is only comfortable with spanish, in this case we filter mentors that can
+      return allMentors.filter(function (mentor) {
+        return mentor.languages.includes("spanish");
       });
     }
   }
@@ -95,12 +94,16 @@ class DatabaseService {
       Gets mentors that have the given research areas
       param researchAreas- array of string research areas 
     */
-    let a = allMentors.filter(function(mentor) {
-      for (let i=0; i< researchAreas.length; i++) {
-        if ( researchAreas[i] && mentor.researchArea.includes(researchAreas[i])) {
+    let a = allMentors.filter(function (mentor) {
+      for (let i = 0; i < researchAreas.length; i++) {
+        if (
+          researchAreas[i] &&
+          mentor.researchArea.includes(researchAreas[i])
+        ) {
           return true;
-        }  
-      } return false;
+        }
+      }
+      return false;
     });
     return a;
   }
@@ -110,23 +113,29 @@ class DatabaseService {
       Gets mentors that have the given research levels/experience
       param level-  String (can be Beginner, Intermediate, Experienced)! 
     */
-    let researchLevel = allMentors.filter(function(mentor) {
+    let researchLevel = allMentors.filter(function (mentor) {
       if (level == "Intermediate" || level == "Experienced") {
-          return mentor.researchLevel === "Intermediate" ||  mentor.researchLevel === "Experienced";
-      } return mentor.researchLevel === level;
+        return (
+          mentor.researchLevel === "Intermediate" ||
+          mentor.researchLevel === "Experienced"
+        );
+      }
+      return mentor.researchLevel === level;
     });
     return researchLevel;
   }
-  
 
   async getCuratedMentors(englishSpeaker, researchAreas, researchLevel) {
     const allMentors = await this.fetchAllMentors();
     let language = this.filterMentorByLanguage(allMentors, englishSpeaker);
     let levels = this.filterMentorByReasearchExp(allMentors, researchLevel);
-    let interests = this.filterMentorByReasearchAreas(allMentors, researchAreas);
+    let interests = this.filterMentorByReasearchAreas(
+      allMentors,
+      researchAreas
+    );
 
-    let firstFilter = language.filter(val => levels.includes(val));
-    let secFilter = firstFilter.filter(val => interests.includes(val));
+    let firstFilter = language.filter((val) => levels.includes(val));
+    let secFilter = firstFilter.filter((val) => interests.includes(val));
     if (secFilter.length == 0) {
       return firstFilter.slice(0, 3);
     } else {
@@ -302,23 +311,51 @@ class DatabaseService {
     });
   }
 
-<<<<<<< HEAD
   parseArrayFields(data, field) {
     let parsedField = [];
     let vals = data[field]["arrayValue"]["values"];
 
-    for (
-      let i = 0;
-      i < vals.length;
-      i++
-    ) {
+    for (let i = 0; i < vals.length; i++) {
       parsedField.push(vals[i]["stringValue"]);
     }
     return parsedField;
   }
 
   fetchAllMentors() {
-=======
+    return new Promise((resolve, reject) => {
+      let jsonData = { mentors: [] };
+      let getData = firebase
+        .firestore()
+        .collection("mentors")
+        .get()
+        .then((snapshot) => {
+          let data = snapshot.docs;
+
+          for (let i = 0; i < data.length; i++) {
+            let idArray = data[i]["dm"]["proto"]["name"].split("/");
+            let id = idArray[idArray.length - 1];
+            let mentorData = data[i]["dm"]["proto"]["fields"];
+
+            let pushData = {
+              id: id,
+              name: mentorData.name.stringValue,
+              job: mentorData.job.stringValue,
+              email: mentorData.email.stringValue,
+              researchArea: this.parseArrayFields(mentorData, "researchAreas"),
+              researchLevel: mentorData.researchLevel.stringValue,
+              languages: this.parseArrayFields(mentorData, "languages"),
+            };
+
+            jsonData["mentors"].push(pushData);
+            resolve(jsonData["mentors"]);
+          }
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
   updateProfileInformation(user, type, changedInfo) {
     return new Promise((resolve, reject) => {
       let collection = user.type === "Mentor" ? "mentors" : "students";
@@ -385,42 +422,6 @@ class DatabaseService {
         })
         .catch((error) => {
           console.log("unable to reauthenticate with credential");
-          reject(error);
-        });
-    });
-  }
-
-  fetchMentors() {
->>>>>>> gagan-changeUserInfo
-    return new Promise((resolve, reject) => {
-      let jsonData = { "mentors": [] };
-      let getData = firebase
-        .firestore()
-        .collection("mentors")
-        .get()
-        .then((snapshot) => {
-          let data = snapshot.docs;
-
-          for (let i = 0; i < data.length; i++) {
-            let idArray = data[i]["dm"]["proto"]["name"].split("/");
-            let id = idArray[idArray.length - 1];
-            let mentorData = data[i]["dm"]["proto"]["fields"];
-
-            let pushData = {
-              id: id,
-              name: mentorData.name.stringValue,
-              job: mentorData.job.stringValue,
-              email: mentorData.email.stringValue,
-              researchArea: this.parseArrayFields(mentorData, "researchAreas"),
-              researchLevel: mentorData.researchLevel.stringValue,
-              languages: this.parseArrayFields(mentorData, "languages")
-            };
-
-            jsonData["mentors"].push(pushData);
-            resolve(jsonData["mentors"]);
-          }
-        })
-        .catch((error) => {
           reject(error);
         });
     });
