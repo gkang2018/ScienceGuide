@@ -302,6 +302,7 @@ class DatabaseService {
     });
   }
 
+<<<<<<< HEAD
   parseArrayFields(data, field) {
     let parsedField = [];
     let vals = data[field]["arrayValue"]["values"];
@@ -317,6 +318,80 @@ class DatabaseService {
   }
 
   fetchAllMentors() {
+=======
+  updateProfileInformation(user, type, changedInfo) {
+    return new Promise((resolve, reject) => {
+      let collection = user.type === "Mentor" ? "mentors" : "students";
+      switch (type) {
+        case "Name":
+          firebase
+            .firestore()
+            .collection(collection)
+            .doc(user.uid)
+            .update({
+              name: changedInfo,
+            })
+            .then(() => {
+              console.log("Succesfully updated the users name");
+              resolve();
+            })
+            .catch((error) => {
+              console.log("Unable to change the user's name");
+              reject("Unable to change the user's name", error);
+            });
+          break;
+        case "Interests":
+          firebase
+            .firestore()
+            .collection(collection)
+            .doc(user.uid)
+            .update({
+              researchAreas: changedInfo,
+            })
+            .then(() => {
+              console.log("Successfully updated the users interests");
+              resolve();
+            })
+            .catch((error) => {
+              console.log(error);
+              reject(error);
+            });
+      }
+    });
+  }
+
+  updatePassword(user, currentPassword, newPassword, confirmPassword) {
+    return new Promise((resolve, reject) => {
+      let authUser = this.auth.currentUser;
+      console.log(authUser);
+      let credential = firebase.auth.EmailAuthProvider.credential(
+        authUser.email,
+        currentPassword
+      );
+
+      authUser
+        .reauthenticateWithCredential(credential)
+        .then(() => {
+          authUser
+            .updatePassword(newPassword)
+            .then(() => {
+              console.log("Successfully updated password");
+              resolve();
+            })
+            .catch((error) => {
+              console.log(error);
+              reject(error);
+            });
+        })
+        .catch((error) => {
+          console.log("unable to reauthenticate with credential");
+          reject(error);
+        });
+    });
+  }
+
+  fetchMentors() {
+>>>>>>> gagan-changeUserInfo
     return new Promise((resolve, reject) => {
       let jsonData = { "mentors": [] };
       let getData = firebase

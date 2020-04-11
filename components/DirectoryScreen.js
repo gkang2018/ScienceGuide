@@ -5,25 +5,25 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  ActivityIndicator
+  ActivityIndicator,
 } from "react-native";
 
 import DatabaseService from "../config/firebase";
-import MentorCard from "../components/MentorCard";
+import MentorCard from "./MentorCard";
 
-class Directory extends Component {
+class DirectoryScreen extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      directoryMentors: undefined
+      directoryMentors: undefined,
     };
     this.db = new DatabaseService();
   }
 
   componentDidMount() {
     let mentorsFetched = this.db.fetchAllMentors();
-    mentorsFetched.then(vals => {
+    mentorsFetched.then((vals) => {
       this.setState({ directoryMentors: vals });
     });
   }
@@ -45,7 +45,7 @@ class Directory extends Component {
             props={this.props}
           />
         )}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
       />
     );
   }
@@ -79,17 +79,17 @@ const styles = StyleSheet.create({
     marginTop: 20,
     paddingBottom: 20,
     borderBottomWidth: 1,
-    marginBottom: 20
+    marginBottom: 20,
   },
   title: {
     fontSize: 25,
-    fontWeight: "700"
+    fontWeight: "700",
   },
   container: {
     flex: 1,
     justifyContent: "center",
-    flexDirection: "column"
-  }
+    flexDirection: "column",
+  },
 });
 
-export default Directory;
+export default DirectoryScreen;
