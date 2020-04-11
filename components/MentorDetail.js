@@ -62,7 +62,7 @@ class MentorDetail extends Component {
 
   renderResearchAreas() {
     let { expertise } = this.props.route.params;
-    expertise = expertise.split(",");
+    // expertise = expertise.split(",");
     return expertise.map((e) => {
       return (
         <View key={e} style={styles.researchArea}>
