@@ -243,9 +243,9 @@ class DatabaseService {
 
   updateProfileInformation(user, type, changedInfo) {
     return new Promise((resolve, reject) => {
+      let collection = user.type === "Mentor" ? "mentors" : "students";
       switch (type) {
         case "Name":
-          let collection = user.type === "Mentor" ? "mentors" : "students";
           firebase
             .firestore()
             .collection(collection)
@@ -262,6 +262,22 @@ class DatabaseService {
               reject("Unable to change the user's name", error);
             });
           break;
+        case "Interests":
+          firebase
+            .firestore()
+            .collection(collection)
+            .doc(user.uid)
+            .update({
+              researchAreas: changedInfo,
+            })
+            .then(() => {
+              console.log("Successfully updated the users interests");
+              resolve();
+            })
+            .catch((error) => {
+              console.log(error);
+              reject(error);
+            });
       }
     });
   }

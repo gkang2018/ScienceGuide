@@ -2,51 +2,57 @@ import React, { Component } from "react";
 import { View, FlatList, StyleSheet, Button, Text } from "react-native";
 import InterestsCard from "./InterestsCard";
 import { interestsData } from "../interestData";
-
+import { updateProfileInformation } from "../actions/actions";
 import { connect } from "react-redux";
 
 class ResearchInterests extends Component {
   constructor(props) {
     super(props);
-  }
 
-  state = {
-    subText: "Select up to three research areas you are interested in"
-  };
+    this.snapshot = [];
+
+    this.state = {
+      subText: "Select up to three research areas you are interested in",
+      loggedIn: false,
+    };
+  }
 
   changeSubText() {
     switch (this.props.interests.length) {
       case 3:
         return this.setState({
-          subText: "You may review your selections in the next screen"
+          subText: "You may review your selections in the next screen",
         });
       case 2:
         return this.setState({
-          subText: "Select one more research area you are interested in"
+          subText: "Select one more research area you are interested in",
         });
       case 1:
         return this.setState({
-          subText: "Select two more reseach areas you are interested in"
+          subText: "Select two more reseach areas you are interested in",
         });
       default:
         return this.setState({
-          subText: "Select up to three research areas you are interested in "
+          subText: "Select up to three research areas you are interested in ",
         });
     }
   }
 
+  // checks if javascript object is empty
+  isEmpty(obj) {
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) return false;
+    }
+    return true;
+  }
+
   componentDidMount() {
-    // sets our next button
-    this.props.navigation.setOptions({
-      headerRight: () => (
-        <Button
-          title="Confirm"
-          onPress={() => {
-            this.props.navigation.navigate("Areas");
-          }}
-        ></Button>
-      )
-    });
+    if (this.isEmpty(this.props.user)) {
+      this.setState({ loggedIn: false });
+    } else {
+      this.snapshot = [...this.props.interests];
+      this.setState({ loggedIn: true });
+    }
 
     this.changeSubText();
   }
@@ -58,12 +64,63 @@ class ResearchInterests extends Component {
     }
   }
 
+  handleInterestsSelection = () => {
+    console.log(this.state);
+    if (this.state.loggedIn === false) {
+      this.props.navigation.navigate("Areas");
+    } else {
+      // check if the user is confirming their research interests but they never changed them
+
+      const updatedInterests = [...this.props.interests];
+      this.snapshot.sort();
+      updatedInterests.sort();
+
+      if (this.checkArraysEqual(updatedInterests, this.snapshot)) {
+        this.props.navigation.navigate("Profile");
+      } else {
+        // have to update our database with the new array
+        this.props
+          .updateProfileInformation(
+            this.props.user,
+            "Interests",
+            updatedInterests
+          )
+          .then(() => {
+            this.props.navigation.navigate("Profile");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    }
+  };
+
+  checkArraysEqual(arr1, arr2) {
+    if (arr1.length != arr2.length) {
+      return false;
+    }
+    if (arr1 === arr2) {
+      return true;
+    }
+    if (arr1 === null || arr2 === null) {
+      return false;
+    }
+    // run through the lists
+    for (let i = 0; i < arr1.length; i++) {
+      if (arr1[i] !== arr2[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   render() {
     return (
       <View>
         <View style={styles.headerContainer}>
           <Text style={styles.title}>Research Interests</Text>
           <Text style={styles.subHeading}>{this.state.subText}</Text>
+          <Button title="Confirm" onPress={this.handleInterestsSelection} />
         </View>
 
         <FlatList
@@ -78,17 +135,26 @@ class ResearchInterests extends Component {
               />
             </View>
           )}
-          keyExtractor={item => item.id}
+          keyExtractor={(item) => item.id}
           numColumns={2}
         />
+        <Button title="Confirm" onPress={this.handleInterestsSelection} />
       </View>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    interests: state.interests.selectedInterests
+    interests: state.interests.selectedInterests,
+    user: state.user,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateProfileInformation: (user, type, changedInfo) =>
+      dispatch(updateProfileInformation(user, type, changedInfo)),
   };
 };
 
@@ -96,22 +162,22 @@ const styles = StyleSheet.create({
   title: {
     paddingLeft: 80,
     fontSize: 25,
-    fontWeight: "700"
+    fontWeight: "700",
   },
   headerContainer: {
     marginTop: 75,
-    marginBottom: 25
+    marginBottom: 25,
   },
   subHeading: {
     paddingLeft: 50,
     paddingRight: 25,
     color: "gray",
     fontSize: 17,
-    fontWeight: "500"
+    fontWeight: "500",
   },
   flatList: {
-    marginBottom: 175
-  }
+    marginBottom: 175,
+  },
 });
 
-export default connect(mapStateToProps, null)(ResearchInterests);
+export default connect(mapStateToProps, mapDispatchToProps)(ResearchInterests);

@@ -20,6 +20,7 @@ import {
 } from "../actions/actions";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import ResearchInterests from "./ResearchInterests";
 
 class ProfileScreen extends Component {
   constructor(props) {
@@ -233,6 +234,10 @@ class ProfileScreen extends Component {
             </Formik>
           </KeyboardAvoidingView>
         </Modal>
+        <Modal
+          animationType={"slide"}
+          visible={this.state.interestsModal}
+        ></Modal>
         <Text>{this.props.user.name}</Text>
         <Button title="Logout" onPress={this.handleSignout} />
         <View>
@@ -251,7 +256,11 @@ class ProfileScreen extends Component {
           <Text>Change Profile Image</Text>
         </View>
         <View>
-          <Text>Change Research Interests</Text>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("Interests")}
+          >
+            <Text>Change Research Interests</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );

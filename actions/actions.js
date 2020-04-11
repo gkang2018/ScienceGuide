@@ -104,7 +104,6 @@ export const updateProfileInformation = (user, type, changedInfo) => (
       } else {
         db.updateProfileInformation(user, type, changedInfo)
           .then(() => {
-            console.log(user.type);
             console.log("succesfully updated the user's name");
 
             const updatedUser = {
@@ -122,6 +121,16 @@ export const updateProfileInformation = (user, type, changedInfo) => (
             reject(error);
           });
       }
+    } else if (type === "Interests") {
+      db.updateProfileInformation(user, type, changedInfo)
+        .then(() => {
+          console.log("successfully updated the users interests");
+          resolve();
+        })
+        .catch((error) => {
+          console.log(error);
+          reject(error);
+        });
     }
   });
 };

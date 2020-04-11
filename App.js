@@ -27,7 +27,7 @@ import Signup from "./components/Signup";
 import Dashboard from "./components/Dashboard";
 import LoadingScreen from "./components/LoadingScreen";
 import Login from "./components/Login";
-import Directory from "./components/Directory";
+import DirectoryScreen from "./components/DirectoryScreen";
 import MessagesScreen from "./components/MessagesScreen";
 import ProfileScreen from "./components/ProfileScreen";
 import ChatRoom from "./components/ChatRoom";
@@ -68,7 +68,7 @@ function DirectoryPage() {
         inactiveTintColor: "gray",
       }}
     >
-      <Tab.Screen name="Directory" component={Directory} />
+      <Tab.Screen name="Directory" component={DirectoryScreen} />
       <Tab.Screen name="Messages" component={MessagesScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
