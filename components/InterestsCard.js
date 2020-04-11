@@ -86,25 +86,26 @@ const mapDispatchToProps = dispatch => {
 const styles = StyleSheet.create({
   overlay: {
     backgroundColor: "rgba(52, 52, 52, 0.8)",
-    width: 150,
-    height: 150,
+    width: 200,
+    height: 200,
     borderWidth: 1,
     borderRadius: 20,
-    marginLeft: 27,
-    marginBottom: 15
+    //marginLeft: 27,
+    //marginBottom: 15
   },
 
   defaultSquare: {
-    width: 150,
-    height: 150,
+    width: 200,
+    height: 200,
     borderWidth: 1,
     borderRadius: 20,
-    marginLeft: 27,
-    marginBottom: 15
+    backgroundColor: 'white'
+    //marginLeft: 27,
+    //marginBottom: 15
   },
   interestText: {
     alignItems: "flex-end",
-    marginTop: 120,
+    //marginTop: 120,
     marginLeft: 2
   }
 });
