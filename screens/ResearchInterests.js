@@ -12,6 +12,7 @@ import { interestsData } from "../interestData";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { updateProfileInformation } from "../actions/actions";
 import { connect } from "react-redux";
+import Snackbar from "react-native-snackbar";
 
 class ResearchInterests extends Component {
   constructor(props) {
@@ -94,10 +95,20 @@ class ResearchInterests extends Component {
             updatedInterests
           )
           .then(() => {
+            Snackbar.show({
+              text: "Successfully updated your interests",
+              backgroundColor: "green",
+              duration: Snackbar.LENGTH_LONG,
+            });
             this.props.navigation.navigate("Profile");
           })
           .catch((error) => {
             console.log(error);
+            Snackbar.show({
+              text: error.message,
+              backgroundColor: "red",
+              duration: Snackbar.LENGTH_LONG,
+            });
           });
       }
     }

@@ -7,10 +7,10 @@ import {
   StyleSheet,
   Button,
   ActivityIndicator,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from "react-native";
 import { connect } from "react-redux";
-
+import Snackbar from "react-native";
 import { signup } from "../actions/actions";
 
 import { Formik } from "formik";
@@ -22,9 +22,7 @@ class Signup extends Component {
 
     this.FormValidationSchema = Yup.object().shape({
       name: Yup.string().required("Required"),
-      email: Yup.string()
-        .email("Invalid Email.")
-        .required("Required"),
+      email: Yup.string().email("Invalid Email.").required("Required"),
       password: Yup.string()
         .min(6, "Password must be at least 6 characters long!")
         .required("Required"),
@@ -33,10 +31,10 @@ class Signup extends Component {
         .test(
           "confirm-password-test",
           "Password and confirm password should match",
-          function(value) {
+          function (value) {
             return value === this.parent.password;
           }
-        )
+        ),
     });
   }
 
@@ -63,7 +61,7 @@ class Signup extends Component {
         .then(() => {
           resolve();
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -77,24 +75,33 @@ class Signup extends Component {
             name: "",
             email: "",
             password: "",
-            confirmPassword: ""
+            confirmPassword: "",
           }}
           validationSchema={this.FormValidationSchema}
           onSubmit={(values, actions) =>
             this.handleSignup(values.email, values.password, values.name)
               .then(() => {
                 console.log("successful");
+                Snackbar.show({
+                  text: "Successfully signed up",
+                  backgroundColor: "green",
+                  duration: Snackbar.LENGTH_LONG,
+                });
                 this.props.navigation.navigate("Dashboard");
               })
-              .catch(error => {
-                actions.setFieldError("general", error.message);
+              .catch((error) => {
+                Snackbar.show({
+                  text: error.message,
+                  backgroundColor: "red",
+                  duration: Snackbar.LENGTH_LONG,
+                });
               })
               .finally(() => {
                 actions.setSubmitting(false);
               })
           }
         >
-          {props => {
+          {(props) => {
             return (
               <View style={styles.container}>
                 <View style={styles.inputStyle}>
@@ -167,27 +174,27 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   inputStyle: {
     padding: 10,
     width: "60%",
     borderWidth: 1,
-    borderColor: "black"
-  }
+    borderColor: "black",
+  },
 });
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     researchLevel: state.level.level,
     researchAreas: state.interests.selectedInterests,
     mentorName: state.mentorName.mentor,
     mentorId: state.mentorName.id,
-    user: state.user.user
+    user: state.user.user,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     signup: (
       email,
@@ -208,7 +215,7 @@ const mapDispatchToProps = dispatch => {
           mentorName,
           mentorId
         )
-      )
+      ),
   };
 };
 

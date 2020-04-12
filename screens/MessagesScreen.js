@@ -69,12 +69,22 @@ class MessagesScreen extends Component {
             .catch((error) => {
               // unable to fetch last message
               console.log(error);
+              Snackbar.show({
+                text: "Unable to fetch last message",
+                backgroundColor: "red",
+                duration: Snackbar.LENGTH_LONG,
+              });
             });
         });
       })
       .catch((error) => {
         // unable to fetch available mentors
         console.log(error);
+        Snackbar.show({
+          text: error.message,
+          backgroundColor: "red",
+          duration: Snackbar.LENGTH_LONG,
+        });
       });
   };
 

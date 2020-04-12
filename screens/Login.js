@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 import { login, clear } from "../actions/actions";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import Snackbar from "react-native-snackbar";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 class Login extends Component {
@@ -57,10 +58,19 @@ class Login extends Component {
             this.handleLogin(values.email, values.password)
               .then(() => {
                 console.log("successful");
-                this.props.navigation.navigate("Dashboard");
+                Snackbar.show({
+                  text: "Successfully signed in",
+                  backgroundColor: "green",
+                  duration: Snackbar.LENGTH_LONG,
+                });
+                this.props.navigation.navigate("DirectoryPage");
               })
               .catch((error) => {
-                actions.setFieldError("general", error.message);
+                Snackbar.show({
+                  text: error.message,
+                  backgroundColor: "red",
+                  duration: Snackbar.LENGTH_LONG,
+                });
               })
               .finally(() => {
                 actions.setSubmitting(false);

@@ -35,9 +35,17 @@ class AvailableMentors extends Component {
       researchAreas,
       researchLevel
     );
-    resp.then((value) => {
-      this.setState({ mentorData: value });
-    });
+    resp
+      .then((value) => {
+        this.setState({ mentorData: value });
+      })
+      .catch((error) => {
+        Snackbar.show({
+          text: error.message,
+          backgroundColor: "red",
+          duration: Snackbar.LENGTH_LONG,
+        });
+      });
   }
 
   renderMentors() {

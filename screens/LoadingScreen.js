@@ -8,6 +8,7 @@ import {
   selectMentor,
   update,
 } from "../actions/actions";
+import Snackbar from "react-native-snackbar";
 
 class LoadingScreen extends Component {
   constructor(props) {
@@ -34,11 +35,16 @@ class LoadingScreen extends Component {
               };
               this.props.update(update);
               this.populateReduxStore(userData);
-              this.props.navigation.navigate("Dashboard");
+              this.props.navigation.navigate("DirectoryPage");
             })
             .catch((error) => {
               console.log(error);
               console.log("Unable to fetch student credentials");
+              Snackbar.show({
+                text: error.message,
+                backgroundColor: "red",
+                duration: Snackbar.LENGTH_LONG,
+              });
             });
         }
       } else {

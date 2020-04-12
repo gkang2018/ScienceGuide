@@ -13,6 +13,7 @@ import {
 } from "react-native";
 
 import { connect } from "react-redux";
+import Snackbar from "react-native-snackbar";
 import {
   logout,
   updateProfileInformation,
@@ -61,11 +62,20 @@ class ProfileScreen extends Component {
     this.props
       .logout()
       .then(() => {
+        Snackbar.show({
+          text: "Successfully signed out",
+          backgroundColor: "green",
+          duration: Snackbar.LENGTH_LONG,
+        });
         this.props.navigation.navigate("Home");
       })
       .catch((error) => {
         console.log(error);
-        this.setState({ error: "Unable to log out. Please try again" });
+        Snackbar.show({
+          text: "Unable to log out",
+          backgroundColor: "red",
+          duration: Snackbar.LENGTH_LONG,
+        });
       });
   };
   handleNameModal = (visible) => {
@@ -103,9 +113,18 @@ class ProfileScreen extends Component {
                   )
                   .then(() => {
                     console.log("successful");
+                    Snackbar.show({
+                      text: "Successfully updated name",
+                      backgroundColor: "green",
+                      duration: Snackbar.LENGTH_LONG,
+                    });
                   })
                   .catch((error) => {
-                    actions.setFieldError("general", error.message);
+                    Snackbar.show({
+                      text: error.message,
+                      backgroundColor: "red",
+                      duration: Snackbar.LENGTH_LONG,
+                    });
                   })
                   .finally(() => {
                     actions.setSubmitting(false);
@@ -169,9 +188,18 @@ class ProfileScreen extends Component {
                   )
                   .then(() => {
                     console.log("successful");
+                    Snackbar.show({
+                      text: "Successfully updated password",
+                      backgroundColor: "green",
+                      duration: Snackbar.LENGTH_LONG,
+                    });
                   })
                   .catch((error) => {
-                    actions.setFieldError("general", error.message);
+                    Snackbar.show({
+                      text: error.message,
+                      backgroundColor: "red",
+                      duration: Snackbar.LENGTH_LONG,
+                    });
                   })
                   .finally(() => {
                     actions.setSubmitting(false);

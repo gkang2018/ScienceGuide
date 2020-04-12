@@ -10,6 +10,7 @@ import {
 
 import DatabaseService from "../config/firebase";
 import MentorCard from "../components/MentorCard";
+import Snackbar from "react-native-snackbar";
 
 class DirectoryScreen extends Component {
   constructor(props) {
@@ -23,9 +24,17 @@ class DirectoryScreen extends Component {
 
   componentDidMount() {
     let mentorsFetched = this.db.fetchAllMentors();
-    mentorsFetched.then((vals) => {
-      this.setState({ directoryMentors: vals });
-    });
+    mentorsFetched
+      .then((vals) => {
+        this.setState({ directoryMentors: vals });
+      })
+      .catch((error) => {
+        Snackbar.show({
+          text: error.message,
+          backgroundColor: "red",
+          duration: Snackbar.LENGTH_LONG,
+        });
+      });
   }
 
   renderAllMentors() {

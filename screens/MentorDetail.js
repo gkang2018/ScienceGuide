@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import DatabaseService from "../config/firebase";
+import Snackbar from "react-native-snackbar";
 
 class MentorDetail extends Component {
   constructor(props) {
@@ -45,6 +46,11 @@ class MentorDetail extends Component {
                 });
               })
               .catch((error) => {
+                Snackbar.show({
+                  text: "Unable to start chat with mentor",
+                  backgroundColor: "red",
+                  duration: Snackbar.LENGTH_LONG,
+                });
                 console.log(error);
               });
           }
