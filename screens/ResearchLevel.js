@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { addLevel } from "../actions/actions";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 class ResearchLevel extends Component {
   render() {
@@ -17,7 +18,7 @@ class ResearchLevel extends Component {
         </View>
         
 
-        <View style={styles.form}>
+        <View style={styles.formContainer}>
           <View style = {styles.researchLevelContainer}>
             <TouchableOpacity
               onPress={() => {
@@ -69,41 +70,50 @@ class ResearchLevel extends Component {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flex: 1
+    flex: 1,
+    backgroundColor: 'white'
   },
   titleContainer: {
+    flex: 1.5,
+    marginTop: '5%',
+    justifyContent: 'center',
+    //backgroundColor: 'blue'
+  },
+  formContainer: {
+    flex: 3,
+    alignItems: 'center',
+    marginTop: '5%',
+    //backgroundColor: 'yellow'
   },
   researchLevelContainer: {
     alignItems: "center",
-    marginBottom: 20
-  },
-  titleText: {
-    fontSize: 40,
-    marginTop: 100,
-    fontWeight: "700",
-    textAlign: 'center'
-  },
-  descriptionText: {
-    fontSize: 17,
-    marginTop: 20,
-    textAlign: 'center',
-  },
-  form: {
-    //paddingLeft: 95,
-    marginTop: 100
-  },
-  formText: {
+    height: '20%',
+    width: '83%',
     borderColor: "black",
     borderWidth: 1.5,
-    borderRadius: 8,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingBottom: 20,
-    paddingTop: 20,
-    fontSize: 15,
+    borderRadius: 10,
+    marginBottom: '7%',
+    justifyContent: 'center',
+    //backgroundColor: 'red'
+  },
+  titleText: {
+    fontSize: RFPercentage(5),
+//    fontSize: 40,
+    marginTop: '10%',
+    fontWeight: "700",
+    textAlign: 'center',
+  },
+  descriptionText: {
+    fontSize: 20,
+    marginTop: 20,
+    marginLeft: 15,
+    marginRight: 15,
+    textAlign: 'center',
+  },
+  formText: {
+    fontSize: RFPercentage(2.75),
     textAlign: "center",
-    //marginRight: 90,
-    //marginBottom: 10
+    //backgroundColor: 'green',
   }
 });
 

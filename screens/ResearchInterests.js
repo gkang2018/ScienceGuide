@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import InterestsCard from "../components/InterestsCard";
 import { interestsData } from "../interestData";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { updateProfileInformation } from "../actions/actions";
 import { connect } from "react-redux";
 
@@ -123,34 +124,30 @@ class ResearchInterests extends Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.mainContainer}>
         <View style={styles.headerContainer}>
           <Text style={styles.title}>Research Interests</Text>
           <Text style={styles.subHeading}>{this.state.subText}</Text>
           <Button title="Confirm" onPress={this.handleInterestsSelection} />
         </View>
 
-        <FlatList
-          style={styles.flatList}
-          data={interestsData}
-          renderItem={({ item }) => (
-            <View>
-              <InterestsCard
-                interest={item.interest}
-                id={item.id}
-                image={item.image}
-              />
-            </View>
-          )}
-          keyExtractor={(item) => item.id}
-          numColumns={2}
-        />
-        <TouchableOpacity
-          style={styles.confirm}
-          onPress={this.handleInterestsSelection}
-        >
-          <Text>Confirm</Text>
-        </TouchableOpacity>
+        <View style={styles.lowerContainer}>
+          <FlatList
+            style={styles.flatList}
+            data={interestsData}
+            renderItem={({ item }) => (
+              <View>
+                <InterestsCard
+                  interest={item.interest}
+                  id={item.id}
+                  image={item.image}
+                />
+              </View>
+            )}
+            keyExtractor={(item) => item.id}
+            numColumns={2}
+          />
+        </View>
       </View>
     );
   }
@@ -171,34 +168,40 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const styles = StyleSheet.create({
-  title: {
-    paddingLeft: 80,
-    fontSize: 25,
-    fontWeight: "700",
+  mainContainer: {
+    flex: 1,
+    backgroundColor: "white",
   },
   headerContainer: {
-    marginTop: 75,
-    marginBottom: 25,
-  },
-  subHeading: {
-    paddingLeft: 50,
-    paddingRight: 25,
-    color: "gray",
-    fontSize: 17,
-    fontWeight: "500",
-  },
-  flatList: {
-    marginBottom: 175,
-  },
-  confirm: {
-    position: "absolute",
-    width: 50,
-    height: 50,
+    flex: 1,
+    marginTop: "0%",
     alignItems: "center",
     justifyContent: "center",
-    right: 30,
-    bottom: 30,
+    //backgroundColor: 'blue'
+  },
+  lowerContainer: {
+    flex: 3,
+    //marginTop: '5%',
+    alignItems: "center",
+    //backgroundColor: 'pink'
+  },
+  title: {
+    fontSize: RFPercentage(5),
+    marginTop: "15%",
+    fontWeight: "700",
+  },
+  subHeading: {
+    fontSize: 20,
+    marginTop: 20,
+    marginLeft: 15,
+    marginRight: 15,
+    textAlign: "center",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  flatList: {
+    width: "100%",
+    //backgroundColor: 'red'
   },
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(ResearchInterests);
