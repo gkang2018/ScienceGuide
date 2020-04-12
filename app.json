@@ -27,6 +27,9 @@
       "bundleIdentifier": "com.ScienceGuide.MyScienceGuide",
       "buildNumber": "1.0.0",
       "supportsTablet": true
-    }
-  }
+    },
+    "entryPoint": "node_modules/expo/AppEntry.js"
+  },
+  "displayName": "ScienceGuide",
+  "name": "ScienceGuide"
 }

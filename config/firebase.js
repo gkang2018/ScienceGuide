@@ -62,15 +62,83 @@ class DatabaseService {
         .doc(uid)
         .get()
         .then((snapshot) => {
-          let data = snapshot;
-          let mentorData = data["dm"]["proto"]["fields"];
-          let name = mentorData["name"]["stringValue"];
+          let name = snapshot.data().name;
           resolve(name);
         })
         .catch((error) => {
           reject("Could not retrieve Mentor Name by Id", error);
         });
     });
+  }
+
+  filterMentorByLanguage(allMentors, englishSpeaker) {
+    /*
+      Gets mentors that can speak english/spanish or just spanish depending on the param value
+      param englishSpeaker- boolean value (student is comfortable speaking english)
+    */
+
+    if (englishSpeaker) {
+      return allMentors;
+    } else {
+      // here if the student is only comfortable with spanish, in this case we filter mentors that can
+      return allMentors.filter(function (mentor) {
+        return mentor.languages.includes("spanish");
+      });
+    }
+  }
+
+  filterMentorByReasearchAreas(allMentors, researchAreas) {
+    /*
+      Gets mentors that have the given research areas
+      param researchAreas- array of string research areas 
+    */
+    let a = allMentors.filter(function (mentor) {
+      for (let i = 0; i < researchAreas.length; i++) {
+        if (
+          researchAreas[i] &&
+          mentor.researchAreas.includes(researchAreas[i])
+        ) {
+          return true;
+        }
+      }
+      return false;
+    });
+    return a;
+  }
+
+  filterMentorByReasearchExp(allMentors, level) {
+    /*
+      Gets mentors that have the given research levels/experience
+      param level-  String (can be Beginner, Intermediate, Experienced)! 
+    */
+    let researchLevel = allMentors.filter(function (mentor) {
+      if (level == "Intermediate" || level == "Experienced") {
+        return (
+          mentor.researchLevel === "Intermediate" ||
+          mentor.researchLevel === "Experienced"
+        );
+      }
+      return mentor.researchLevel === level;
+    });
+    return researchLevel;
+  }
+
+  async getCuratedMentors(englishSpeaker, researchAreas, researchLevel) {
+    const allMentors = await this.fetchAllMentors();
+    let language = this.filterMentorByLanguage(allMentors, englishSpeaker);
+    let levels = this.filterMentorByReasearchExp(allMentors, researchLevel);
+    let interests = this.filterMentorByReasearchAreas(
+      allMentors,
+      researchAreas
+    );
+
+    let firstFilter = language.filter((val) => levels.includes(val));
+    let secFilter = firstFilter.filter((val) => interests.includes(val));
+    if (secFilter.length == 0) {
+      return firstFilter.slice(0, 3);
+    } else {
+      return secFilter.slice(0, 3);
+    }
   }
 
   getRecipientName(recipientID) {
@@ -241,7 +309,17 @@ class DatabaseService {
     });
   }
 
-  fetchMentors() {
+  parseArrayFields(data, field) {
+    let parsedField = [];
+    let vals = data[field]["arrayValue"]["values"];
+
+    for (let i = 0; i < vals.length; i++) {
+      parsedField.push(vals[i]["stringValue"]);
+    }
+    return parsedField;
+  }
+
+  fetchAllMentors() {
     return new Promise((resolve, reject) => {
       let jsonData = { mentors: [] };
       let getData = firebase
@@ -249,41 +327,95 @@ class DatabaseService {
         .collection("mentors")
         .get()
         .then((snapshot) => {
-          let data = snapshot.docs;
-
-          for (let i = 0; i < data.length; i++) {
-            let idArray = data[i]["dm"]["proto"]["name"].split("/");
-            let id = idArray[idArray.length - 1];
-            let mentorData = data[i]["dm"]["proto"]["fields"];
-
-            // parsing the research areas
-            let researchAreas = [];
-
-            for (
-              let i = 0;
-              i < mentorData["researchAreas"]["arrayValue"]["values"].length;
-              i++
-            ) {
-              researchAreas.push(
-                mentorData["researchAreas"]["arrayValue"]["values"][i][
-                  "stringValue"
-                ]
-              );
-            }
+          snapshot.forEach((doc) => {
+            let id = doc.id;
 
             let pushData = {
               id: id,
-              name: mentorData.name.stringValue,
-              job: mentorData.job.stringValue,
-              email: mentorData.email.stringValue,
-              researchArea: researchAreas.join(","),
+              name: doc.data().name,
+              job: doc.data().job,
+              email: doc.data().email,
+              researchAreas: doc.data().researchAreas,
+              researchLevel: doc.data().researchLevel,
+              languages: doc.data().languages,
             };
 
             jsonData["mentors"].push(pushData);
             resolve(jsonData["mentors"]);
-          }
+          });
         })
         .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
+  updateProfileInformation(user, type, changedInfo) {
+    return new Promise((resolve, reject) => {
+      let collection = user.type === "Mentor" ? "mentors" : "students";
+      switch (type) {
+        case "Name":
+          firebase
+            .firestore()
+            .collection(collection)
+            .doc(user.uid)
+            .update({
+              name: changedInfo,
+            })
+            .then(() => {
+              console.log("Succesfully updated the users name");
+              resolve();
+            })
+            .catch((error) => {
+              console.log("Unable to change the user's name");
+              reject("Unable to change the user's name", error);
+            });
+          break;
+        case "Interests":
+          firebase
+            .firestore()
+            .collection(collection)
+            .doc(user.uid)
+            .update({
+              researchAreas: changedInfo,
+            })
+            .then(() => {
+              console.log("Successfully updated the users interests");
+              resolve();
+            })
+            .catch((error) => {
+              console.log(error);
+              reject(error);
+            });
+      }
+    });
+  }
+
+  updatePassword(user, currentPassword, newPassword, confirmPassword) {
+    return new Promise((resolve, reject) => {
+      let authUser = this.auth.currentUser;
+      console.log(authUser);
+      let credential = firebase.auth.EmailAuthProvider.credential(
+        authUser.email,
+        currentPassword
+      );
+
+      authUser
+        .reauthenticateWithCredential(credential)
+        .then(() => {
+          authUser
+            .updatePassword(newPassword)
+            .then(() => {
+              console.log("Successfully updated password");
+              resolve();
+            })
+            .catch((error) => {
+              console.log(error);
+              reject(error);
+            });
+        })
+        .catch((error) => {
+          console.log("unable to reauthenticate with credential");
           reject(error);
         });
     });

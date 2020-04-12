@@ -1,4 +1,10 @@
-import { SIGNUP, LOGIN, LOGOUT, UPDATE_USER } from "../actions/types";
+import {
+  SIGNUP,
+  LOGIN,
+  LOGOUT,
+  UPDATE_USER,
+  UPDATE_PROFILE,
+} from "../actions/types";
 
 const initialState = {};
 
@@ -9,6 +15,8 @@ const userReducer = (state = initialState, action) => {
     case LOGIN:
       return action.data;
     case UPDATE_USER:
+      return action.data;
+    case UPDATE_PROFILE:
       return action.data;
     default:
       return state;
