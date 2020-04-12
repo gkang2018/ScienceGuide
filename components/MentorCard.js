@@ -17,6 +17,7 @@ class MentorCard extends Component {
 
   render() {
     const { props, name, expertise, email, imageUri, job, id } = this.props;
+    expertiseString = expertise.join(",");
     return (
       <TouchableOpacity
         onPress={() => {
@@ -36,7 +37,7 @@ class MentorCard extends Component {
           <View style={styles.details}>
             <Text style={styles.text}>{name}</Text>
             <Text style={styles.text}>{job}</Text>
-            <Text style={styles.text}>Expertise: {expertise}</Text>
+            <Text style={styles.text}>Expertise: {expertiseString}</Text>
           </View>
         </View>
       </TouchableOpacity>

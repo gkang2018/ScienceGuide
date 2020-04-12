@@ -23,7 +23,7 @@ class AvailableMentors extends Component {
   }
 
   componentDidMount() {
-    if (this.isEmpty(this.props.user !== true)) {
+    if (!this.isEmpty(this.props.user)) {
       this.props.navigation.navigate("DirectoryPage");
     }
     const { researchAreas, researchLevel } = this.props;
