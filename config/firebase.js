@@ -132,13 +132,13 @@ class DatabaseService {
       researchAreas
     );
 
-    let firstFilter = language.filter(val => levels.includes(val));
-    let secFilter = firstFilter.filter(val => interests.includes(val));
-    
+    let firstFilter = language.filter((val) => levels.includes(val));
+    let secFilter = firstFilter.filter((val) => interests.includes(val));
+
     if (firstFilter.length == 0) {
       return language.slice(0, 3);
     } else if (secFilter.length == 0) {
-      return firstFilter.slice(0,3);
+      return firstFilter.slice(0, 3);
     } else {
       return secFilter.slice(0, 3);
     }
@@ -242,12 +242,15 @@ class DatabaseService {
 
               let skillLevel = snapshot.data().skillLevel;
 
+              let englishSpeaker = snapshot.data().englishSpeaker;
+
               let student = {
                 id: uid,
                 name: name,
                 researchAreas: researchAreas,
                 skillLevel: skillLevel,
                 mentorId: mentorId,
+                englishSpeaker: englishSpeaker,
                 mentorName: val,
               };
               resolve(student);
@@ -274,6 +277,7 @@ class DatabaseService {
                   name: student.name,
                   researchAreas: student.researchAreas,
                   skillLevel: student.skillLevel,
+                  englishSpeaker: student.englishSpeaker,
                   mentorId: student.mentorId,
                   mentorName: student.mentorName,
                   type: val,
@@ -467,6 +471,7 @@ class DatabaseService {
     name,
     researchSkill,
     researchInterests,
+    englishSpeaker,
     mentorName,
     mentorId
   ) {
@@ -484,6 +489,7 @@ class DatabaseService {
               name: name,
               skillLevel: researchSkill,
               researchAreas: researchInterests,
+              englishSpeaker: englishSpeaker,
               mentorId: mentorId,
               chatRooms: firebase.firestore.FieldValue.arrayUnion(chatID),
             });

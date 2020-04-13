@@ -56,6 +56,7 @@ class ResearchInterests extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props.user);
     if (this.isEmpty(this.props.user)) {
       this.setState({ loggedIn: false });
     } else {

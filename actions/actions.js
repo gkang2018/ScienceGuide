@@ -46,6 +46,7 @@ export const signup = (
   name,
   researchLevel,
   researchAreas,
+  englishSpeaker,
   mentorName,
   mentorId
 ) => (dispatch) => {
@@ -56,6 +57,7 @@ export const signup = (
       name,
       researchLevel,
       researchAreas,
+      englishSpeaker,
       mentorName,
       mentorId
     );

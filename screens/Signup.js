@@ -57,6 +57,7 @@ class Signup extends Component {
           name,
           this.props.researchLevel,
           this.props.researchAreas,
+          this.props.englishSpeaker,
           this.props.mentorName,
           this.props.mentorId
         )
@@ -252,6 +253,7 @@ const mapStateToProps = (state) => {
     mentorName: state.mentorName.mentor,
     mentorId: state.mentorName.id,
     user: state.user.user,
+    englishSpeaker: state.englishSpeaker.englishSpeaker,
   };
 };
 
@@ -263,6 +265,7 @@ const mapDispatchToProps = (dispatch) => {
       name,
       researchLevel,
       researchAreas,
+      englishSpeaker,
       mentorName,
       mentorId
     ) =>
@@ -273,6 +276,7 @@ const mapDispatchToProps = (dispatch) => {
           name,
           researchLevel,
           researchAreas,
+          englishSpeaker,
           mentorName,
           mentorId
         )

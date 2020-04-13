@@ -10,44 +10,37 @@ class Language extends Component {
 
   render() {
     return (
-      <View style= {styles.mainContainer}>
-
+      <View style={styles.mainContainer}>
         <View>
           <Text style={styles.titleText}>Language Preference</Text>
           <Text style={styles.descriptionText}>
             Are you comfortable with English?
           </Text>
         </View>
-        
 
         <View style={styles.form}>
-          <View style = {styles.formElement}>
+          <View style={styles.formElement}>
             <TouchableOpacity
               onPress={() => {
                 this.props.englishSpeaker(true);
                 this.props.navigation.navigate("Areas");
               }}
             >
-              <Text style={styles.formText}>
-                Yes
-              </Text>
+              <Text style={styles.formText}>Yes</Text>
             </TouchableOpacity>
           </View>
 
-
-          <View style = {styles.formElement}>
+          <View style={styles.formElement}>
             <TouchableOpacity
               onPress={() => {
                 this.props.englishSpeaker(false);
                 this.props.navigation.navigate("Areas");
               }}
             >
-              <Text style={styles.formText}>
-                No
-              </Text>
+              <Text style={styles.formText}>No</Text>
             </TouchableOpacity>
           </View>
-      </View>
+        </View>
       </View>
     );
   }
@@ -55,25 +48,25 @@ class Language extends Component {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flex: 1
+    flex: 1,
   },
   formElement: {
     alignItems: "center",
-    marginBottom: 30
+    marginBottom: 30,
   },
   titleText: {
     fontSize: 40,
     marginTop: 100,
     fontWeight: "700",
-    textAlign: 'center',
+    textAlign: "center",
   },
   descriptionText: {
     fontSize: 17,
     marginTop: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   form: {
-    marginTop: 280
+    marginTop: 280,
   },
   formText: {
     borderColor: "black",
@@ -85,13 +78,20 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     fontSize: 15,
     textAlign: "center",
-  }
+  },
 });
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = (state) => {
+  console.log(state);
   return {
-    englishSpeaker: proficient => dispatch(englishSpeaker(proficient))
+    englishSpeaker: state.englishSpeaker,
   };
 };
 
-export default connect(null, mapDispatchToProps)(Language);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    englishSpeaker: (proficient) => dispatch(englishSpeaker(proficient)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Language);
