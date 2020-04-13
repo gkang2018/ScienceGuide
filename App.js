@@ -1,10 +1,10 @@
 import React from "react";
-import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Provider } from "react-redux";
-import { Ionicons } from "@expo/vector-icons";
+import Ionicons from "react-native-vector-icons/Ionicons";
+Ionicons.loadFont();
 
 // import store
 
@@ -17,20 +17,20 @@ const Tab = createBottomTabNavigator();
 
 // import the components
 
-import ResearchLevel from "./components/ResearchLevel";
-import LandingPage from "./components/LandingPage";
-import ResearchInterests from "./components/ResearchInterests";
-import ResearchAreas from "./components/ResearchAreas";
-import AvailableMentors from "./components/AvailableMentors";
-import MentorDetail from "./components/MentorDetail";
-import Language from "./components/Language";
-import Signup from "./components/Signup";
-import Dashboard from "./components/Dashboard";
-import LoadingScreen from "./components/LoadingScreen";
-import Login from "./components/Login";
-import Directory from "./components/Directory";
-import MessagesScreen from "./components/MessagesScreen";
-import ProfileScreen from "./components/ProfileScreen";
+import ResearchLevel from "./screens/ResearchLevel";
+import LandingPage from "./screens/LandingPage";
+import ResearchInterests from "./screens/ResearchInterests";
+import ResearchAreas from "./screens/ResearchAreas";
+import AvailableMentors from "./screens/AvailableMentors";
+import MentorDetail from "./screens/MentorDetail";
+import Signup from "./screens/Signup";
+import Dashboard from "./screens/Dashboard";
+import LoadingScreen from "./screens/LoadingScreen";
+import Login from "./screens/Login";
+import DirectoryScreen from "./screens/DirectoryScreen";
+import MessagesScreen from "./screens/MessagesScreen";
+import ProfileScreen from "./screens/ProfileScreen";
+import Language from "./screens/Language";
 import ChatRoom from "./components/ChatRoom";
 
 // do we need this import stil ????
@@ -69,7 +69,7 @@ function DirectoryPage() {
         inactiveTintColor: "gray",
       }}
     >
-      <Tab.Screen name="Directory" component={Directory} />
+      <Tab.Screen name="Directory" component={DirectoryScreen} />
       <Tab.Screen name="Messages" component={MessagesScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>

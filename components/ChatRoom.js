@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { GiftedChat } from "react-native-gifted-chat";
 import { connect } from "react-redux";
 import DatabaseService from "../config/firebase";
-
+import Snackbar from "react-native-snackbar";
 class ChatRoom extends Component {
   constructor(props) {
     super(props);

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import MentorDetail from "./MentorDetail";
+import MentorDetail from "../screens/MentorDetail";
 import { connect } from "react-redux";
 import { selectMentor } from "../actions/actions";
 
@@ -17,6 +17,7 @@ class MentorCard extends Component {
 
   render() {
     const { props, name, expertise, email, imageUri, job, id } = this.props;
+    expertiseString = expertise.join(",");
     return (
       <TouchableOpacity
         onPress={() => {
@@ -36,7 +37,7 @@ class MentorCard extends Component {
           <View style={styles.details}>
             <Text style={styles.text}>{name}</Text>
             <Text style={styles.text}>{job}</Text>
-            <Text style={styles.text}>Expertise: {expertise}</Text>
+            <Text style={styles.text}>Expertise: {expertiseString}</Text>
           </View>
         </View>
       </TouchableOpacity>

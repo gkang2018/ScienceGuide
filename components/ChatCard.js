@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 class ChatCard extends Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class ChatCard extends Component {
         <View style={styles.container}>
           <Image
             style={styles.avatar}
-            source={{ uri: this.props.profileImage }}
+            source={require("../assets/default-avatar.png")}
           />
           <View style={styles.details}>
             <Text style={styles.recipient}>{this.props.recipientName}</Text>
@@ -39,12 +40,18 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   details: {
-    marginLeft: 35,
+    marginLeft: "10%",
     paddingTop: 20,
-    marginRight: 125,
   },
+  recipient: {
+    fontSize: RFPercentage(2.8),
+    textAlign: "center",
+    borderColor: "black",
+    paddingBottom: "5%",
+  },
+
   container: {
-    borderWidth: 2,
+    borderBottomWidth: 1,
     flexDirection: "row",
     marginLeft: 25,
     marginRight: 25,
