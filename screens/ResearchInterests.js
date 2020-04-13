@@ -56,6 +56,7 @@ class ResearchInterests extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props.user);
     if (this.isEmpty(this.props.user)) {
       this.setState({ loggedIn: false });
     } else {
@@ -76,7 +77,7 @@ class ResearchInterests extends Component {
   handleInterestsSelection = () => {
     console.log(this.state);
     if (this.state.loggedIn === false) {
-      this.props.navigation.navigate("Areas");
+      this.props.navigation.navigate("Language");
     } else {
       // check if the user is confirming their research interests but they never changed them
 

@@ -23,12 +23,11 @@ class AvailableMentors extends Component {
   }
 
   componentDidMount() {
+    const {researchAreas, researchLevel, englishSpeaker} = this.props;
     if (!this.isEmpty(this.props.user)) {
       this.props.navigation.navigate("DirectoryPage");
     }
-    const { researchAreas, researchLevel } = this.props;
-    const { englishSpeaker } = this.props.route.params;
-
+    
     const db = new DatabaseService();
     let resp = db.getCuratedMentors(
       englishSpeaker,
@@ -115,7 +114,8 @@ const mapStateToProps = (state) => {
     researchAreas: state.interests.selectedInterests,
     mentorName: state.mentorName.mentor,
     mentorId: state.mentorName.id,
-    user: state.user,
+    user: state.user.user,
+    englishSpeaker: state.englishSpeaker.englishSpeaker
   };
 };
 

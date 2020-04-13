@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { addLevel } from "../actions/actions";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
+
 class ResearchLevel extends Component {
   render() {
     return (

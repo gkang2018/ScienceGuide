@@ -30,6 +30,7 @@ import Login from "./screens/Login";
 import DirectoryScreen from "./screens/DirectoryScreen";
 import MessagesScreen from "./screens/MessagesScreen";
 import ProfileScreen from "./screens/ProfileScreen";
+import Language from "./screens/Language";
 import ChatRoom from "./components/ChatRoom";
 
 // do we need this import stil ????
@@ -118,6 +119,11 @@ export default function App() {
           <Stack.Screen
             name="MentorDetail"
             component={MentorDetail}
+            options={{ headerTransparent: true, headerTitle: "" }}
+          />
+          <Stack.Screen
+            name="Language"
+            component={Language}
             options={{ headerTransparent: true, headerTitle: "" }}
           />
           <Stack.Screen

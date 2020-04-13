@@ -3,6 +3,7 @@ import {
   DELETE_INTEREST,
   ADD_LEVEL,
   SELECT_MENTOR,
+  ENGLISH_SPEAKER,
   LOGIN,
   SIGNUP,
   LOGOUT,
@@ -34,12 +35,18 @@ export const selectMentor = (mentor, id) => ({
   data: { mentor, id },
 });
 
+export const englishSpeaker = (speaksEnglish) => ({
+  type: ENGLISH_SPEAKER,
+  data: { speaksEnglish },
+});
+
 export const signup = (
   email,
   password,
   name,
   researchLevel,
   researchAreas,
+  englishSpeaker,
   mentorName,
   mentorId
 ) => (dispatch) => {
@@ -50,6 +57,7 @@ export const signup = (
       name,
       researchLevel,
       researchAreas,
+      englishSpeaker,
       mentorName,
       mentorId
     );

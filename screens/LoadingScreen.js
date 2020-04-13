@@ -7,6 +7,7 @@ import {
   addLevel,
   selectMentor,
   update,
+  englishSpeaker,
 } from "../actions/actions";
 import Snackbar from "react-native-snackbar";
 
@@ -61,6 +62,8 @@ class LoadingScreen extends Component {
       }
       this.props.selectMentor(student.mentorName, student.mentorId);
       this.props.addLevel(student.skillLevel);
+      let englishSpeaker = student.englishSpeaker === true ? true : false;
+      this.props.englishSpeaker(englishSpeaker);
     }
   }
 
@@ -83,6 +86,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addInterest: (interest) => dispatch(addInterest(interest)),
     addLevel: (level) => dispatch(addLevel(level)),
+    englishSpeaker: (proficiency) => dispatch(englishSpeaker(proficiency)),
     selectMentor: (mentor, id) => dispatch(selectMentor(mentor, id)),
     update: (user) => dispatch(update(user)),
   };
