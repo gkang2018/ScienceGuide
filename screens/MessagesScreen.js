@@ -127,6 +127,9 @@ class MessagesScreen extends Component {
 
   componentWillUnmount() {
     this.unsubscribe();
+    this.setState({
+      userChatRooms: [],
+    });
   }
 
   render() {
@@ -169,10 +172,11 @@ class MessagesScreen extends Component {
 
 const styles = StyleSheet.create({
   heading: {
-    marginTop: 20,
-    paddingBottom: 20,
+    marginTop: "12%",
+    marginLeft: "2%",
+    paddingBottom: "2%",
+    marginBottom: "5%",
     borderBottomWidth: 1,
-    marginBottom: 20,
   },
   title: {
     fontSize: 25,

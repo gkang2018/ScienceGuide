@@ -10,6 +10,7 @@ import {
   TextInput,
   ActivityIndicator,
   KeyboardAvoidingView,
+  Image,
 } from "react-native";
 
 import { connect } from "react-redux";
@@ -19,6 +20,7 @@ import {
   updateProfileInformation,
   updatePassword,
 } from "../actions/actions";
+
 import { Formik } from "formik";
 import * as Yup from "yup";
 
@@ -274,8 +276,13 @@ class ProfileScreen extends Component {
           animationType={"slide"}
           visible={this.state.interestsModal}
         ></Modal>
-        <Text>{this.props.user.name}</Text>
-        <Button title="Logout" onPress={this.handleSignout} />
+        <View>
+          <Image
+            style={styles.avatar}
+            source={require("../assets/default-avatar.png")}
+          />
+          <Text>{this.props.user.name}</Text>
+        </View>
         <View>
           <TouchableOpacity onPress={() => this.handleNameModal(true)}>
             <Text>Change Name</Text>
@@ -286,9 +293,7 @@ class ProfileScreen extends Component {
             <Text>Change Password</Text>
           </TouchableOpacity>
         </View>
-        <View>
-          <Text>Change Profile Image</Text>
-        </View>
+
         <View>
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate("Interests")}
@@ -296,6 +301,7 @@ class ProfileScreen extends Component {
             <Text>Change Research Interests</Text>
           </TouchableOpacity>
         </View>
+        <Button title="Logout" onPress={this.handleSignout} />
       </View>
     );
   }
@@ -308,6 +314,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  avatar: {
+    height: 100,
+    width: 100,
+    borderRadius: 100 / 2,
+    margin: 10,
+  },
+  avatarContainer: {
+    flex: 1,
+  },
+
   inputStyle: {
     padding: 10,
     width: "60%",
@@ -315,10 +331,11 @@ const styles = StyleSheet.create({
     borderColor: "black",
   },
   heading: {
-    marginTop: 20,
-    paddingBottom: 20,
+    marginTop: "12%",
+    marginLeft: "2%",
+    paddingBottom: "2%",
+    marginBottom: "5%",
     borderBottomWidth: 1,
-    marginBottom: 20,
   },
   title: {
     fontSize: 25,

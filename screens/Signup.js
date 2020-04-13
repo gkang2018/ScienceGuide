@@ -8,10 +8,12 @@ import {
   Button,
   ActivityIndicator,
   KeyboardAvoidingView,
+  TouchableOpacity,
 } from "react-native";
 import { connect } from "react-redux";
-import Snackbar from "react-native";
+import Snackbar from "react-native-snackbar";
 import { signup } from "../actions/actions";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -104,62 +106,73 @@ class Signup extends Component {
           {(props) => {
             return (
               <View style={styles.container}>
-                <View style={styles.inputStyle}>
-                  <TextInput
-                    placeholder="Name"
-                    value={props.values.name}
-                    onChangeText={props.handleChange("name")}
-                    onBlur={props.handleBlur("name")}
-                  />
+                <View style={styles.titleContainer}>
+                  <Text style={styles.title}>Sign Up</Text>
                 </View>
+                <View style={styles.formContainer}>
+                  <View style={styles.inputStyle}>
+                    <TextInput
+                      placeholder="Name"
+                      value={props.values.name}
+                      onChangeText={props.handleChange("name")}
+                      onBlur={props.handleBlur("name")}
+                    />
+                  </View>
 
-                <Text style={{ color: "red" }}>
-                  {props.touched.name && props.errors.name}
-                </Text>
-                <View style={styles.inputStyle}>
-                  <TextInput
-                    placeholder="Email"
-                    value={props.values.email}
-                    onChangeText={props.handleChange("email")}
-                    onBlur={props.handleBlur("email")}
-                  />
-                </View>
+                  <Text style={{ color: "red" }}>
+                    {props.touched.name && props.errors.name}
+                  </Text>
+                  <View style={styles.inputStyle}>
+                    <TextInput
+                      placeholder="Email"
+                      value={props.values.email}
+                      onChangeText={props.handleChange("email")}
+                      onBlur={props.handleBlur("email")}
+                    />
+                  </View>
 
-                <Text style={{ color: "red" }}>
-                  {props.touched.email && props.errors.email}
-                </Text>
-                <View style={styles.inputStyle}>
-                  <TextInput
-                    placeholder="Password"
-                    value={props.values.password}
-                    onChangeText={props.handleChange("password")}
-                    onBlur={props.handleBlur("password")}
-                    secureTextEntry={true}
-                  />
-                </View>
+                  <Text style={{ color: "red" }}>
+                    {props.touched.email && props.errors.email}
+                  </Text>
+                  <View style={styles.inputStyle}>
+                    <TextInput
+                      placeholder="Password"
+                      value={props.values.password}
+                      onChangeText={props.handleChange("password")}
+                      onBlur={props.handleBlur("password")}
+                      secureTextEntry={true}
+                    />
+                  </View>
 
-                <Text style={{ color: "red" }}>
-                  {props.touched.password && props.errors.password}
-                </Text>
-                <View style={styles.inputStyle}>
-                  <TextInput
-                    placeholder="Confrim Password"
-                    value={props.values.confirmPassword}
-                    onChangeText={props.handleChange("confirmPassword")}
-                    onBlur={props.handleBlur("confirmPassword")}
-                    secureTextEntry={true}
-                  />
+                  <Text style={{ color: "red" }}>
+                    {props.touched.password && props.errors.password}
+                  </Text>
+                  <View style={styles.inputStyle}>
+                    <TextInput
+                      placeholder="Confrim Password"
+                      value={props.values.confirmPassword}
+                      onChangeText={props.handleChange("confirmPassword")}
+                      onBlur={props.handleBlur("confirmPassword")}
+                      secureTextEntry={true}
+                    />
+                  </View>
+                  <Text style={{ color: "red" }}>
+                    {props.touched.confirmPassword &&
+                      props.errors.confirmPassword}
+                  </Text>
+                  {props.isSubmitting ? (
+                    <View style={styles.buttonContainer}>
+                      <ActivityIndicator />
+                    </View>
+                  ) : (
+                    <View style={styles.buttonContainer}>
+                      <TouchableOpacity onPress={props.handleSubmit}>
+                        <Text style={styles.startingButton}>Confirm</Text>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                  {<Text style={{ color: "red" }}>{props.errors.general}</Text>}
                 </View>
-                <Text style={{ color: "red" }}>
-                  {props.touched.confirmPassword &&
-                    props.errors.confirmPassword}
-                </Text>
-                {props.isSubmitting ? (
-                  <ActivityIndicator />
-                ) : (
-                  <Button onPress={props.handleSubmit} title="Submit" />
-                )}
-                {<Text style={{ color: "red" }}>{props.errors.general}</Text>}
               </View>
             );
           }}
@@ -172,15 +185,63 @@ class Signup extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
   },
+  titleContainer: {
+    flex: 1.5,
+    width: "90%",
+    marginTop: "7.5%",
+    justifyContent: "center",
+    alignItems: "center",
+    //backgroundColor: 'blue'
+  },
+  formContainer: {
+    flex: 3,
+    width: "90%",
+    alignItems: "center",
+    //justifyContent: 'center',
+    paddingTop: "5%",
+    //backgroundColor: 'yellow'
+  },
+  title: {
+    fontSize: RFPercentage(5),
+    marginTop: "15%",
+    fontWeight: "700",
+    //backgroundColor: 'red'
+  },
   inputStyle: {
-    padding: 10,
-    width: "60%",
+    width: "80%",
+    borderWidth: 1.75,
+    borderRadius: 30,
     borderWidth: 1,
     borderColor: "black",
+    //backgroundColor: 'red',
+    paddingLeft: 30,
+    paddingRight: 30,
+    paddingTop: 15,
+    paddingBottom: 15,
+  },
+  startingButton: {
+    width: 250,
+    fontSize: RFPercentage(2.6),
+    borderWidth: 1.75,
+    borderRadius: 33,
+    paddingLeft: 30,
+    paddingRight: 30,
+    paddingTop: 18,
+    paddingBottom: 18,
+    textAlign: "center",
+    borderColor: "black",
+    //backgroundColor: 'blue'
+  },
+  buttonContainer: {
+    height: "35%",
+    width: "100%",
+    //backgroundColor: 'red',
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 

@@ -69,13 +69,6 @@ class ChatRoom extends Component {
             });
           }
         });
-      })
-      .catch((error) => {
-        Snackbar.show({
-          text: error.message,
-          backgroundColor: "red",
-          duration: Snackbar.LENGTH_LONG,
-        });
       });
   }
 

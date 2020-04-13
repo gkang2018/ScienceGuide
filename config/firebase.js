@@ -538,6 +538,7 @@ class DatabaseService {
         .get()
         .then((snapshot) => {
           let chatRooms = snapshot.data().chatRooms;
+          console.log(chatRooms);
           resolve(chatRooms);
         })
         .catch((error) => {
