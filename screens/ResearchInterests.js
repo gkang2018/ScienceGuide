@@ -55,15 +55,30 @@ class ResearchInterests extends Component {
     return true;
   }
 
-  componentDidMount() {
-    console.log(this.props.user);
+  checkUserStatus = () => {
     if (this.isEmpty(this.props.user)) {
       this.setState({ loggedIn: false });
     } else {
       this.snapshot = [...this.props.interests];
+      console.log("here");
       this.setState({ loggedIn: true });
     }
+  };
 
+  confirm = () => {
+    if (this.isEmpty(this.props.user)) {
+      this.setState({ loggedIn: false });
+      this.handleInterestsSelection();
+    } else {
+      this.snapshot = [...this.props.interests];
+      console.log("here");
+      this.setState({ loggedIn: true });
+      this.handleInterestsSelection();
+    }
+  };
+
+  componentDidMount() {
+    this.checkUserStatus();
     this.changeSubText();
   }
 
@@ -75,7 +90,7 @@ class ResearchInterests extends Component {
   }
 
   handleInterestsSelection = () => {
-    console.log(this.state);
+    // check the users' status once again
     if (this.state.loggedIn === false) {
       this.props.navigation.navigate("Language");
     } else {
@@ -86,7 +101,7 @@ class ResearchInterests extends Component {
       updatedInterests.sort();
 
       if (this.checkArraysEqual(updatedInterests, this.snapshot)) {
-        this.props.navigation.navigate("Profile");
+        this.props.navigation.navigate("DirectoryPage");
       } else {
         // have to update our database with the new array
         this.props
@@ -101,7 +116,7 @@ class ResearchInterests extends Component {
               backgroundColor: "green",
               duration: Snackbar.LENGTH_LONG,
             });
-            this.props.navigation.navigate("Profile");
+            this.props.navigation.navigate("DirectoryPage");
           })
           .catch((error) => {
             console.log(error);
@@ -140,7 +155,7 @@ class ResearchInterests extends Component {
         <View style={styles.headerContainer}>
           <Text style={styles.title}>Research Interests</Text>
           <Text style={styles.subHeading}>{this.state.subText}</Text>
-          <Button title="Confirm" onPress={this.handleInterestsSelection} />
+          <Button title="Confirm" onPress={this.confirm} />
         </View>
 
         <View style={styles.lowerContainer}>
