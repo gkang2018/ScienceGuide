@@ -8,6 +8,23 @@ class Language extends Component {
     super(props);
   }
 
+  isEmpty(obj) {
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) return false;
+    }
+    return true;
+  }
+
+  checkUserStatus = () => {
+    if (!this.isEmpty(this.props.user)) {
+      this.props.navigation.navigate("DirectoryPage")
+    }
+  };
+
+  componentDidMount() {
+    this.checkUserStatus()
+  }
+
   render() {
     return (
       <View style={styles.mainContainer}>
@@ -82,9 +99,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     englishSpeaker: state.englishSpeaker,
+    user: state.user
   };
 };
 

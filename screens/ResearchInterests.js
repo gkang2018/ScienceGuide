@@ -71,7 +71,6 @@ class ResearchInterests extends Component {
       this.handleInterestsSelection();
     } else {
       this.snapshot = [...this.props.interests];
-      console.log("here");
       this.setState({ loggedIn: true });
       this.handleInterestsSelection();
     }

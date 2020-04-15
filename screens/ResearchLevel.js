@@ -6,9 +6,36 @@ import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 
 class ResearchLevel extends Component {
+
+  isEmpty(obj) {
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) return false;
+    }
+    return true;
+  }
+
+  checkUserStatus = () => {
+    if (!this.isEmpty(this.props.user)) {
+      this.props.navigation.navigate("DirectoryPage")
+    }
+  };
+
+
+  componentDidMount() {
+    this.unsubscribe = this.props.navigation.addListener("focus", () =>
+      this.checkUserStatus()
+    );
+  }
+  componentWillUnmount() {
+    this.unsubscribe()
+  }
+
+
   render() {
+    this.checkUserStatus()
+
     return (
-      <View style= {styles.mainContainer}>
+      <View style={styles.mainContainer}>
 
 
         <View style={styles.titleContainer}>
@@ -17,10 +44,10 @@ class ResearchLevel extends Component {
             Please select what level of research you have previously done.
           </Text>
         </View>
-        
+
 
         <View style={styles.formContainer}>
-          <View style = {styles.researchLevelContainer}>
+          <View style={styles.researchLevelContainer}>
             <TouchableOpacity
               onPress={() => {
                 this.props.addLevel("Beginner");
@@ -34,7 +61,7 @@ class ResearchLevel extends Component {
           </View>
 
 
-          <View style = {styles.researchLevelContainer}>
+          <View style={styles.researchLevelContainer}>
             <TouchableOpacity
               onPress={() => {
                 this.props.addLevel("Intermediate");
@@ -48,7 +75,7 @@ class ResearchLevel extends Component {
           </View>
 
 
-          <View style = {styles.researchLevelContainer}>
+          <View style={styles.researchLevelContainer}>
             <TouchableOpacity
               onPress={() => {
                 this.props.addLevel("Experienced");
@@ -99,7 +126,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: RFPercentage(5),
-//    fontSize: 40,
+    //    fontSize: 40,
     marginTop: '10%',
     fontWeight: "700",
     textAlign: 'center',
@@ -118,10 +145,16 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     addLevel: level => dispatch(addLevel(level))
   };
 };
 
-export default connect(null, mapDispatchToProps)(ResearchLevel);
+export default connect(mapStateToProps, mapDispatchToProps)(ResearchLevel);
