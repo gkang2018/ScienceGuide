@@ -33,7 +33,7 @@ class ProfileScreen extends Component {
 
     this.state = {
       nameModal: false,
-      passwordModal: true,
+      passwordModal: false,
       imageModal: false,
       interestsModal: false,
     };
