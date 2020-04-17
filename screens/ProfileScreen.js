@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 import {
   View,
@@ -32,7 +33,7 @@ class ProfileScreen extends Component {
 
     this.state = {
       nameModal: false,
-      passwordModal: false,
+      passwordModal: true,
       imageModal: false,
       interestsModal: false,
     };
@@ -90,16 +91,13 @@ class ProfileScreen extends Component {
 
   render() {
     return (
-      <View>
-        <View style={styles.heading}>
+      <View style={styles.mainContainer}>
+        <View style={styles.headingContainer}>
           <Text style={styles.title}>Profile</Text>
         </View>
+
         <Modal animationType={"slide"} visible={this.state.nameModal}>
-          <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
-            <Button
-              title="cancel"
-              onPress={() => this.handleNameModal(false)}
-            />
+          <KeyboardAvoidingView style={{ flex: 1, paddingTop: 40 }} behavior="padding">
 
             <Formik
               initialValues={{
@@ -136,7 +134,25 @@ class ProfileScreen extends Component {
             >
               {(props) => {
                 return (
-                  <View style={styles.container}>
+                <View style={styles.ChangeScreenContainer}>
+                    <View style={styles.backButtonContainer}>
+                      <Button
+                        title="Back"
+                        onPress={() => this.handleNameModal(false)}
+                      />
+                    </View>
+
+                    <View style={styles.ChangeHeadingContainer}>
+                      <Text style={styles.changeTitle}>Change Name</Text>
+                    </View>
+
+                    <View style={styles.Spacing}>
+                    </View>
+
+                    <View style={styles.inputTypeTextContainer}> 
+                      <Text style={styles.inputTypeText}>New Name</Text>
+                    </View>
+
                     <View style={styles.inputStyle}>
                       <TextInput
                         placeholder="Name"
@@ -147,13 +163,16 @@ class ProfileScreen extends Component {
                       />
                     </View>
 
+                    <View style={styles.smallerSpacing}></View>
+
+                  <View style= {styles.submitButton}>
                     <Text style={{ color: "red" }}>
                       {props.touched.name && props.errors.name}
                     </Text>
                     {props.isSubmitting ? (
                       <ActivityIndicator />
                     ) : (
-                      <Button onPress={props.handleSubmit} title="Submit" />
+                      <Button onPress={props.handleSubmit} title="Confirm" />
                     )}
                     {
                       <Text style={{ color: "red" }}>
@@ -161,17 +180,17 @@ class ProfileScreen extends Component {
                       </Text>
                     }
                   </View>
+
+                </View>
                 );
               }}
             </Formik>
           </KeyboardAvoidingView>
         </Modal>
+
+
         <Modal animationType={"slide"} visible={this.state.passwordModal}>
-          <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
-            <Button
-              title="cancel"
-              onPress={() => this.handlePasswordModal(false)}
-            />
+          <KeyboardAvoidingView style={{ flex: 1, paddingTop: 40 }} behavior="padding">
 
             <Formik
               initialValues={{
@@ -211,7 +230,34 @@ class ProfileScreen extends Component {
             >
               {(props) => {
                 return (
-                  <View style={styles.container}>
+
+
+
+
+
+
+
+                  <View style={styles.ChangeScreenContainer}>
+
+                    <View style={styles.backButtonContainer}>
+                      <Button
+                        title="back"
+                        onPress={() => this.handlePasswordModal(false)}
+                      />
+                    </View>
+
+                    <View style={styles.ChangeHeadingContainer}>
+                      <Text style={styles.changeTitle}>Change Password</Text>
+                    </View>
+
+                    <View style={styles.smallerSpacing}>
+                    </View>
+
+                    
+                    <View style={styles.inputTypeTextContainer}> 
+                      <Text style={styles.inputTypeText}>Current Password</Text>
+                    </View>
+
                     <View style={styles.inputStyle}>
                       <TextInput
                         placeholder="Current Password"
@@ -227,6 +273,12 @@ class ProfileScreen extends Component {
                       {props.touched.currentPassword &&
                         props.errors.currentPassword}
                     </Text>
+
+
+                    <View style={styles.inputTypeTextContainer}> 
+                      <Text style={styles.inputTypeText}>New Password</Text>
+                    </View>
+
                     <View style={styles.inputStyle}>
                       <TextInput
                         placeholder="New Password"
@@ -241,6 +293,11 @@ class ProfileScreen extends Component {
                     <Text style={{ color: "red" }}>
                       {props.touched.newPassword && props.errors.newPassword}
                     </Text>
+
+                    <View style={styles.inputTypeTextContainer}> 
+                      <Text style={styles.inputTypeText}>Confirm Password</Text>
+                    </View>
+
                     <View style={styles.inputStyle}>
                       <TextInput
                         placeholder="Confirm New Password"
@@ -252,6 +309,9 @@ class ProfileScreen extends Component {
                       />
                     </View>
 
+                    <View style={styles.smallerSpacing}></View>
+
+                    <View style= {styles.submitButton}>
                     <Text style={{ color: "red" }}>
                       {props.touched.confirmNewPassword &&
                         props.errors.confirmNewPassword}
@@ -259,91 +319,229 @@ class ProfileScreen extends Component {
                     {props.isSubmitting ? (
                       <ActivityIndicator />
                     ) : (
-                      <Button onPress={props.handleSubmit} title="Submit" />
+                      <Button onPress={props.handleSubmit} title="Confirm" />
                     )}
                     {
                       <Text style={{ color: "red" }}>
                         {props.errors.general}
                       </Text>
                     }
+                    </View>
                   </View>
                 );
               }}
             </Formik>
           </KeyboardAvoidingView>
         </Modal>
+
+
         <Modal
           animationType={"slide"}
           visible={this.state.interestsModal}
         ></Modal>
-        <View>
+
+        <View style={styles.avatarContainer}>
           <Image
             style={styles.avatar}
             source={require("../assets/default-avatar.png")}
           />
-          <Text>{this.props.user.name}</Text>
+          <Text style={styles.avatarText}>{this.props.user.name}</Text>
         </View>
-        <View>
-          <TouchableOpacity onPress={() => this.handleNameModal(true)}>
-            <Text>Change Name</Text>
-          </TouchableOpacity>
+
+        <View style={styles.changeSectionContainer}>
+            <View style={styles.changeContainer}>
+              <TouchableOpacity onPress={() => this.handleNameModal(true)}>
+                <Text style={styles.changeText}>Change Name</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.changeContainer}>
+              <TouchableOpacity onPress={() => this.handlePasswordModal(true)}>
+                <Text style={styles.changeText}>Change Password</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.changeContainer}>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate("Interests")}
+              >
+                <Text style={styles.changeText}>Change Research Interests</Text>
+              </TouchableOpacity>
+            </View>
+        </View >
+
+            
+        <View style={styles.spacing}>
+
         </View>
-        <View>
-          <TouchableOpacity onPress={() => this.handlePasswordModal(true)}>
-            <Text>Change Password</Text>
+        <View style={styles.logoutButtonContainer}>
+          <TouchableOpacity onPress={this.handleSignout}>
+            <Text style={styles.logoutText}>Log Out</Text>
           </TouchableOpacity>
         </View>
 
-        <View>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("Interests")}
-          >
-            <Text>Change Research Interests</Text>
-          </TouchableOpacity>
-        </View>
-        <Button title="Logout" onPress={this.handleSignout} />
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  mainContainer: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: 'white',
+    //backgroundColor: 'red',
+    alignItems: 'center'
   },
-  avatar: {
-    height: 100,
-    width: 100,
-    borderRadius: 100 / 2,
-    margin: 10,
+  headingContainer: {
+    height: '15%',
+    //backgroundColor: 'blue',
+    justifyContent: 'center',
+    width: '90%',
+    marginLeft: '10%',
+    marginRight: '10%',
+    marginTop: "12%",  
   },
   avatarContainer: {
-    flex: 1,
+    height: '30%',
+    alignItems: 'center',
+    //backgroundColor: 'green',
+    justifyContent: 'center'
   },
-
-  inputStyle: {
-    padding: 10,
-    width: "60%",
-    borderWidth: 1,
-    borderColor: "black",
+  changeSectionContainer: {
+    height: '20%',
+    //backgroundColor: 'yellow',
+    justifyContent: 'center',
+    paddingTop: 30
   },
-  heading: {
-    marginTop: "12%",
-    marginLeft: "2%",
-    paddingBottom: "2%",
-    marginBottom: "5%",
-    borderBottomWidth: 1,
+  changeContainer: {
+    //flex: 1,
+    height: 33,
+    alignItems: 'center',
+    justifyContent: 'center',
+    //backgroundColor: 'pink'
+  },
+  spacing: {
+    height: '10%'
+  },
+  logoutButtonContainer: {
+    height: '10%',
+    width: '100%',
+    //backgroundColor: 'red',
+    alignItems: "center",
+    justifyContent: 'center',
   },
   title: {
-    fontSize: 25,
+    paddingTop: 50,
+    paddingBottom: 50,
+    fontSize: RFValue(35),
     fontWeight: "700",
+    //backgroundColor: 'white'
+  },
+  avatar: {
+    height: 120,
+    width: 120,
+    borderRadius: 120 / 2,
+    margin: 10,
+  },
+  avatarText: {
+    fontSize: RFPercentage(2.5),
+  },
+  changeText: {
+    fontSize: RFPercentage(2.4),
+  },
+  logoutText: {
+    //height: 100,
+    width: 200,
+    fontSize: RFPercentage(2.3),
+    borderWidth: 1.75,
+    borderRadius: 30,
+    paddingLeft: 30,
+    paddingRight: 30,
+    paddingTop: 10,
+    paddingBottom: 10,
+    textAlign: "center",
+    borderColor: "black",
+    //backgroundColor: 'blue',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   inputColor: {
     color: "black",
   },
+  ChangeScreenContainer: {
+    flex: 1,
+    //backgroundColor: "purple",
+    alignItems: "center",
+    //justifyContent: "center",
+  },
+  ChangeHeadingContainer: {
+    height: '15%',
+    //backgroundColor: 'blue',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '90%',
+    marginLeft: '10%',
+    marginRight: '10%',
+    //marginTop: "12%",  
+  },
+  changeTitle: {
+    //paddingTop: 50,
+    //paddingBottom: 50,
+    fontSize: RFValue(35),
+    fontWeight: "700",
+    //backgroundColor: 'white'
+  },
+  inputTypeTextContainer: {
+    //height: '%',
+    //backgroundColor: 'blue',
+    justifyContent: 'center',
+    //alignItems: 'center',
+    width: '70%',
+    marginLeft: '10%',
+    marginRight: '10%',
+    //backgroundColor: 'green'
+  },
+  inputTypeText: {
+    fontSize: RFValue(18),
+    paddingBottom: '3%',
+    //backgroundColor: 'yellow',
+  },
+  inputStyle: {
+    //height: '10%',
+    padding: 10,
+    width: "70%",
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 30,
+    //backgroundColor: 'red'
+  },
+  submitButton: {
+    height: '7%',
+    width: 180,
+    fontSize: RFPercentage(2),
+    borderWidth: 1.75,
+    borderRadius: 30,
+    marginLeft: 30,
+    marginRight: 30,
+    //paddingTop: 10,
+    //paddingBottom: 10,
+    textAlign: "center",
+    borderColor: "black",
+    //backgroundColor: 'blue',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  backButtonContainer: {
+    width: '100%',
+    marginLeft: '5%',
+    //marginTop: '12%',
+    alignItems: 'flex-start',
+    //backgroundColor: 'red'
+  },
+  smallerSpacing: {
+    height: '5%'
+  }
+
 });
 
 const mapStateToProps = (state) => {
