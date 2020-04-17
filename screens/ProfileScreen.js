@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 import {
   View,
@@ -90,10 +91,11 @@ class ProfileScreen extends Component {
 
   render() {
     return (
-      <View>
-        <View style={styles.heading}>
+      <View style={styles.mainContainer}>
+        <View style={styles.headingContainer}>
           <Text style={styles.title}>Profile</Text>
         </View>
+
         <Modal animationType={"slide"} visible={this.state.nameModal}>
           <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
             <Button
@@ -136,7 +138,7 @@ class ProfileScreen extends Component {
             >
               {(props) => {
                 return (
-                  <View style={styles.container}>
+                  <View style={styles.ChangeScreenContainer}>
                     <View style={styles.inputStyle}>
                       <TextInput
                         placeholder="Name"
@@ -276,74 +278,168 @@ class ProfileScreen extends Component {
           animationType={"slide"}
           visible={this.state.interestsModal}
         ></Modal>
-        <View>
+
+
+
+
+
+        <View style={styles.avatarContainer}>
           <Image
             style={styles.avatar}
             source={require("../assets/default-avatar.png")}
           />
-          <Text>{this.props.user.name}</Text>
+          <Text style={styles.avatarText}>{this.props.user.name}</Text>
         </View>
-        <View>
-          <TouchableOpacity onPress={() => this.handleNameModal(true)}>
-            <Text>Change Name</Text>
-          </TouchableOpacity>
+
+
+
+
+        <View style={styles.changeSectionContainer}>
+            <View style={styles.changeContainer}>
+              <TouchableOpacity onPress={() => this.handleNameModal(true)}>
+                <Text style={styles.changeText}>Change Name</Text>
+              </TouchableOpacity>
+            </View>
+
+
+
+
+
+            <View style={styles.changeContainer}>
+              <TouchableOpacity onPress={() => this.handlePasswordModal(true)}>
+                <Text style={styles.changeText}>Change Password</Text>
+              </TouchableOpacity>
+            </View>
+
+
+
+
+
+            <View style={styles.changeContainer}>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate("Interests")}
+              >
+                <Text style={styles.changeText}>Change Research Interests</Text>
+              </TouchableOpacity>
+            </View>
+        </View >
+
+            
+        <View style={styles.spacing}>
+
         </View>
-        <View>
-          <TouchableOpacity onPress={() => this.handlePasswordModal(true)}>
-            <Text>Change Password</Text>
+        <View style={styles.logoutButtonContainer}>
+          <TouchableOpacity onPress={this.handleSignout}>
+            <Text style={styles.logoutText}>Log Out</Text>
           </TouchableOpacity>
         </View>
 
-        <View>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("Interests")}
-          >
-            <Text>Change Research Interests</Text>
-          </TouchableOpacity>
-        </View>
-        <Button title="Logout" onPress={this.handleSignout} />
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  mainContainer: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: 'white',
+    //backgroundColor: 'red',
+    alignItems: 'center'
   },
-  avatar: {
-    height: 100,
-    width: 100,
-    borderRadius: 100 / 2,
-    margin: 10,
+  headingContainer: {
+    height: '15%',
+    //backgroundColor: 'blue',
+    justifyContent: 'center',
+    width: '90%',
+    marginLeft: '10%',
+    marginRight: '10%',
+    marginTop: "12%",  
   },
   avatarContainer: {
-    flex: 1,
+    height: '30%',
+    alignItems: 'center',
+    //backgroundColor: 'green',
+    justifyContent: 'center'
+  },
+  changeSectionContainer: {
+    height: '20%',
+    //backgroundColor: 'yellow',
+    justifyContent: 'center',
+    paddingTop: 30
+  },
+  changeContainer: {
+    //flex: 1,
+    height: 33,
+    alignItems: 'center',
+    justifyContent: 'center',
+    //backgroundColor: 'pink'
+  },
+  spacing: {
+    height: '10%'
+  },
+  logoutButtonContainer: {
+    height: '10%',
+    width: '100%',
+    //backgroundColor: 'red',
+    alignItems: "center",
+    justifyContent: 'center',
   },
 
+
+
+
+
+  title: {
+    paddingTop: 50,
+    paddingBottom: 50,
+    fontSize: RFValue(35),
+    fontWeight: "700",
+    //backgroundColor: 'white'
+  },
+  avatar: {
+    height: 120,
+    width: 120,
+    borderRadius: 120 / 2,
+    margin: 10,
+  },
+  avatarText: {
+    fontSize: RFPercentage(2.5),
+  },
+  changeText: {
+    fontSize: RFPercentage(2.4),
+  },
+  logoutText: {
+    //height: 100,
+    width: 200,
+    fontSize: RFPercentage(2.3),
+    borderWidth: 1.75,
+    borderRadius: 30,
+    paddingLeft: 30,
+    paddingRight: 30,
+    paddingTop: 20,
+    paddingBottom: 20,
+    textAlign: "center",
+    borderColor: "black",
+    //backgroundColor: 'blue',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   inputStyle: {
     padding: 10,
     width: "60%",
     borderWidth: 1,
     borderColor: "black",
   },
-  heading: {
-    marginTop: "12%",
-    marginLeft: "2%",
-    paddingBottom: "2%",
-    marginBottom: "5%",
-    borderBottomWidth: 1,
-  },
-  title: {
-    fontSize: 25,
-    fontWeight: "700",
-  },
   inputColor: {
     color: "black",
   },
+  ChangeScreenContainer: {
+    flex: 1,
+    backgroundColor: "purple",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
 });
 
 const mapStateToProps = (state) => {
