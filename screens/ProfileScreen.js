@@ -33,7 +33,7 @@ class ProfileScreen extends Component {
 
     this.state = {
       nameModal: false,
-      passwordModal: false,
+      passwordModal: true,
       imageModal: false,
       interestsModal: false,
     };
@@ -97,11 +97,7 @@ class ProfileScreen extends Component {
         </View>
 
         <Modal animationType={"slide"} visible={this.state.nameModal}>
-          <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
-            <Button
-              title="cancel"
-              onPress={() => this.handleNameModal(false)}
-            />
+          <KeyboardAvoidingView style={{ flex: 1, paddingTop: 40 }} behavior="padding">
 
             <Formik
               initialValues={{
@@ -138,7 +134,25 @@ class ProfileScreen extends Component {
             >
               {(props) => {
                 return (
-                  <View style={styles.ChangeScreenContainer}>
+                <View style={styles.ChangeScreenContainer}>
+                    <View style={styles.backButtonContainer}>
+                      <Button
+                        title="Back"
+                        onPress={() => this.handleNameModal(false)}
+                      />
+                    </View>
+
+                    <View style={styles.ChangeHeadingContainer}>
+                      <Text style={styles.changeTitle}>Change Name</Text>
+                    </View>
+
+                    <View style={styles.Spacing}>
+                    </View>
+
+                    <View style={styles.inputTypeTextContainer}> 
+                      <Text style={styles.inputTypeText}>New Name</Text>
+                    </View>
+
                     <View style={styles.inputStyle}>
                       <TextInput
                         placeholder="Name"
@@ -149,13 +163,16 @@ class ProfileScreen extends Component {
                       />
                     </View>
 
+                    <View style={styles.smallerSpacing}></View>
+
+                  <View style= {styles.submitButton}>
                     <Text style={{ color: "red" }}>
                       {props.touched.name && props.errors.name}
                     </Text>
                     {props.isSubmitting ? (
                       <ActivityIndicator />
                     ) : (
-                      <Button onPress={props.handleSubmit} title="Submit" />
+                      <Button onPress={props.handleSubmit} title="Confirm" />
                     )}
                     {
                       <Text style={{ color: "red" }}>
@@ -163,17 +180,17 @@ class ProfileScreen extends Component {
                       </Text>
                     }
                   </View>
+
+                </View>
                 );
               }}
             </Formik>
           </KeyboardAvoidingView>
         </Modal>
+
+
         <Modal animationType={"slide"} visible={this.state.passwordModal}>
-          <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
-            <Button
-              title="cancel"
-              onPress={() => this.handlePasswordModal(false)}
-            />
+          <KeyboardAvoidingView style={{ flex: 1, paddingTop: 40 }} behavior="padding">
 
             <Formik
               initialValues={{
@@ -213,7 +230,34 @@ class ProfileScreen extends Component {
             >
               {(props) => {
                 return (
-                  <View style={styles.container}>
+
+
+
+
+
+
+
+                  <View style={styles.ChangeScreenContainer}>
+
+                    <View style={styles.backButtonContainer}>
+                      <Button
+                        title="back"
+                        onPress={() => this.handlePasswordModal(false)}
+                      />
+                    </View>
+
+                    <View style={styles.ChangeHeadingContainer}>
+                      <Text style={styles.changeTitle}>Change Password</Text>
+                    </View>
+
+                    <View style={styles.smallerSpacing}>
+                    </View>
+
+                    
+                    <View style={styles.inputTypeTextContainer}> 
+                      <Text style={styles.inputTypeText}>Current Password</Text>
+                    </View>
+
                     <View style={styles.inputStyle}>
                       <TextInput
                         placeholder="Current Password"
@@ -229,6 +273,12 @@ class ProfileScreen extends Component {
                       {props.touched.currentPassword &&
                         props.errors.currentPassword}
                     </Text>
+
+
+                    <View style={styles.inputTypeTextContainer}> 
+                      <Text style={styles.inputTypeText}>New Password</Text>
+                    </View>
+
                     <View style={styles.inputStyle}>
                       <TextInput
                         placeholder="New Password"
@@ -243,6 +293,11 @@ class ProfileScreen extends Component {
                     <Text style={{ color: "red" }}>
                       {props.touched.newPassword && props.errors.newPassword}
                     </Text>
+
+                    <View style={styles.inputTypeTextContainer}> 
+                      <Text style={styles.inputTypeText}>Confirm Password</Text>
+                    </View>
+
                     <View style={styles.inputStyle}>
                       <TextInput
                         placeholder="Confirm New Password"
@@ -254,6 +309,9 @@ class ProfileScreen extends Component {
                       />
                     </View>
 
+                    <View style={styles.smallerSpacing}></View>
+
+                    <View style= {styles.submitButton}>
                     <Text style={{ color: "red" }}>
                       {props.touched.confirmNewPassword &&
                         props.errors.confirmNewPassword}
@@ -261,27 +319,26 @@ class ProfileScreen extends Component {
                     {props.isSubmitting ? (
                       <ActivityIndicator />
                     ) : (
-                      <Button onPress={props.handleSubmit} title="Submit" />
+                      <Button onPress={props.handleSubmit} title="Confirm" />
                     )}
                     {
                       <Text style={{ color: "red" }}>
                         {props.errors.general}
                       </Text>
                     }
+                    </View>
                   </View>
                 );
               }}
             </Formik>
           </KeyboardAvoidingView>
         </Modal>
+
+
         <Modal
           animationType={"slide"}
           visible={this.state.interestsModal}
         ></Modal>
-
-
-
-
 
         <View style={styles.avatarContainer}>
           <Image
@@ -291,9 +348,6 @@ class ProfileScreen extends Component {
           <Text style={styles.avatarText}>{this.props.user.name}</Text>
         </View>
 
-
-
-
         <View style={styles.changeSectionContainer}>
             <View style={styles.changeContainer}>
               <TouchableOpacity onPress={() => this.handleNameModal(true)}>
@@ -301,19 +355,11 @@ class ProfileScreen extends Component {
               </TouchableOpacity>
             </View>
 
-
-
-
-
             <View style={styles.changeContainer}>
               <TouchableOpacity onPress={() => this.handlePasswordModal(true)}>
                 <Text style={styles.changeText}>Change Password</Text>
               </TouchableOpacity>
             </View>
-
-
-
-
 
             <View style={styles.changeContainer}>
               <TouchableOpacity
@@ -384,11 +430,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: 'center',
   },
-
-
-
-
-
   title: {
     paddingTop: 50,
     paddingBottom: 50,
@@ -416,29 +457,90 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     paddingLeft: 30,
     paddingRight: 30,
-    paddingTop: 20,
-    paddingBottom: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
     textAlign: "center",
     borderColor: "black",
     //backgroundColor: 'blue',
     alignItems: 'center',
     justifyContent: 'center'
   },
-  inputStyle: {
-    padding: 10,
-    width: "60%",
-    borderWidth: 1,
-    borderColor: "black",
-  },
   inputColor: {
     color: "black",
   },
   ChangeScreenContainer: {
     flex: 1,
-    backgroundColor: "purple",
+    //backgroundColor: "purple",
     alignItems: "center",
-    justifyContent: "center",
+    //justifyContent: "center",
   },
+  ChangeHeadingContainer: {
+    height: '15%',
+    //backgroundColor: 'blue',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '90%',
+    marginLeft: '10%',
+    marginRight: '10%',
+    //marginTop: "12%",  
+  },
+  changeTitle: {
+    //paddingTop: 50,
+    //paddingBottom: 50,
+    fontSize: RFValue(35),
+    fontWeight: "700",
+    //backgroundColor: 'white'
+  },
+  inputTypeTextContainer: {
+    //height: '%',
+    //backgroundColor: 'blue',
+    justifyContent: 'center',
+    //alignItems: 'center',
+    width: '70%',
+    marginLeft: '10%',
+    marginRight: '10%',
+    //backgroundColor: 'green'
+  },
+  inputTypeText: {
+    fontSize: RFValue(18),
+    paddingBottom: '3%',
+    //backgroundColor: 'yellow',
+  },
+  inputStyle: {
+    //height: '10%',
+    padding: 10,
+    width: "70%",
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 30,
+    //backgroundColor: 'red'
+  },
+  submitButton: {
+    height: '7%',
+    width: 180,
+    fontSize: RFPercentage(2),
+    borderWidth: 1.75,
+    borderRadius: 30,
+    marginLeft: 30,
+    marginRight: 30,
+    //paddingTop: 10,
+    //paddingBottom: 10,
+    textAlign: "center",
+    borderColor: "black",
+    //backgroundColor: 'blue',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  backButtonContainer: {
+    width: '100%',
+    marginLeft: '5%',
+    //marginTop: '12%',
+    alignItems: 'flex-start',
+    //backgroundColor: 'red'
+  },
+  smallerSpacing: {
+    height: '5%'
+  }
 
 });
 
