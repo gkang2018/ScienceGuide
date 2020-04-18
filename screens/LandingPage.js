@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Image, Text, Button, View, Alert, Dimensions} from "react-native";
+import { StyleSheet, Image, Text, Button, View, Alert, Dimensions, Linking} from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
@@ -39,7 +39,7 @@ class LandingPage extends Component {
 
               <Text style={styles.smallText}>Interested in being a Mentor?</Text>
               
-              <Text style={styles.smallTextLinks} //onPress={() => this.props.navigation.navigate("Login")}
+              <Text style={styles.smallTextLinks} onPress={() => Linking.openURL('https://mailchi.mp/c6ef6c29c029/mi-guia-a-la-ciencia')}
               >
                 Contact Us
               </Text>

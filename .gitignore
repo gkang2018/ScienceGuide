@@ -13,3 +13,6 @@ web-report/
 # macOS
 .DS_Store
 start_simulators.sh
+ios/ScienceGuide.xcodeproj/project.pbxproj
+ios/ScienceGuide.xcworkspace/xcuserdata/normant.xcuserdatad/UserInterfaceState.xcuserstate
+ios/ScienceGuide.xcodeproj/project.pbxproj
