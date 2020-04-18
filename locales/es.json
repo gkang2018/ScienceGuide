@@ -1,0 +1,9 @@
+{
+    "landing": {
+        "startingButton": "¡Empecemos!",
+        "haveAccount": "Ya tienes una cuenta?",
+        "signIn": "Iniciar Sesión",
+        "mentor": "¿Te interesa unirte como Mentor?",
+        "contact": "Contáctenos"
+    }
+}

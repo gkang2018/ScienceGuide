@@ -1,0 +1,9 @@
+{
+    "landing": {
+        "startingButton": "Let's get started!",
+        "haveAccount": "Already have an account?",
+        "signIn": "Sign in",
+        "mentor": "Interested in being a mentor?",
+        "contact": "Contact us"
+    }
+}
