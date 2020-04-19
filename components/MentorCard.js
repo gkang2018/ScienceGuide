@@ -3,10 +3,32 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import MentorDetail from "../screens/MentorDetail";
 import { connect } from "react-redux";
 import { selectMentor } from "../actions/actions";
+import * as RNLocalize from 'react-native-localize'
+import LocalizationService from '../localization'
 
 class MentorCard extends Component {
   constructor(props) {
     super(props);
+
+
+    this.localize = new LocalizationService()
+    this.localize.setI18nConfig()
+  }
+
+  componentDidMount() {
+    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+
+  }
+  componentWillUnmount() {
+    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+  }
+
+  handleLocalizationChange = () => {
+    this.localize.setI18nConfig()
+      .then(() => this.forceUpdate())
+      .catch(error => {
+        console.error(error)
+      })
   }
 
   selectMentor() {
@@ -14,6 +36,7 @@ class MentorCard extends Component {
     this.props.addMentor(this.props.name, this.props.id);
     // add the necessary info to redux
   }
+
 
   render() {
     const { props, name, expertise, email, imageUri, job, id } = this.props;
@@ -37,7 +60,7 @@ class MentorCard extends Component {
           <View style={styles.details}>
             <Text style={styles.text}>{name}</Text>
             <Text style={styles.text}>{job}</Text>
-            <Text style={styles.text}>Expertise: {expertiseString}</Text>
+            <Text style={styles.text}>{this.localize.translate("mentorCard.expertise")}: {expertiseString}</Text>
           </View>
         </View>
       </TouchableOpacity>

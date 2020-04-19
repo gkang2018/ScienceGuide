@@ -40,5 +40,22 @@
     "availableMentors": {
         "title": "Mentores Sugeridos",
         "subheading": "Selecciona uno para proceder"
+    },
+    "mentorCard": {
+        "expertise": "Enfoque"
+    },
+    "mentorDetail": {
+        "title": "Información del Mentor",
+        "chat": "Contactar",
+        "areas": "Áreas de Investigación"
+    },
+    "signup": {
+        "title": "Creer Una Cuenta",
+        "name": "Nombre",
+        "email": "Email",
+        "password": "Contraseña",
+        "confirmPassword": "Confirme su contraseña",
+        "description": "Antes de aprender más y poder contactar a un mentor, necesitamos un poco más de información.",
+        "confirmButton": "Siguiente"
     }
 }

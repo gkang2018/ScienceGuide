@@ -36,5 +36,26 @@
     "researchAreas": {
         "title": "Top 3 Research Areas",
         "findMentor": "Match new mentors"
+    },
+    "availableMentors": {
+        "title": "Available Mentors",
+        "subheading": "Select one to proceed"
+    },
+    "mentorCard": {
+        "expertise": "Expertise"
+    },
+    "mentorDetail": {
+        "title": "Mentor Information",
+        "chat": "Start Chat",
+        "areas": "Research Areas"
+    },
+    "signup": {
+        "title": "Sign Up",
+        "name": "Name",
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Confirm Password",
+        "description": "Before we make a connection, we need a little more information.",
+        "confirmButton": "Confirm"
     }
 }

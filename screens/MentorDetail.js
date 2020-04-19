@@ -10,13 +10,35 @@ import {
 import { connect } from "react-redux";
 import DatabaseService from "../config/firebase";
 import Snackbar from "react-native-snackbar";
+import * as RNLocalize from 'react-native-localize'
+import LocalizationService from '../localization'
+
 
 class MentorDetail extends Component {
   constructor(props) {
     super(props);
 
     this.db = new DatabaseService();
+    this.localize = new LocalizationService()
+    this.localize.setI18nConfig()
   }
+
+  componentDidMount() {
+    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+
+  }
+  componentWillUnmount() {
+    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+  }
+
+  handleLocalizationChange = () => {
+    this.localize.setI18nConfig()
+      .then(() => this.forceUpdate())
+      .catch(error => {
+        console.error(error)
+      })
+  }
+
 
   // checks if javascript object is empty
   isEmpty(obj) {
@@ -90,7 +112,7 @@ class MentorDetail extends Component {
     return (
       <View>
         <View style={styles.heading}>
-          <Text style={styles.title}>Mentor Information</Text>
+          <Text style={styles.title}>{this.localize.translate("mentorDetail.title")}</Text>
         </View>
 
         <View style={styles.details}>
@@ -103,12 +125,12 @@ class MentorDetail extends Component {
 
         <View style={styles.buttonView}>
           <TouchableOpacity onPress={() => this.onPress(id, name)}>
-            <Text style={styles.button}>Start Chat</Text>
+            <Text style={styles.button}>{this.localize.translate("mentorDetail.chat")}</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.researchAreas}>
-          <Text style={styles.subHeading2}>Research Areas:</Text>
+          <Text style={styles.subHeading2}>{this.localize.translate("mentorDetail.areas")}:</Text>
           {this.renderResearchAreas()}
         </View>
       </View>
