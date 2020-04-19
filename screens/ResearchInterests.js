@@ -83,6 +83,9 @@ class ResearchInterests extends Component {
   componentDidMount() {
     this.checkUserStatus();
     this.changeSubText();
+    this.props.navigation.setOptions({
+      headerBackTitle: this.localize.translate("icons.back")
+    })
     RNLocalize.addEventListener('change', this.handleLocalizationChange)
 
   }

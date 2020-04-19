@@ -77,12 +77,15 @@
         "passwordChangeTitle": "Cambiar Contraseña",
         "interestsChangeTitle": "Preferencias de Investigación",
         "logout": "Cerrar Sesión",
-        "nameInputTitle": "Nuevo Nombre",
+        "nameInputTitle": "Nombre Nuevo",
         "nameInputPlaceholder": "Nombre",
-        "confirm": "Confirmar"
+        "confirm": "Confirmar",
+        "currentPassword": "Contraseña Actual",
+        "newPassword": "Contraseña Nueva",
+        "confirmPassword": "Confirmar Contraseña"
     },
     "icons": {
-        "back": "Back",
+        "back": "Atrás",
         "directory": "Directorio",
         "messages": "Mensajes",
         "profile": "Perfil"

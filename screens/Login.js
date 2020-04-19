@@ -34,6 +34,9 @@ class Login extends Component {
 
   componentDidMount() {
     this.props.clear();
+    this.props.navigation.setOptions({
+      headerBackTitle: this.localize.translate("icons.back")
+    })
     RNLocalize.addEventListener('change', this.handleLocalizationChange)
   }
 

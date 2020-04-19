@@ -28,6 +28,9 @@ class Language extends Component {
 
   componentDidMount() {
     this.checkUserStatus()
+    this.props.navigation.setOptions({
+      headerBackTitle: this.localize.translate("icons.back")
+    })
     RNLocalize.addEventListener('change', this.handleLocalizationChange)
 
   }

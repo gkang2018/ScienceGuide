@@ -21,6 +21,9 @@ class ResearchAreas extends Component {
 
   componentDidMount() {
     this.setInterests();
+    this.props.navigation.setOptions({
+      headerBackTitle: this.localize.translate("icons.back")
+    })
     RNLocalize.addEventListener('change', this.handleLocalizationChange)
   }
 

@@ -32,6 +32,9 @@ class ResearchLevel extends Component {
     this.unsubscribe = this.props.navigation.addListener("focus", () =>
       this.checkUserStatus()
     );
+    this.props.navigation.setOptions({
+      headerBackTitle: this.localize.translate("icons.back")
+    })
     RNLocalize.addEventListener('change', this.handleLocalizationChange)
 
   }

@@ -25,6 +25,9 @@ class MentorDetail extends Component {
 
   componentDidMount() {
     RNLocalize.addEventListener('change', this.handleLocalizationChange)
+    this.props.navigation.setOptions({
+      headerBackTitle: this.localize.translate("icons.back")
+    })
 
   }
   componentWillUnmount() {

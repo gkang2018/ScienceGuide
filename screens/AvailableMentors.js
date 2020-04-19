@@ -30,6 +30,9 @@ class AvailableMentors extends Component {
 
   componentDidMount() {
     RNLocalize.addEventListener('change', this.handleLocalizationChange)
+    this.props.navigation.setOptions({
+      headerBackTitle: this.localize.translate("icons.back")
+    })
     const { researchAreas, researchLevel, englishSpeaker } = this.props;
     if (!this.isEmpty(this.props.user)) {
       this.props.navigation.navigate("DirectoryPage");

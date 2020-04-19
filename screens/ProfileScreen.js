@@ -47,15 +47,15 @@ class ProfileScreen extends Component {
       name: Yup.string()
         .min(1, "Name must be at least one character long")
         .max(256, "Name can not be longer than 256 characters")
-        .required("Required"),
+        .required(this.localize.translate("forms.required")),
     });
     this.passwordFormValidation = Yup.object().shape({
-      currentPassword: Yup.string().required("Required"),
+      currentPassword: Yup.string().required(this.localize.translate("forms.required")),
       newPassword: Yup.string()
         .min(6, "Your password must have at least 6 characters")
-        .required("Required"),
+        .required(this.localize.translate("forms.required")),
       confirmNewPassword: Yup.string()
-        .required("Required")
+        .required(this.localize.translate("forms.required"))
         .test(
           "confirm-password-test",
           "Your new password and new confirm password should match",
@@ -274,12 +274,12 @@ class ProfileScreen extends Component {
 
 
                     <View style={styles.inputTypeTextContainer}>
-                      <Text style={styles.inputTypeText}>Current Password</Text>
+                      <Text style={styles.inputTypeText}>{this.localize.translate("profileScreen.currentPassword")}</Text>
                     </View>
 
                     <View style={styles.inputStyle}>
                       <TextInput
-                        placeholder="Current Password"
+                        placeholder={this.localize.translate("profileScreen.currentPassword")}
                         value={props.values.currentPassword}
                         onChangeText={props.handleChange("currentPassword")}
                         onBlur={props.handleBlur("currentPassword")}
@@ -295,12 +295,12 @@ class ProfileScreen extends Component {
 
 
                     <View style={styles.inputTypeTextContainer}>
-                      <Text style={styles.inputTypeText}>New Password</Text>
+                      <Text style={styles.inputTypeText}>{this.localize.translate("profileScreen.newPassword")}</Text>
                     </View>
 
                     <View style={styles.inputStyle}>
                       <TextInput
-                        placeholder="New Password"
+                        placeholder={this.localize.translate("profileScreen.newPassword")}
                         value={props.values.newPassword}
                         onChangeText={props.handleChange("newPassword")}
                         onBlur={props.handleBlur("newPassword")}
@@ -314,12 +314,12 @@ class ProfileScreen extends Component {
                     </Text>
 
                     <View style={styles.inputTypeTextContainer}>
-                      <Text style={styles.inputTypeText}>Confirm Password</Text>
+                      <Text style={styles.inputTypeText}>{this.localize.translate("profileScreen.confirmPassword")}</Text>
                     </View>
 
                     <View style={styles.inputStyle}>
                       <TextInput
-                        placeholder="Confirm New Password"
+                        placeholder={this.localize.translate("profileScreen.confirmPassword")}
                         value={props.values.confirmNewPassword}
                         onChangeText={props.handleChange("confirmNewPassword")}
                         onBlur={props.handleBlur("confirmNewPassword")}
