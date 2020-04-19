@@ -1,51 +1,71 @@
 import React, { Component } from "react";
-import { StyleSheet, Image, Text, Button, View, Alert, Dimensions, Linking} from "react-native";
+import { StyleSheet, Image, Text, Button, View, Alert, Dimensions, Linking } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-
+import * as RNLocalize from 'react-native-localize'
+import LocalizationService from '../localization'
 //Get screen width using Dimensions component 
-var {width} = Dimensions.get('window');
+var { width } = Dimensions.get('window');
 
 class LandingPage extends Component {
   constructor(props) {
     super(props);
+    this.localize = new LocalizationService()
+    this.localize.setI18nConfig()
   }
+
+  componentDidMount() {
+    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+  }
+
+  componentWillUnmount() {
+    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+  }
+
+  handleLocalizationChange = () => {
+    this.localize.setI18nConfig()
+      .then(() => this.forceUpdate())
+      .catch(error => {
+        console.error(error)
+      })
+  }
+
 
   render() {
     return (
       <View style={styles.Container}>
 
-          <View style = {styles.topContainer}>
-            <Image style = {styles.logo}
-              source={require('../assets/logo-main-360.png')}
-            />
+        <View style={styles.topContainer}>
+          <Image style={styles.logo}
+            source={require('../assets/logo-main-360.png')}
+          />
+        </View>
+
+
+        <View style={styles.lowerContainer}>
+
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate("Level")}>
+              <Text style={styles.startingButton}>{this.localize.translate("landing.startingButton")}</Text>
+            </TouchableOpacity>
           </View>
-
-
-          <View style={styles.lowerContainer}>
-
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate("Level")}>
-                <Text style={styles.startingButton}>Let's get started!</Text>
-              </TouchableOpacity>
-            </View>
 
           <View style={styles.smallTextContainer}>
-              <Text style={styles.smallText}>Already have an account?</Text>
+            <Text style={styles.smallText}>{this.localize.translate("landing.haveAccount")}</Text>
 
-              <Text style={styles.smallTextLinks} onPress={() => this.props.navigation.navigate("Login")}>
-                Sign In
-              </Text>
+            <Text style={styles.smallTextLinks} onPress={() => this.props.navigation.navigate("Login")}>
+              {this.localize.translate("landing.signIn")}
+            </Text>
 
-              <Text style={styles.smallText}>Interested in being a Mentor?</Text>
-              
-              <Text style={styles.smallTextLinks} onPress={() => Linking.openURL('https://mailchi.mp/c6ef6c29c029/mi-guia-a-la-ciencia')}
-              >
-                Contact Us
-              </Text>
-            </View>
+            <Text style={styles.smallText}>{this.localize.translate("landing.mentor")}</Text>
+
+            <Text style={styles.smallTextLinks} onPress={() => Linking.openURL('https://mailchi.mp/c6ef6c29c029/mi-guia-a-la-ciencia')}
+            >
+              {this.localize.translate("landing.contact")}
+            </Text>
           </View>
-        
+        </View>
+
       </View>
     );
   }
