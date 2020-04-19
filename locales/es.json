@@ -82,6 +82,9 @@
         "confirm": "Confirmar"
     },
     "icons": {
-        "back": "Atrás"
+        "back": "Back",
+        "directory": "Directorio",
+        "messages": "Mensajes",
+        "profile": "Perfil"
     }
 }

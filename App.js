@@ -32,7 +32,7 @@ import MessagesScreen from "./screens/MessagesScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import Language from "./screens/Language";
 import ChatRoom from "./components/ChatRoom";
-
+import DirectoryPage from "./screens/DirectoryPage"
 // do we need this import stil ????
 import { decode, encode } from "base-64";
 
@@ -42,38 +42,6 @@ if (!global.btoa) {
 
 if (!global.atob) {
   global.atob = decode;
-}
-
-function DirectoryPage() {
-  return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
-          if (route.name === "Directory") {
-            iconName = focused
-              ? "ios-information-circle"
-              : "ios-information-circle-outline";
-          } else if (route.name === "Messages") {
-            iconName = focused ? "ios-list-box" : "ios-list";
-          } else if (route.name === "Profile") {
-            iconName = focused ? "md-person" : "md-person";
-          }
-
-          // You can return any component that you like here!
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
-      })}
-      tabBarOptions={{
-        activeTintColor: "tomato",
-        inactiveTintColor: "gray",
-      }}
-    >
-      <Tab.Screen name="Directory" component={DirectoryScreen} />
-      <Tab.Screen name="Messages" component={MessagesScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
-    </Tab.Navigator>
-  );
 }
 
 export default function App() {
