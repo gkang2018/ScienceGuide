@@ -57,5 +57,31 @@
         "confirmPassword": "Confirme su contraseña",
         "description": "Antes de aprender más y poder contactar a un mentor, necesitamos un poco más de información.",
         "confirmButton": "Siguiente"
+    },
+    "forms": {
+        "required": "Required",
+        "email": "Invalid Email",
+        "password": "Password must be at least 6 characters long",
+        "confirm": "Password and confirm password should match",
+        "successSignup": "Successfully signed up"
+    },
+    "directoryScreen": {
+        "title": "Mi Guía la Ciencia Directorio"
+    },
+    "messagesScreen": {
+        "title": "Mensajes"
+    },
+    "profileScreen": {
+        "title": "Perfil",
+        "nameChangeTitle": "Cambiar Nombre",
+        "passwordChangeTitle": "Cambiar Contraseña",
+        "interestsChangeTitle": "Preferencias de Investigación",
+        "logout": "Cerrar Sesión",
+        "nameInputTitle": "Nuevo Nombre",
+        "nameInputPlaceholder": "Nombre",
+        "confirm": "Confirmar"
+    },
+    "icons": {
+        "back": "Atrás"
     }
 }

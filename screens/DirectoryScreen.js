@@ -11,6 +11,8 @@ import {
 import DatabaseService from "../config/firebase";
 import MentorCard from "../components/MentorCard";
 import Snackbar from "react-native-snackbar";
+import * as RNLocalize from 'react-native-localize'
+import LocalizationService from '../localization'
 
 class DirectoryScreen extends Component {
   constructor(props) {
@@ -20,9 +22,13 @@ class DirectoryScreen extends Component {
       directoryMentors: undefined,
     };
     this.db = new DatabaseService();
+
+    this.localize = new LocalizationService()
+    this.localize.setI18nConfig()
   }
 
   componentDidMount() {
+    RNLocalize.addEventListener('change', this.handleLocalizationChange)
     let mentorsFetched = this.db.fetchAllMentors();
     mentorsFetched
       .then((vals) => {
@@ -36,6 +42,19 @@ class DirectoryScreen extends Component {
         });
       });
   }
+
+  componentWillUnmount() {
+    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+  }
+
+  handleLocalizationChange = () => {
+    this.localize.setI18nConfig()
+      .then(() => this.forceUpdate())
+      .catch(error => {
+        console.error(error)
+      })
+  }
+
 
   renderAllMentors() {
     return (
@@ -64,7 +83,7 @@ class DirectoryScreen extends Component {
       return (
         <View>
           <View style={styles.heading}>
-            <Text style={styles.title}>Science Guide Directory</Text>
+            <Text style={styles.title}>{this.localize.translate("directoryScreen.title")}</Text>
           </View>
           <View style={styles.container}>
             <ActivityIndicator size="large" color="#0000ff" animating={true} />
@@ -75,7 +94,7 @@ class DirectoryScreen extends Component {
     return (
       <View>
         <View style={styles.heading}>
-          <Text style={styles.title}>Science Guide Directory</Text>
+          <Text style={styles.title}>{this.localize.translate("directoryScreen.title")}</Text>
         </View>
         <View>{this.renderAllMentors()}</View>
       </View>

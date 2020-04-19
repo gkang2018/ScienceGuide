@@ -24,6 +24,8 @@ import {
 
 import { Formik } from "formik";
 import * as Yup from "yup";
+import * as RNLocalize from 'react-native-localize'
+import LocalizationService from '../localization'
 
 class ProfileScreen extends Component {
   constructor(props) {
@@ -37,6 +39,9 @@ class ProfileScreen extends Component {
       imageModal: false,
       interestsModal: false,
     };
+
+    this.localize = new LocalizationService()
+    this.localize.setI18nConfig()
 
     this.nameFormValidation = Yup.object().shape({
       name: Yup.string()
@@ -89,11 +94,26 @@ class ProfileScreen extends Component {
     this.setState({ passwordModal: visible });
   };
 
+  componentDidMount() {
+    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+
+  }
+  componentWillUnmount() {
+    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+  }
+  handleLocalizationChange = () => {
+    this.localize.setI18nConfig()
+      .then(() => this.forceUpdate())
+      .catch(error => {
+        console.error(error)
+      })
+  }
+
   render() {
     return (
       <View style={styles.mainContainer}>
         <View style={styles.headingContainer}>
-          <Text style={styles.title}>Profile</Text>
+          <Text style={styles.title}>{this.localize.translate("profileScreen.title")}</Text>
         </View>
 
         <Modal animationType={"slide"} visible={this.state.nameModal}>
@@ -134,28 +154,27 @@ class ProfileScreen extends Component {
             >
               {(props) => {
                 return (
-                <View style={styles.ChangeScreenContainer}>
+                  <View style={styles.ChangeScreenContainer}>
                     <View style={styles.backButtonContainer}>
                       <Button
-                        title="Back"
+                        title={this.localize.translate("icons.back")}
                         onPress={() => this.handleNameModal(false)}
                       />
                     </View>
 
                     <View style={styles.ChangeHeadingContainer}>
-                      <Text style={styles.changeTitle}>Change Name</Text>
+                      <Text style={styles.changeTitle}>{this.localize.translate("profileScreen.nameChangeTitle")}</Text>
                     </View>
 
                     <View style={styles.Spacing}>
                     </View>
-
-                    <View style={styles.inputTypeTextContainer}> 
-                      <Text style={styles.inputTypeText}>New Name</Text>
+                    <View style={styles.inputTypeTextContainer}>
+                      <Text style={styles.inputTypeText}>{this.localize.translate("profileScreen.nameInputTitle")}</Text>
                     </View>
 
                     <View style={styles.inputStyle}>
                       <TextInput
-                        placeholder="Name"
+                        placeholder={this.localize.translate("profileScreen.nameInputPlaceholder")}
                         value={props.values.name}
                         onChangeText={props.handleChange("name")}
                         onBlur={props.handleBlur("name")}
@@ -165,23 +184,23 @@ class ProfileScreen extends Component {
 
                     <View style={styles.smallerSpacing}></View>
 
-                  <View style= {styles.submitButton}>
-                    <Text style={{ color: "red" }}>
-                      {props.touched.name && props.errors.name}
-                    </Text>
-                    {props.isSubmitting ? (
-                      <ActivityIndicator />
-                    ) : (
-                      <Button onPress={props.handleSubmit} title="Confirm" />
-                    )}
-                    {
+                    <View style={styles.submitButton}>
                       <Text style={{ color: "red" }}>
-                        {props.errors.general}
+                        {props.touched.name && props.errors.name}
                       </Text>
-                    }
-                  </View>
+                      {props.isSubmitting ? (
+                        <ActivityIndicator />
+                      ) : (
+                          <Button onPress={props.handleSubmit} title={this.localize.translate("profileScreen.confirm")} />
+                        )}
+                      {
+                        <Text style={{ color: "red" }}>
+                          {props.errors.general}
+                        </Text>
+                      }
+                    </View>
 
-                </View>
+                  </View>
                 );
               }}
             </Formik>
@@ -241,20 +260,20 @@ class ProfileScreen extends Component {
 
                     <View style={styles.backButtonContainer}>
                       <Button
-                        title="back"
+                        title={this.localize.translate("icons.back")}
                         onPress={() => this.handlePasswordModal(false)}
                       />
                     </View>
 
                     <View style={styles.ChangeHeadingContainer}>
-                      <Text style={styles.changeTitle}>Change Password</Text>
+                      <Text style={styles.changeTitle}>{this.localize.translate("profileScreen.passwordChangeTitle")}</Text>
                     </View>
 
                     <View style={styles.smallerSpacing}>
                     </View>
 
-                    
-                    <View style={styles.inputTypeTextContainer}> 
+
+                    <View style={styles.inputTypeTextContainer}>
                       <Text style={styles.inputTypeText}>Current Password</Text>
                     </View>
 
@@ -275,7 +294,7 @@ class ProfileScreen extends Component {
                     </Text>
 
 
-                    <View style={styles.inputTypeTextContainer}> 
+                    <View style={styles.inputTypeTextContainer}>
                       <Text style={styles.inputTypeText}>New Password</Text>
                     </View>
 
@@ -294,7 +313,7 @@ class ProfileScreen extends Component {
                       {props.touched.newPassword && props.errors.newPassword}
                     </Text>
 
-                    <View style={styles.inputTypeTextContainer}> 
+                    <View style={styles.inputTypeTextContainer}>
                       <Text style={styles.inputTypeText}>Confirm Password</Text>
                     </View>
 
@@ -311,21 +330,21 @@ class ProfileScreen extends Component {
 
                     <View style={styles.smallerSpacing}></View>
 
-                    <View style= {styles.submitButton}>
-                    <Text style={{ color: "red" }}>
-                      {props.touched.confirmNewPassword &&
-                        props.errors.confirmNewPassword}
-                    </Text>
-                    {props.isSubmitting ? (
-                      <ActivityIndicator />
-                    ) : (
-                      <Button onPress={props.handleSubmit} title="Confirm" />
-                    )}
-                    {
+                    <View style={styles.submitButton}>
                       <Text style={{ color: "red" }}>
-                        {props.errors.general}
+                        {props.touched.confirmNewPassword &&
+                          props.errors.confirmNewPassword}
                       </Text>
-                    }
+                      {props.isSubmitting ? (
+                        <ActivityIndicator />
+                      ) : (
+                          <Button onPress={props.handleSubmit} title={this.localize.translate("profileScreen.confirm")} />
+                        )}
+                      {
+                        <Text style={{ color: "red" }}>
+                          {props.errors.general}
+                        </Text>
+                      }
                     </View>
                   </View>
                 );
@@ -349,34 +368,34 @@ class ProfileScreen extends Component {
         </View>
 
         <View style={styles.changeSectionContainer}>
-            <View style={styles.changeContainer}>
-              <TouchableOpacity onPress={() => this.handleNameModal(true)}>
-                <Text style={styles.changeText}>Change Name</Text>
-              </TouchableOpacity>
-            </View>
+          <View style={styles.changeContainer}>
+            <TouchableOpacity onPress={() => this.handleNameModal(true)}>
+              <Text style={styles.changeText}>{this.localize.translate("profileScreen.nameChangeTitle")}</Text>
+            </TouchableOpacity>
+          </View>
 
-            <View style={styles.changeContainer}>
-              <TouchableOpacity onPress={() => this.handlePasswordModal(true)}>
-                <Text style={styles.changeText}>Change Password</Text>
-              </TouchableOpacity>
-            </View>
+          <View style={styles.changeContainer}>
+            <TouchableOpacity onPress={() => this.handlePasswordModal(true)}>
+              <Text style={styles.changeText}>{this.localize.translate("profileScreen.passwordChangeTitle")}</Text>
+            </TouchableOpacity>
+          </View>
 
-            <View style={styles.changeContainer}>
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate("Interests")}
-              >
-                <Text style={styles.changeText}>Change Research Interests</Text>
-              </TouchableOpacity>
-            </View>
+          <View style={styles.changeContainer}>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("Interests")}
+            >
+              <Text style={styles.changeText}>{this.localize.translate("profileScreen.interestsChangeTitle")}</Text>
+            </TouchableOpacity>
+          </View>
         </View >
 
-            
+
         <View style={styles.spacing}>
 
         </View>
         <View style={styles.logoutButtonContainer}>
           <TouchableOpacity onPress={this.handleSignout}>
-            <Text style={styles.logoutText}>Log Out</Text>
+            <Text style={styles.logoutText}>{this.localize.translate("profileScreen.logout")}</Text>
           </TouchableOpacity>
         </View>
 
@@ -399,7 +418,7 @@ const styles = StyleSheet.create({
     width: '90%',
     marginLeft: '10%',
     marginRight: '10%',
-    marginTop: "12%",  
+    marginTop: "12%",
   },
   avatarContainer: {
     height: '30%',

@@ -57,5 +57,31 @@
         "confirmPassword": "Confirm Password",
         "description": "Before we make a connection, we need a little more information.",
         "confirmButton": "Confirm"
+    },
+    "forms": {
+        "required": "Required",
+        "email": "Invalid Email",
+        "password": "Password must be at least 6 characters long",
+        "confirm": "Password and confirm password should match",
+        "successSignup": "Successfully signed up"
+    },
+    "directoryScreen": {
+        "title": "Science Guide Directory"
+    },
+    "messagesScreen": {
+        "title": "Messages"
+    },
+    "profileScreen": {
+        "title": "Profile",
+        "nameChangeTitle": "Change Name",
+        "passwordChangeTitle": "Change Password",
+        "interestsChangeTitle": "Change Research Interests",
+        "logout": "Log Out",
+        "nameInputTitle": "New Name",
+        "nameInputPlaceholder": "Name",
+        "confirm": "Confirm"
+    },
+    "icons": {
+        "back": "Back"
     }
 }
