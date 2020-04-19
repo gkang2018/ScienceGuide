@@ -5,5 +5,36 @@
         "signIn": "Sign in",
         "mentor": "Interested in being a mentor?",
         "contact": "Contact us"
+    },
+    "login": {
+        "title": "Sign In",
+        "confirm": "Confirm",
+        "email": "Email",
+        "password": "Password"
+    },
+    "researchLevel": {
+        "title": "Research Level",
+        "description": "Please select what level of research you have previously done.",
+        "beginnerInput": "I want to make my first research project!",
+        "mediumInput": "I won at my school but want to win nationally!",
+        "advancedInput": "I won nationally and want to further the impact of my research!"
+    },
+    "researchInterests": {
+        "title": "Research Interests",
+        "subtext1": "Select up to three research areas you are interested in",
+        "subtext2": "Select two more research areas you are interested in",
+        "subtext3": "Select one more research area you are interested in",
+        "subtext4": "You may review your selections in the next screen",
+        "confirm": "Confirm"
+    },
+    "language": {
+        "title": "Language Preference",
+        "question": "Are you comfortable with English?",
+        "yes": "Yes",
+        "no": "No"
+    },
+    "researchAreas": {
+        "title": "Top 3 Research Areas",
+        "findMentor": "Match new mentors"
     }
 }

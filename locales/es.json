@@ -5,5 +5,40 @@
         "signIn": "Iniciar Sesión",
         "mentor": "¿Te interesa unirte como Mentor?",
         "contact": "Contáctenos"
+    },
+    "login": {
+        "title": "Iniciar Sesión",
+        "confirm": "Confirmar",
+        "email": "Email",
+        "password": "Contraseña"
+    },
+    "researchLevel": {
+        "title": "Experienca",
+        "description": "Seleccione cuál es su nivel de experienca en investigación.",
+        "beginnerInput": "¡Quiero hacer mi primer proyecto de investigación!",
+        "mediumInput": "¡Soy ganador a nivel escolar pero quiero competir en mi país!",
+        "advancedInput": "¡Soy ganador nacional y quiero llevar mi investigación a otro nivel!"
+    },
+    "researchInterests": {
+        "title": "Áreas de Investigación",
+        "subtext1": "Selecciona hasta tres áreas de investigación preferidas.",
+        "subtext2": "Selecciona hasta dos áreas mas de investigación preferidas.",
+        "subtext3": "Selecciona un área mas de investigación que prefieras.",
+        "subtext4": "Podrá revisar sus selecciones en la próxima página",
+        "confirm": "Confirmar"
+    },
+    "language": {
+        "title": "Preferienca de Lenguaje",
+        "question": "¿Eres proficiente en inglés?",
+        "yes": "Sí",
+        "no": "No"
+    },
+    "researchAreas": {
+        "title": "Áreas de Investigación Preferidas",
+        "findMentor": "Buscar Mentores"
+    },
+    "availableMentors": {
+        "title": "Mentores Sugeridos",
+        "subheading": "Selecciona uno para proceder"
     }
 }

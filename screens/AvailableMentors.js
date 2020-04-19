@@ -7,12 +7,18 @@ import MentorCard from "../components/MentorCard";
 import matchMentor from "../actions/actions";
 import { connect } from "react-redux";
 import Snackbar from "react-native-snackbar";
+import * as RNLocalize from 'react-native-localize'
+import LocalizationService from '../localization'
+
 class AvailableMentors extends Component {
   constructor(props) {
     super(props);
     this.state = {
       mentorData: undefined,
     };
+
+    this.localize = new LocalizationService()
+    this.localize.setI18nConfig()
   }
 
   isEmpty(obj) {
@@ -23,11 +29,12 @@ class AvailableMentors extends Component {
   }
 
   componentDidMount() {
-    const {researchAreas, researchLevel, englishSpeaker} = this.props;
+    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+    const { researchAreas, researchLevel, englishSpeaker } = this.props;
     if (!this.isEmpty(this.props.user)) {
       this.props.navigation.navigate("DirectoryPage");
     }
-    
+
     const db = new DatabaseService();
     let resp = db.getCuratedMentors(
       englishSpeaker,
@@ -65,6 +72,19 @@ class AvailableMentors extends Component {
     });
   }
 
+  componentWillUnmount() {
+    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+  }
+
+
+  handleLocalizationChange = () => {
+    this.localize.setI18nConfig()
+      .then(() => this.forceUpdate())
+      .catch(error => {
+        console.error(error)
+      })
+  }
+
   render() {
     const { mentorData } = this.state;
     if (mentorData == undefined) {
@@ -77,8 +97,8 @@ class AvailableMentors extends Component {
     return (
       <View>
         <View style={styles.heading}>
-          <Text style={styles.title}>Available Mentors</Text>
-          <Text style={styles.subHeading}>Select one to proceed</Text>
+          <Text style={styles.title}>{this.localize.translate("availableMentors.title")}</Text>
+          <Text style={styles.subHeading}>{this.localize.translate("availableMentors.subheading")}</Text>
         </View>
         <View style={styles.mentors}>{this.renderMentors()}</View>
       </View>

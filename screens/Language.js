@@ -2,10 +2,15 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { englishSpeaker } from "../actions/actions";
+import * as RNLocalize from 'react-native-localize'
+import LocalizationService from '../localization'
 
 class Language extends Component {
   constructor(props) {
     super(props);
+
+    this.localize = new LocalizationService()
+    this.localize.setI18nConfig()
   }
 
   isEmpty(obj) {
@@ -23,15 +28,29 @@ class Language extends Component {
 
   componentDidMount() {
     this.checkUserStatus()
+    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+
+  }
+
+  componentWillUnmount() {
+    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+  }
+
+  handleLocalizationChange = () => {
+    this.localize.setI18nConfig()
+      .then(() => this.forceUpdate())
+      .catch(error => {
+        console.error(error)
+      })
   }
 
   render() {
     return (
       <View style={styles.mainContainer}>
         <View>
-          <Text style={styles.titleText}>Language Preference</Text>
+          <Text style={styles.titleText}>{this.localize.translate("language.title")}</Text>
           <Text style={styles.descriptionText}>
-            Are you comfortable with English?
+            {this.localize.translate("language.question")}
           </Text>
         </View>
 
@@ -43,7 +62,7 @@ class Language extends Component {
                 this.props.navigation.navigate("Areas");
               }}
             >
-              <Text style={styles.formText}>Yes</Text>
+              <Text style={styles.formText}>{this.localize.translate("language.yes")}</Text>
             </TouchableOpacity>
           </View>
 
@@ -54,7 +73,7 @@ class Language extends Component {
                 this.props.navigation.navigate("Areas");
               }}
             >
-              <Text style={styles.formText}>No</Text>
+              <Text style={styles.formText}>{this.localize.translate("language.no")}</Text>
             </TouchableOpacity>
           </View>
         </View>

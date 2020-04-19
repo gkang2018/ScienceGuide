@@ -15,6 +15,8 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import Snackbar from "react-native-snackbar";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import * as RNLocalize from 'react-native-localize'
+import LocalizationService from '../localization'
 
 class Login extends Component {
   constructor(props) {
@@ -26,10 +28,25 @@ class Login extends Component {
         .min(6, "Password must be at least 6 characters long!")
         .required("Required"),
     });
+    this.localize = new LocalizationService()
+    this.localize.setI18nConfig()
   }
 
   componentDidMount() {
     this.props.clear();
+    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+  }
+
+  componentWillUnmount() {
+    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+  }
+
+  handleLocalizationChange = () => {
+    this.localize.setI18nConfig()
+      .then(() => this.forceUpdate())
+      .catch(error => {
+        console.error(error)
+      })
   }
 
   handleLogin = (email, password) => {
@@ -81,7 +98,7 @@ class Login extends Component {
             return (
               <View style={styles.container}>
                 <View style={styles.titleContainer}>
-                  <Text style={styles.title}>Sign In</Text>
+                  <Text style={styles.title}>{this.localize.translate("login.title")}</Text>
                 </View>
 
                 <View style={styles.formContainer}>
@@ -100,7 +117,7 @@ class Login extends Component {
 
                   <View style={styles.inputStyle}>
                     <TextInput
-                      placeholder="Password"
+                      placeholder={this.localize.translate("login.password")}
                       value={props.values.password}
                       onChangeText={props.handleChange("password")}
                       onBlur={props.handleBlur("password")}
@@ -117,13 +134,13 @@ class Login extends Component {
                       <ActivityIndicator />
                     </View>
                   ) : (
-                    <View style={styles.buttonContainer}>
-                      <TouchableOpacity onPress={props.handleSubmit}>
-                        <Text style={styles.startingButton}>Confirm</Text>
-                      </TouchableOpacity>
-                    </View>
-                    // <Button onPress={props.handleSubmit} title="Submit" />
-                  )}
+                      <View style={styles.buttonContainer}>
+                        <TouchableOpacity onPress={props.handleSubmit}>
+                          <Text style={styles.startingButton}>{this.localize.translate("login.confirm")}</Text>
+                        </TouchableOpacity>
+                      </View>
+                      // <Button onPress={props.handleSubmit} title="Submit" />
+                    )}
                   {<Text style={{ color: "red" }}>{props.errors.general}</Text>}
                 </View>
               </View>

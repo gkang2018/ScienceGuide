@@ -3,9 +3,16 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { addLevel } from "../actions/actions";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-
+import * as RNLocalize from 'react-native-localize'
+import LocalizationService from '../localization'
 
 class ResearchLevel extends Component {
+
+  constructor(props) {
+    super(props)
+    this.localize = new LocalizationService()
+    this.localize.setI18nConfig()
+  }
 
   isEmpty(obj) {
     for (let key in obj) {
@@ -25,11 +32,23 @@ class ResearchLevel extends Component {
     this.unsubscribe = this.props.navigation.addListener("focus", () =>
       this.checkUserStatus()
     );
+    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+
   }
   componentWillUnmount() {
     this.unsubscribe()
+    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+
   }
 
+
+  handleLocalizationChange = () => {
+    this.localize.setI18nConfig()
+      .then(() => this.forceUpdate())
+      .catch(error => {
+        console.error(error)
+      })
+  }
 
   render() {
     this.checkUserStatus()
@@ -39,9 +58,9 @@ class ResearchLevel extends Component {
 
 
         <View style={styles.titleContainer}>
-          <Text style={styles.titleText}>Research Level</Text>
+          <Text style={styles.titleText}>{this.localize.translate("researchLevel.title")}</Text>
           <Text style={styles.descriptionText}>
-            Please select what level of research you have previously done.
+            {this.localize.translate("researchLevel.description")}
           </Text>
         </View>
 
@@ -55,7 +74,7 @@ class ResearchLevel extends Component {
               }}
             >
               <Text style={styles.formText}>
-                I want to make my first research project!
+                {this.localize.translate("researchLevel.beginnerInput")}
               </Text>
             </TouchableOpacity>
           </View>
@@ -69,7 +88,7 @@ class ResearchLevel extends Component {
               }}
             >
               <Text style={styles.formText}>
-                I won at my school but want to win nationally!
+                {this.localize.translate("researchLevel.mediumInput")}
               </Text>
             </TouchableOpacity>
           </View>
@@ -83,7 +102,7 @@ class ResearchLevel extends Component {
               }}
             >
               <Text style={styles.formText}>
-                I won nationally and want to further the impact of my research!
+                {this.localize.translate("researchLevel.advancedInput")}
               </Text>
             </TouchableOpacity>
           </View>
