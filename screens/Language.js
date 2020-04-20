@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { englishSpeaker } from "../actions/actions";
 import * as RNLocalize from 'react-native-localize'
 import LocalizationService from '../localization'
+import Snackbar from "react-native-snackbar";
+
 
 class Language extends Component {
   constructor(props) {
@@ -44,6 +46,11 @@ class Language extends Component {
       .then(() => this.forceUpdate())
       .catch(error => {
         console.error(error)
+        Snackbar.show({
+          text: this.localize.translate("snackbar.errorLocalization"),
+          backgroundColor: "red",
+          duration: Snackbar.LENGTH_LONG,
+        });
       })
   }
 

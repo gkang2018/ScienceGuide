@@ -39,6 +39,11 @@ class MentorDetail extends Component {
       .then(() => this.forceUpdate())
       .catch(error => {
         console.error(error)
+        Snackbar.show({
+          text: this.localize.translate("snackbar.errorLocalization"),
+          backgroundColor: "red",
+          duration: Snackbar.LENGTH_LONG,
+        });
       })
   }
 
@@ -72,7 +77,7 @@ class MentorDetail extends Component {
               })
               .catch((error) => {
                 Snackbar.show({
-                  text: "Unable to start chat with mentor",
+                  text: this.localize.translate("snackbar.errorStartChat"),
                   backgroundColor: "red",
                   duration: Snackbar.LENGTH_LONG,
                 });
@@ -86,7 +91,11 @@ class MentorDetail extends Component {
         })
         .catch((error) => {
           console.log("unable to determine chat existence");
-          console.log(error);
+          Snackbar.show({
+            text: this.localize.translate("snackbar.errorStartChat"),
+            backgroundColor: "red",
+            duration: Snackbar.LENGTH_LONG,
+          });
         });
     }
   }

@@ -27,9 +27,6 @@ import Signup from "./screens/Signup";
 import Dashboard from "./screens/Dashboard";
 import LoadingScreen from "./screens/LoadingScreen";
 import Login from "./screens/Login";
-import DirectoryScreen from "./screens/DirectoryScreen";
-import MessagesScreen from "./screens/MessagesScreen";
-import ProfileScreen from "./screens/ProfileScreen";
 import Language from "./screens/Language";
 import ChatRoom from "./components/ChatRoom";
 import DirectoryPage from "./screens/DirectoryPage"

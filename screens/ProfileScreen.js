@@ -26,6 +26,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import * as RNLocalize from 'react-native-localize'
 import LocalizationService from '../localization'
+import errorHandler from '../errorHandler'
 
 class ProfileScreen extends Component {
   constructor(props) {
@@ -45,20 +46,20 @@ class ProfileScreen extends Component {
 
     this.nameFormValidation = Yup.object().shape({
       name: Yup.string()
-        .min(1, "Name must be at least one character long")
-        .max(256, "Name can not be longer than 256 characters")
+        .min(1, this.localize.translate("forms.nameMin"))
+        .max(256, this.localize.translate("forms.nameMax"))
         .required(this.localize.translate("forms.required")),
     });
     this.passwordFormValidation = Yup.object().shape({
       currentPassword: Yup.string().required(this.localize.translate("forms.required")),
       newPassword: Yup.string()
-        .min(6, "Your password must have at least 6 characters")
+        .min(6, this.localize.translate("forms.passwordMin"))
         .required(this.localize.translate("forms.required")),
       confirmNewPassword: Yup.string()
         .required(this.localize.translate("forms.required"))
         .test(
           "confirm-password-test",
-          "Your new password and new confirm password should match",
+          this.localize.translate("forms.confirmMatch"),
           function (value) {
             return value === this.parent.newPassword;
           }
@@ -71,7 +72,7 @@ class ProfileScreen extends Component {
       .logout()
       .then(() => {
         Snackbar.show({
-          text: "Successfully signed out",
+          text: this.localize.translate("snackbar.successLogout"),
           backgroundColor: "green",
           duration: Snackbar.LENGTH_LONG,
         });
@@ -80,7 +81,7 @@ class ProfileScreen extends Component {
       .catch((error) => {
         console.log(error);
         Snackbar.show({
-          text: "Unable to log out",
+          text: this.localize.translate("snackbar.errorLogout"),
           backgroundColor: "red",
           duration: Snackbar.LENGTH_LONG,
         });
@@ -106,6 +107,11 @@ class ProfileScreen extends Component {
       .then(() => this.forceUpdate())
       .catch(error => {
         console.error(error)
+        Snackbar.show({
+          text: this.localize.translate("snackbar.errorLocalization"),
+          backgroundColor: "red",
+          duration: Snackbar.LENGTH_LONG,
+        });
       })
   }
 
@@ -134,14 +140,14 @@ class ProfileScreen extends Component {
                   .then(() => {
                     console.log("successful");
                     Snackbar.show({
-                      text: "Successfully updated name",
+                      text: this.localize.translate("snackbar.successUpdatedName"),
                       backgroundColor: "green",
                       duration: Snackbar.LENGTH_LONG,
                     });
                   })
                   .catch((error) => {
                     Snackbar.show({
-                      text: error.message,
+                      text: this.localize.translate("snackbar.errorUpdatedName"),
                       backgroundColor: "red",
                       duration: Snackbar.LENGTH_LONG,
                     });
@@ -229,14 +235,15 @@ class ProfileScreen extends Component {
                   .then(() => {
                     console.log("successful");
                     Snackbar.show({
-                      text: "Successfully updated password",
+                      text: this.localize.translate("snackbar.successUpdatedPassword"),
                       backgroundColor: "green",
                       duration: Snackbar.LENGTH_LONG,
                     });
                   })
                   .catch((error) => {
+                    let errorMessage = errorHandler(error, "changePassword")
                     Snackbar.show({
-                      text: error.message,
+                      text: this.localize.translate(errorMessage),
                       backgroundColor: "red",
                       duration: Snackbar.LENGTH_LONG,
                     });
@@ -249,13 +256,6 @@ class ProfileScreen extends Component {
             >
               {(props) => {
                 return (
-
-
-
-
-
-
-
                   <View style={styles.ChangeScreenContainer}>
 
                     <View style={styles.backButtonContainer}>
@@ -564,7 +564,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     user: state.user,
   };

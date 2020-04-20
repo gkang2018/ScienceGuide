@@ -50,7 +50,7 @@ class AvailableMentors extends Component {
       })
       .catch((error) => {
         Snackbar.show({
-          text: error.message,
+          text: this.localize.translate("snackbar.errorFetchingMentors"),
           backgroundColor: "red",
           duration: Snackbar.LENGTH_LONG,
         });
@@ -85,6 +85,11 @@ class AvailableMentors extends Component {
       .then(() => this.forceUpdate())
       .catch(error => {
         console.error(error)
+        Snackbar.show({
+          text: this.localize.translate("snackbar.errorLocalization"),
+          backgroundColor: "red",
+          duration: Snackbar.LENGTH_LONG,
+        });
       })
   }
 

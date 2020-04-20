@@ -36,7 +36,7 @@ class DirectoryScreen extends Component {
       })
       .catch((error) => {
         Snackbar.show({
-          text: error.message,
+          text: this.localize.translate("snackbar.errorDirectoryFetch"),
           backgroundColor: "red",
           duration: Snackbar.LENGTH_LONG,
         });
@@ -52,6 +52,11 @@ class DirectoryScreen extends Component {
       .then(() => this.forceUpdate())
       .catch(error => {
         console.error(error)
+        Snackbar.show({
+          text: this.localize.translate("snackbar.errorLocalization"),
+          backgroundColor: "red",
+          duration: Snackbar.LENGTH_LONG,
+        });
       })
   }
 

@@ -15,21 +15,24 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import Snackbar from "react-native-snackbar";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import errorHandler from "../errorHandler"
 import * as RNLocalize from 'react-native-localize'
 import LocalizationService from '../localization'
 
 class Login extends Component {
   constructor(props) {
     super(props);
-
-    this.FormValidationSchema = Yup.object().shape({
-      email: Yup.string().email("Invalid Email.").required("Required"),
-      password: Yup.string()
-        .min(6, "Password must be at least 6 characters long!")
-        .required("Required"),
-    });
     this.localize = new LocalizationService()
     this.localize.setI18nConfig()
+
+
+    this.FormValidationSchema = Yup.object().shape({
+      email: Yup.string().email(this.localize.translate("forms.invalidEmail")).required(this.localize.translate("forms.required")),
+      password: Yup.string()
+        .min(6, this.localize.translate("forms.passwordMin"))
+        .required(this.localize.translate("forms.required")),
+    });
+
   }
 
   componentDidMount() {
@@ -49,6 +52,11 @@ class Login extends Component {
       .then(() => this.forceUpdate())
       .catch(error => {
         console.error(error)
+        Snackbar.show({
+          text: this.localize.translate("snackbar.errorLocalization"),
+          backgroundColor: "red",
+          duration: Snackbar.LENGTH_LONG,
+        });
       })
   }
 
@@ -77,17 +85,18 @@ class Login extends Component {
           onSubmit={(values, actions) =>
             this.handleLogin(values.email, values.password)
               .then(() => {
-                console.log("successful");
                 Snackbar.show({
-                  text: "Successfully signed in",
+                  text: this.localize.translate("snackbar.successLogin"),
                   backgroundColor: "green",
                   duration: Snackbar.LENGTH_LONG,
                 });
                 this.props.navigation.navigate("DirectoryPage");
               })
               .catch((error) => {
+                // call the error wrapper to see which error to display  
+                let errorMessage = errorHandler(error, "Login")
                 Snackbar.show({
-                  text: error.message,
+                  text: this.localize.translate(errorMessage),
                   backgroundColor: "red",
                   duration: Snackbar.LENGTH_LONG,
                 });

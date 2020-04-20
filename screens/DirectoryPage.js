@@ -3,6 +3,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as RNLocalize from 'react-native-localize'
 import LocalizationService from '../localization'
+import Snackbar from "react-native-snackbar";
+
 Ionicons.loadFont();
 
 
@@ -34,6 +36,11 @@ class DirectoryPage extends Component {
             .then(() => this.forceUpdate())
             .catch(error => {
                 console.error(error)
+                Snackbar.show({
+                    text: this.localize.translate("snackbar.errorLocalization"),
+                    backgroundColor: "red",
+                    duration: Snackbar.LENGTH_LONG,
+                });
             })
     }
 

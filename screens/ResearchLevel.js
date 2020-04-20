@@ -5,6 +5,8 @@ import { addLevel } from "../actions/actions";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import * as RNLocalize from 'react-native-localize'
 import LocalizationService from '../localization'
+import Snackbar from "react-native-snackbar";
+
 
 class ResearchLevel extends Component {
 
@@ -50,6 +52,11 @@ class ResearchLevel extends Component {
       .then(() => this.forceUpdate())
       .catch(error => {
         console.error(error)
+        Snackbar.show({
+          text: this.localize.translate("snackbar.errorLocalization"),
+          backgroundColor: "red",
+          duration: Snackbar.LENGTH_LONG,
+        });
       })
   }
 

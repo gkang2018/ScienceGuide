@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import Snackbar from "react-native-snackbar";
 import { signup } from "../actions/actions";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-
+import errorHandler from '../errorHandler'
 import { Formik } from "formik";
 import * as Yup from "yup";
 import * as RNLocalize from 'react-native-localize'
@@ -28,16 +28,16 @@ class Signup extends Component {
     this.localize.setI18nConfig()
 
     this.FormValidationSchema = Yup.object().shape({
-      name: Yup.string().required("Required"),
-      email: Yup.string().email("Invalid Email.").required("Required"),
+      name: Yup.string().required(this.localize.translate("forms.required")),
+      email: Yup.string().email(this.localize.translate("forms.invalidEmail")).required(this.localize.translate("forms.required")),
       password: Yup.string()
-        .min(6, "Password must be at least 6 characters long!")
-        .required("Required"),
+        .min(6, this.localize.translate("forms.passwordMin"))
+        .required(this.localize.translate("forms.required")),
       confirmPassword: Yup.string()
-        .required("Required")
+        .required(this.localize.translate("forms.required"))
         .test(
           "confirm-password-test",
-          "Password and confirm password should match",
+          this.localize.translate("forms.confirmMatch"),
           function (value) {
             return value === this.parent.password;
           }
@@ -62,6 +62,11 @@ class Signup extends Component {
       .then(() => this.forceUpdate())
       .catch(error => {
         console.error(error)
+        Snackbar.show({
+          text: this.localize.translate("snackbar.errorLocalization"),
+          backgroundColor: "red",
+          duration: Snackbar.LENGTH_LONG,
+        });
       })
   }
 
@@ -104,15 +109,17 @@ class Signup extends Component {
               .then(() => {
                 console.log("successful");
                 Snackbar.show({
-                  text: "Successfully signed up",
+                  text: this.localize.translate("snackbar.successSignup"),
                   backgroundColor: "green",
                   duration: Snackbar.LENGTH_LONG,
                 });
                 this.props.navigation.navigate("Dashboard");
               })
               .catch((error) => {
+                // call the error wrapper to see which error to display  
+                let errorMessage = errorHandler(error, "Signup")
                 Snackbar.show({
-                  text: error.message,
+                  text: this.localize.translate(errorMessage),
                   backgroundColor: "red",
                   duration: Snackbar.LENGTH_LONG,
                 });

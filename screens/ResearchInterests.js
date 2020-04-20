@@ -120,7 +120,7 @@ class ResearchInterests extends Component {
           )
           .then(() => {
             Snackbar.show({
-              text: "Successfully updated your interests",
+              text: this.localize.translate("snackbar.successUpdatedInterests"),
               backgroundColor: "green",
               duration: Snackbar.LENGTH_LONG,
             });
@@ -129,7 +129,7 @@ class ResearchInterests extends Component {
           .catch((error) => {
             console.log(error);
             Snackbar.show({
-              text: error.message,
+              text: this.localize.translate("snackbar.errorUpdatedInterests"),
               backgroundColor: "red",
               duration: Snackbar.LENGTH_LONG,
             });
@@ -163,6 +163,11 @@ class ResearchInterests extends Component {
       .then(() => this.forceUpdate())
       .catch(error => {
         console.error(error)
+        Snackbar.show({
+          text: this.localize.translate("snackbar.errorLocalization"),
+          backgroundColor: "red",
+          duration: Snackbar.LENGTH_LONG,
+        });
       })
   }
 

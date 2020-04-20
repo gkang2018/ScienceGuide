@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { StyleSheet, Image, Text, Button, View, Alert, Dimensions, Linking } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { StyleSheet, Image, Text, Button, View, Alert, Dimensions, Linking, TouchableOpacity } from "react-native";
+import Snackbar from "react-native-snackbar";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import * as RNLocalize from 'react-native-localize'
 import LocalizationService from '../localization'
@@ -27,6 +27,11 @@ class LandingPage extends Component {
       .then(() => this.forceUpdate())
       .catch(error => {
         console.error(error)
+        Snackbar.show({
+          text: this.localize.translate("snackbar.errorLocalization"),
+          backgroundColor: "red",
+          duration: Snackbar.LENGTH_LONG,
+        });
       })
   }
 

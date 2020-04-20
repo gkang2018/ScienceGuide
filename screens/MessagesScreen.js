@@ -12,6 +12,8 @@ import ChatCard from "../components/ChatCard";
 import { connect } from "react-redux";
 import * as RNLocalize from 'react-native-localize'
 import LocalizationService from '../localization'
+import Snackbar from "react-native-snackbar";
+
 
 class MessagesScreen extends Component {
   constructor(props) {
@@ -73,7 +75,7 @@ class MessagesScreen extends Component {
               // unable to fetch last message
               console.log(error);
               Snackbar.show({
-                text: "Unable to fetch last message",
+                text: this.localize.translate("snackbar.errorFetchLastMessage"),
                 backgroundColor: "red",
                 duration: Snackbar.LENGTH_LONG,
               });
@@ -81,10 +83,10 @@ class MessagesScreen extends Component {
         });
       })
       .catch((error) => {
-        // unable to fetch available mentors
+        // unable to fetch user chat rooms
         console.log(error);
         Snackbar.show({
-          text: error.message,
+          text: this.localize.translate("snackbar.errorUserChatRooms"),
           backgroundColor: "red",
           duration: Snackbar.LENGTH_LONG,
         });
@@ -143,6 +145,11 @@ class MessagesScreen extends Component {
       .then(() => this.forceUpdate())
       .catch(error => {
         console.error(error)
+        Snackbar.show({
+          text: this.localize.translate("snackbar.errorLocalization"),
+          backgroundColor: "red",
+          duration: Snackbar.LENGTH_LONG,
+        });
       })
   }
 
