@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import * as RNLocalize from 'react-native-localize'
 import LocalizationService from '../localization'
 import Snackbar from "react-native-snackbar";
-
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 class ResearchAreas extends Component {
   constructor(props) {
@@ -67,17 +67,20 @@ class ResearchAreas extends Component {
 
   render() {
     return (
-      <View>
-        <View style={styles.interestsContainer}>
+      <View style = {styles.mainContainer}>
+        
           <View style={styles.heading}>
             <Text style={styles.title}>{this.localize.translate("researchAreas.title")}</Text>
           </View>
+
+
           <View style={styles.areasContainer}>
             <View style={styles.firstArea}>
               <Text style={styles.firstInterest}>
                 {this.state.firstInterest}
               </Text>
             </View>
+
             <View style={styles.secondArea}>
               <Text style={styles.secondInterest}>
                 {this.state.secondInterest}
@@ -89,15 +92,17 @@ class ResearchAreas extends Component {
                 {this.state.thirdInterest}
               </Text>
             </View>
+
+            <TouchableOpacity onPress={() => this.props.navigation.navigate("AvailableMentors")}>
+              <View style={styles.matchButton}>
+                <Text style={styles.matchText}>{this.localize.translate("researchAreas.findMentor")}</Text>
+              </View>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("AvailableMentors")}
-          >
-            <View style={styles.matchButton}>
-              <Text style={styles.matchText}>{this.localize.translate("researchAreas.findMentor")}</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+
+
+
+       
       </View>
     );
   }
@@ -110,42 +115,60 @@ const mapStateToProps = state => {
 };
 
 const styles = StyleSheet.create({
-  interestsContainer: {
-    marginLeft: 20
+  mainContainer: {
+    flex: 1,
+    backgroundColor: 'white'
   },
   heading: {
-    marginTop: 75,
-    marginLeft: 120,
-    marginBottom: 60
+    flex: 1,
+    marginTop: '15%',
+    paddingLeft: '5%',
+    paddingRight: '5%',
+    justifyContent: 'center',
+    //backgroundColor: 'blue'
   },
   title: {
-    fontSize: 30,
-    fontWeight: "600"
-  },
-  subheading: {
-    fontSize: 20,
-    fontWeight: "500"
+    fontSize: RFPercentage(5),
+    //    fontSize: 40,
+    marginTop: '10%',
+    fontWeight: "700",
+    textAlign: 'center',
   },
   areasContainer: {
-    flexDirection: "row"
+    flex: 3,
+    //flexDirection: "row",
+    //backgroundColor: 'yellow',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
+
   firstArea: {
     width: 115,
     height: 115,
     borderWidth: 1,
-    borderRadius: 115 / 2
+    borderRadius: 115 / 2,
+    position: 'absolute',
+    top: 20,
+    left: 20,
+
   },
   secondArea: {
     width: 115,
     height: 115,
     borderWidth: 1,
-    borderRadius: 115 / 2
+    borderRadius: 115 / 2,
+    position: 'absolute',
+    top: 300,
+    left: 150,
   },
   thirdArea: {
     width: 115,
     height: 115,
     borderWidth: 1,
-    borderRadius: 115 / 2
+    borderRadius: 115 / 2,
+    position: 'absolute',
+    top: 20,
+    left: 300,
   },
   firstInterest: {
     paddingLeft: 20,
@@ -159,13 +182,17 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingTop: 50
   },
+
+
   matchButton: {
     width: 125,
     height: 125,
     borderWidth: 1,
     borderRadius: 125 / 2,
-    marginLeft: 115,
-    marginTop: 25
+    //marginLeft: 115,
+    marginBottom: 50,
+    backgroundColor: 'green',
+    //position: 'absolute',
   },
   matchText: {
     paddingLeft: 20,

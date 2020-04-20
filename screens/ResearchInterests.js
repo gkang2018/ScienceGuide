@@ -13,20 +13,15 @@ import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { updateProfileInformation } from "../actions/actions";
 import { connect } from "react-redux";
 import Snackbar from "react-native-snackbar";
-import * as RNLocalize from 'react-native-localize'
-import LocalizationService from '../localization'
 
 class ResearchInterests extends Component {
   constructor(props) {
     super(props);
 
     this.snapshot = [];
-    this.localize = new LocalizationService()
-    this.localize.setI18nConfig()
-
 
     this.state = {
-      subText: this.localize.translate("researchInterests.subtext1"),
+      subText: "Select up to three research areas you are interested in",
       loggedIn: false,
     };
   }
@@ -35,19 +30,19 @@ class ResearchInterests extends Component {
     switch (this.props.interests.length) {
       case 3:
         return this.setState({
-          subText: this.localize.translate("researchInterests.subtext4"),
+          subText: "You may review your selections in the next screen",
         });
       case 2:
         return this.setState({
-          subText: this.localize.translate("researchInterests.subtext3"),
+          subText: "Select one more research area you are interested in",
         });
       case 1:
         return this.setState({
-          subText: this.localize.translate("researchInterests.subtext2"),
+          subText: "Select two more reseach areas you are interested in",
         });
       default:
         return this.setState({
-          subText: this.localize.translate("researchInterests.subtext1"),
+          subText: "Select up to three research areas you are interested in ",
         });
     }
   }
@@ -60,34 +55,15 @@ class ResearchInterests extends Component {
     return true;
   }
 
-  checkUserStatus = () => {
-    if (this.isEmpty(this.props.user)) {
-      this.setState({ loggedIn: false });
-    } else {
-      this.snapshot = [...this.props.interests];
-      this.setState({ loggedIn: true });
-    }
-  };
-
-  confirm = () => {
-    if (this.isEmpty(this.props.user)) {
-      this.setState({ loggedIn: false });
-      this.handleInterestsSelection();
-    } else {
-      this.snapshot = [...this.props.interests];
-      this.setState({ loggedIn: true });
-      this.handleInterestsSelection();
-    }
-  };
-
   componentDidMount() {
-    this.checkUserStatus();
-    this.changeSubText();
-    this.props.navigation.setOptions({
-      headerBackTitle: this.localize.translate("icons.back")
-    })
-    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+    if (this.isEmpty(this.props.user)) {
+      this.setState({ loggedIn: false });
+    } else {
+      this.snapshot = [...this.props.interests];
+      this.setState({ loggedIn: true });
+    }
 
+    this.changeSubText();
   }
 
   componentDidUpdate(prevProps) {
@@ -98,9 +74,9 @@ class ResearchInterests extends Component {
   }
 
   handleInterestsSelection = () => {
-    // check the users' status once again
+    console.log(this.state);
     if (this.state.loggedIn === false) {
-      this.props.navigation.navigate("Language");
+      this.props.navigation.navigate("Areas");
     } else {
       // check if the user is confirming their research interests but they never changed them
 
@@ -109,7 +85,7 @@ class ResearchInterests extends Component {
       updatedInterests.sort();
 
       if (this.checkArraysEqual(updatedInterests, this.snapshot)) {
-        this.props.navigation.navigate("DirectoryPage");
+        this.props.navigation.navigate("Profile");
       } else {
         // have to update our database with the new array
         this.props
@@ -120,16 +96,16 @@ class ResearchInterests extends Component {
           )
           .then(() => {
             Snackbar.show({
-              text: this.localize.translate("snackbar.successUpdatedInterests"),
+              text: "Successfully updated your interests",
               backgroundColor: "green",
               duration: Snackbar.LENGTH_LONG,
             });
-            this.props.navigation.navigate("DirectoryPage");
+            this.props.navigation.navigate("Profile");
           })
           .catch((error) => {
             console.log(error);
             Snackbar.show({
-              text: this.localize.translate("snackbar.errorUpdatedInterests"),
+              text: error.message,
               backgroundColor: "red",
               duration: Snackbar.LENGTH_LONG,
             });
@@ -157,49 +133,39 @@ class ResearchInterests extends Component {
     return true;
   }
 
-
-  handleLocalizationChange = () => {
-    this.localize.setI18nConfig()
-      .then(() => this.forceUpdate())
-      .catch(error => {
-        console.error(error)
-        Snackbar.show({
-          text: this.localize.translate("snackbar.errorLocalization"),
-          backgroundColor: "red",
-          duration: Snackbar.LENGTH_LONG,
-        });
-      })
-  }
-
-  componentWillUnmount() {
-    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
-  }
-
   render() {
     return (
       <View style={styles.mainContainer}>
         <View style={styles.headerContainer}>
-          <Text style={styles.title}>{this.localize.translate("researchInterests.title")}</Text>
+          <Text style={styles.title}>Research Interests</Text>
           <Text style={styles.subHeading}>{this.state.subText}</Text>
-          <Button title={this.localize.translate("researchInterests.confirm")} onPress={this.confirm} />
         </View>
 
         <View style={styles.lowerContainer}>
           <FlatList
             style={styles.flatList}
             data={interestsData}
+            contentContainerStyle={styles.itemContainer}
             renderItem={({ item }) => (
-              <View>
+              <View style={styles.componentGroup}>
                 <InterestsCard
                   interest={item.interest}
                   id={item.id}
                   image={item.image}
                 />
+
+                <View style={styles.interestTextContainer}>
+                  <Text style={styles.interestText}>{item.interest}</Text>
+                </View>
               </View>
             )}
             keyExtractor={(item) => item.id}
             numColumns={2}
           />
+          <TouchableOpacity style={styles.submitButton} onPress={this.handleInterestsSelection}>
+            <Button title="Confirm" onPress={this.handleInterestsSelection} />
+          </TouchableOpacity>
+          
         </View>
       </View>
     );
@@ -223,39 +189,97 @@ const mapDispatchToProps = (dispatch) => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: "white",
+    //backgroundColor: "pink",
   },
   headerContainer: {
-    flex: 1,
-    marginTop: "0%",
-    marginBottom: "5%",
+    height: '25%',
+    // flex: 1,
+    paddingTop: 60,
     alignItems: "center",
     justifyContent: "center",
     //backgroundColor: 'blue'
   },
   lowerContainer: {
-    flex: 3,
-    //marginTop: '5%',
+    height: '75%',
+    //flex: 3.2,
+    //paddingTop: '5%',
     alignItems: "center",
-    //backgroundColor: 'pink'
+    //backgroundColor: 'yellow'
   },
   title: {
     fontSize: RFPercentage(5),
-    marginTop: "15%",
+    //marginTop: 40,
     fontWeight: "700",
   },
   subHeading: {
     fontSize: 20,
-    marginTop: 20,
-    marginLeft: 15,
-    marginRight: 15,
+    marginTop: 10,
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingBottom: 5,
+    //marginLeft: 15,
+    //marginRight: 15,
     textAlign: "center",
     justifyContent: "center",
     alignItems: "center",
+    //backgroundColor: 'grey'
+  },
+  itemContainer: {
+    //flex: 1,
+    flexDirection: 'column',
+    //justifyContent: 'space-between',
+    //padding: 10,
+    //marginBottom: 40,
+    alignItems: 'center',
+    //justifyContent: 'center'
+    //backgroundColor: 'red'
   },
   flatList: {
     width: "100%",
-    //backgroundColor: 'red'
+    //backgroundColor: 'green',
+    flexDirection: 'column',
+    //marginBottom: '10%',
+    //backgroundColor: 'transparent'
+  },
+  interestTextContainer: {
+    width: 180,
+    alignItems: 'center',
+    //backgroundColor: 'blue'
+  },
+  interestText: {
+    //alignItems: "center",
+    //marginBottom: '7%',
+    //height: 40,
+    //width: 180,
+    //flexWrap: 'wrap',
+    //flexShrink: 1,
+    //fontSize: 4
+    //marginLeft: 20,
+    textAlign: 'center',
+    //backgroundColor: 'yellow',
+    //alignItems: 'center'
+  },
+  componentGroup: {
+    alignItems: 'center',
+    //justifyContent: 'center'
+  },
+  submitButton: {
+    height: '10%',
+    width: 250,
+    fontSize: RFPercentage(2),
+    borderWidth: 1.75,
+    borderRadius: 30,
+    marginLeft: 30,
+    marginRight: 30,
+    //paddingTop: 10,
+    //paddingBottom: 10,
+    textAlign: "center",
+    borderColor: "black",
+    backgroundColor: 'yellow',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    top: '85%'
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ResearchInterests);

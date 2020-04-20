@@ -49,23 +49,24 @@ class InterestsCard extends Component {
 
   render() {
     return (
-      <TouchableOpacity
-        disabled={
-          this.props.interests.length >= 3 && !this.state.isSelected
-            ? true
-            : false
-        }
-        onPress={this.handleSelect}
-      >
-        <View
-          style={this.state.isSelected ? styles.overlay : styles.defaultSquare}
+      <View style={styles.squareContainer}>
+        <TouchableOpacity style={styles.squareTouchable}
+          disabled={
+            this.props.interests.length >= 3 && !this.state.isSelected
+              ? true
+              : false
+          }
+          onPress={this.handleSelect}
         >
-          <View>
-            <Image source={{ uri: this.props.image }} />
-          </View>
-          <Text style={styles.interestText}>{this.props.interest}</Text>
-        </View>
-      </TouchableOpacity>
+              <View style={this.state.isSelected ? styles.overlay : styles.defaultSquare}>
+                <View>
+                  <Image source={{ uri: this.props.image }} />
+                </View>
+
+                {/* <Text style={styles.interestText}>{this.props.interest}</Text> */}
+              </View>
+        </TouchableOpacity>
+      </View>
     );
   }
 }
@@ -84,30 +85,49 @@ const mapDispatchToProps = dispatch => {
 };
 
 const styles = StyleSheet.create({
+  squareContainer: {
+    //flex: 1,
+    height: 180,
+    width: 180,
+    margin: 10,
+    //backgroundColor: 'white',
+    //flexDirection: 'row',
+    justifyContent: 'center',
+    //alignContent: 'center'
+  },
+  defaultSquare: {
+    width: '98%',
+    height: '98%',
+    borderWidth: 1,
+    borderRadius: 20,
+    margin: 10,
+    backgroundColor: 'black'
+    //marginLeft: 27,
+    //marginBottom: 15
+  },
   overlay: {
     backgroundColor: "rgba(52, 52, 52, 0.8)",
-    width: 200,
-    height: 200,
+    //backgroundColor: 'red',
+    width: '98%',
+    height: '98%',
     borderWidth: 1,
     borderRadius: 20,
     //marginLeft: 27,
     //marginBottom: 15
   },
-
-  defaultSquare: {
-    width: 200,
-    height: 200,
-    borderWidth: 1,
-    borderRadius: 20,
-    backgroundColor: 'white'
-    //marginLeft: 27,
-    //marginBottom: 15
-  },
-  interestText: {
-    alignItems: "flex-end",
-    //marginTop: 120,
-    marginLeft: 2
+  squareTouchable: {
+    height: '100%',
+    width: '100%',
+    //backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
+  // interestText: {
+  //   //alignItems: "flex-end",
+  //   //margin: '10%',
+  //   marginLeft: 2,
+  //   backgroundColor: 'yellow'
+  // }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(InterestsCard);
