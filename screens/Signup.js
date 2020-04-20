@@ -14,25 +14,30 @@ import { connect } from "react-redux";
 import Snackbar from "react-native-snackbar";
 import { signup } from "../actions/actions";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-
+import errorHandler from '../errorHandler'
 import { Formik } from "formik";
 import * as Yup from "yup";
+import * as RNLocalize from 'react-native-localize'
+import LocalizationService from '../localization'
 
 class Signup extends Component {
   constructor(props) {
     super(props);
 
+    this.localize = new LocalizationService()
+    this.localize.setI18nConfig()
+
     this.FormValidationSchema = Yup.object().shape({
-      name: Yup.string().required("Required"),
-      email: Yup.string().email("Invalid Email.").required("Required"),
+      name: Yup.string().required(this.localize.translate("forms.required")),
+      email: Yup.string().email(this.localize.translate("forms.invalidEmail")).required(this.localize.translate("forms.required")),
       password: Yup.string()
-        .min(6, "Password must be at least 6 characters long!")
-        .required("Required"),
+        .min(6, this.localize.translate("forms.passwordMin"))
+        .required(this.localize.translate("forms.required")),
       confirmPassword: Yup.string()
-        .required("Required")
+        .required(this.localize.translate("forms.required"))
         .test(
           "confirm-password-test",
-          "Password and confirm password should match",
+          this.localize.translate("forms.confirmMatch"),
           function (value) {
             return value === this.parent.password;
           }
@@ -40,13 +45,31 @@ class Signup extends Component {
     });
   }
 
-  // componentDidMount() {
-  //   this.props.navigation.setOptions({
-  //     headerRight: () => (
-  //       <Button title="Next" onPress={this.handleSignup}></Button>
-  //     )
-  //   });
-  // }
+
+  componentDidMount() {
+    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+    this.props.navigation.setOptions({
+      headerBackTitle: this.localize.translate("icons.back")
+    })
+
+  }
+  componentWillUnmount() {
+    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+  }
+
+  handleLocalizationChange = () => {
+    this.localize.setI18nConfig()
+      .then(() => this.forceUpdate())
+      .catch(error => {
+        console.error(error)
+        Snackbar.show({
+          text: this.localize.translate("snackbar.errorLocalization"),
+          backgroundColor: "red",
+          duration: Snackbar.LENGTH_LONG,
+        });
+      })
+  }
+
 
   handleSignup = (email, password, name) => {
     return new Promise((resolve, reject) => {
@@ -86,15 +109,17 @@ class Signup extends Component {
               .then(() => {
                 console.log("successful");
                 Snackbar.show({
-                  text: "Successfully signed up",
+                  text: this.localize.translate("snackbar.successSignup"),
                   backgroundColor: "green",
                   duration: Snackbar.LENGTH_LONG,
                 });
                 this.props.navigation.navigate("Dashboard");
               })
               .catch((error) => {
+                // call the error wrapper to see which error to display  
+                let errorMessage = errorHandler(error, "Signup")
                 Snackbar.show({
-                  text: error.message,
+                  text: this.localize.translate(errorMessage),
                   backgroundColor: "red",
                   duration: Snackbar.LENGTH_LONG,
                 });
@@ -108,12 +133,13 @@ class Signup extends Component {
             return (
               <View style={styles.container}>
                 <View style={styles.titleContainer}>
-                  <Text style={styles.title}>Sign Up</Text>
+                  <Text style={styles.title}>{this.localize.translate("signup.title")}</Text>
+                  <Text>{this.localize.translate("signup.description")}</Text>
                 </View>
                 <View style={styles.formContainer}>
                   <View style={styles.inputStyle}>
                     <TextInput
-                      placeholder="Name"
+                      placeholder={this.localize.translate("signup.name")}
                       value={props.values.name}
                       onChangeText={props.handleChange("name")}
                       onBlur={props.handleBlur("name")}
@@ -125,7 +151,7 @@ class Signup extends Component {
                   </Text>
                   <View style={styles.inputStyle}>
                     <TextInput
-                      placeholder="Email"
+                      placeholder={this.localize.translate("signup.email")}
                       value={props.values.email}
                       onChangeText={props.handleChange("email")}
                       onBlur={props.handleBlur("email")}
@@ -137,7 +163,7 @@ class Signup extends Component {
                   </Text>
                   <View style={styles.inputStyle}>
                     <TextInput
-                      placeholder="Password"
+                      placeholder={this.localize.translate("signup.password")}
                       value={props.values.password}
                       onChangeText={props.handleChange("password")}
                       onBlur={props.handleBlur("password")}
@@ -150,7 +176,7 @@ class Signup extends Component {
                   </Text>
                   <View style={styles.inputStyle}>
                     <TextInput
-                      placeholder="Confrim Password"
+                      placeholder={this.localize.translate("signup.confirmPassword")}
                       value={props.values.confirmPassword}
                       onChangeText={props.handleChange("confirmPassword")}
                       onBlur={props.handleBlur("confirmPassword")}
@@ -166,12 +192,12 @@ class Signup extends Component {
                       <ActivityIndicator />
                     </View>
                   ) : (
-                    <View style={styles.buttonContainer}>
-                      <TouchableOpacity onPress={props.handleSubmit}>
-                        <Text style={styles.startingButton}>Confirm</Text>
-                      </TouchableOpacity>
-                    </View>
-                  )}
+                      <View style={styles.buttonContainer}>
+                        <TouchableOpacity onPress={props.handleSubmit}>
+                          <Text style={styles.startingButton}>{this.localize.translate("signup.confirmButton")}</Text>
+                        </TouchableOpacity>
+                      </View>
+                    )}
                   {<Text style={{ color: "red" }}>{props.errors.general}</Text>}
                 </View>
               </View>

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import {
   View,
   Text,
@@ -11,6 +10,10 @@ import {
 import DatabaseService from "../config/firebase";
 import ChatCard from "../components/ChatCard";
 import { connect } from "react-redux";
+import * as RNLocalize from 'react-native-localize'
+import LocalizationService from '../localization'
+import Snackbar from "react-native-snackbar";
+
 
 class MessagesScreen extends Component {
   constructor(props) {
@@ -22,6 +25,8 @@ class MessagesScreen extends Component {
     };
 
     this.db = new DatabaseService();
+    this.localize = new LocalizationService()
+    this.localize.setI18nConfig()
   }
 
   updateChat = () => {
@@ -70,7 +75,7 @@ class MessagesScreen extends Component {
               // unable to fetch last message
               console.log(error);
               Snackbar.show({
-                text: "Unable to fetch last message",
+                text: this.localize.translate("snackbar.errorFetchLastMessage"),
                 backgroundColor: "red",
                 duration: Snackbar.LENGTH_LONG,
               });
@@ -78,10 +83,10 @@ class MessagesScreen extends Component {
         });
       })
       .catch((error) => {
-        // unable to fetch available mentors
+        // unable to fetch user chat rooms
         console.log(error);
         Snackbar.show({
-          text: error.message,
+          text: this.localize.translate("snackbar.errorUserChatRooms"),
           backgroundColor: "red",
           duration: Snackbar.LENGTH_LONG,
         });
@@ -119,6 +124,7 @@ class MessagesScreen extends Component {
   }
 
   componentDidMount() {
+    RNLocalize.addEventListener('change', this.handleLocalizationChange)
     // add listener so that once the component mounts we update the chatrooms and last messages
     this.unsubscribe = this.props.navigation.addListener("focus", () =>
       this.updateChat()
@@ -130,6 +136,21 @@ class MessagesScreen extends Component {
     this.setState({
       userChatRooms: [],
     });
+    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+
+  }
+
+  handleLocalizationChange = () => {
+    this.localize.setI18nConfig()
+      .then(() => this.forceUpdate())
+      .catch(error => {
+        console.error(error)
+        Snackbar.show({
+          text: this.localize.translate("snackbar.errorLocalization"),
+          backgroundColor: "red",
+          duration: Snackbar.LENGTH_LONG,
+        });
+      })
   }
 
   render() {
@@ -137,7 +158,7 @@ class MessagesScreen extends Component {
       return (
         <View>
           <View style={styles.heading}>
-            <Text style={styles.title}>Messages</Text>
+            <Text style={styles.title}>{this.localize.translate("messagesScreen.title")}</Text>
           </View>
           <View style={styles.container}>
             <ActivityIndicator size="large" color="#0000ff" animating={true} />
@@ -148,7 +169,7 @@ class MessagesScreen extends Component {
     return (
       <View>
         <View style={styles.heading}>
-          <Text style={styles.title}>Messages</Text>
+          <Text style={styles.title}>{this.localize.translate("messagesScreen.title")}</Text>
         </View>
         <View>
           <FlatList

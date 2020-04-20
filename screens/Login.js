@@ -15,21 +15,49 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import Snackbar from "react-native-snackbar";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import errorHandler from "../errorHandler"
+import * as RNLocalize from 'react-native-localize'
+import LocalizationService from '../localization'
 
 class Login extends Component {
   constructor(props) {
     super(props);
+    this.localize = new LocalizationService()
+    this.localize.setI18nConfig()
+
 
     this.FormValidationSchema = Yup.object().shape({
-      email: Yup.string().email("Invalid Email.").required("Required"),
+      email: Yup.string().email(this.localize.translate("forms.invalidEmail")).required(this.localize.translate("forms.required")),
       password: Yup.string()
-        .min(6, "Password must be at least 6 characters long!")
-        .required("Required"),
+        .min(6, this.localize.translate("forms.passwordMin"))
+        .required(this.localize.translate("forms.required")),
     });
+
   }
 
   componentDidMount() {
     this.props.clear();
+    this.props.navigation.setOptions({
+      headerBackTitle: this.localize.translate("icons.back")
+    })
+    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+  }
+
+  componentWillUnmount() {
+    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+  }
+
+  handleLocalizationChange = () => {
+    this.localize.setI18nConfig()
+      .then(() => this.forceUpdate())
+      .catch(error => {
+        console.error(error)
+        Snackbar.show({
+          text: this.localize.translate("snackbar.errorLocalization"),
+          backgroundColor: "red",
+          duration: Snackbar.LENGTH_LONG,
+        });
+      })
   }
 
   handleLogin = (email, password) => {
@@ -57,17 +85,18 @@ class Login extends Component {
           onSubmit={(values, actions) =>
             this.handleLogin(values.email, values.password)
               .then(() => {
-                console.log("successful");
                 Snackbar.show({
-                  text: "Successfully signed in",
+                  text: this.localize.translate("snackbar.successLogin"),
                   backgroundColor: "green",
                   duration: Snackbar.LENGTH_LONG,
                 });
                 this.props.navigation.navigate("DirectoryPage");
               })
               .catch((error) => {
+                // call the error wrapper to see which error to display  
+                let errorMessage = errorHandler(error, "Login")
                 Snackbar.show({
-                  text: error.message,
+                  text: this.localize.translate(errorMessage),
                   backgroundColor: "red",
                   duration: Snackbar.LENGTH_LONG,
                 });
@@ -81,7 +110,7 @@ class Login extends Component {
             return (
               <View style={styles.container}>
                 <View style={styles.titleContainer}>
-                  <Text style={styles.title}>Sign In</Text>
+                  <Text style={styles.title}>{this.localize.translate("login.title")}</Text>
                 </View>
 
                 <View style={styles.formContainer}>
@@ -100,7 +129,7 @@ class Login extends Component {
 
                   <View style={styles.inputStyle}>
                     <TextInput
-                      placeholder="Password"
+                      placeholder={this.localize.translate("login.password")}
                       value={props.values.password}
                       onChangeText={props.handleChange("password")}
                       onBlur={props.handleBlur("password")}
@@ -117,13 +146,13 @@ class Login extends Component {
                       <ActivityIndicator />
                     </View>
                   ) : (
-                    <View style={styles.buttonContainer}>
-                      <TouchableOpacity onPress={props.handleSubmit}>
-                        <Text style={styles.startingButton}>Confirm</Text>
-                      </TouchableOpacity>
-                    </View>
-                    // <Button onPress={props.handleSubmit} title="Submit" />
-                  )}
+                      <View style={styles.buttonContainer}>
+                        <TouchableOpacity onPress={props.handleSubmit}>
+                          <Text style={styles.startingButton}>{this.localize.translate("login.confirm")}</Text>
+                        </TouchableOpacity>
+                      </View>
+                      // <Button onPress={props.handleSubmit} title="Submit" />
+                    )}
                   {<Text style={{ color: "red" }}>{props.errors.general}</Text>}
                 </View>
               </View>

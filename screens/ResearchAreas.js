@@ -2,10 +2,17 @@ import React, { Component } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 import { connect } from "react-redux";
+import * as RNLocalize from 'react-native-localize'
+import LocalizationService from '../localization'
+import Snackbar from "react-native-snackbar";
+
 
 class ResearchAreas extends Component {
   constructor(props) {
     super(props);
+
+    this.localize = new LocalizationService()
+    this.localize.setI18nConfig()
   }
 
   state = {
@@ -16,6 +23,28 @@ class ResearchAreas extends Component {
 
   componentDidMount() {
     this.setInterests();
+    this.props.navigation.setOptions({
+      headerBackTitle: this.localize.translate("icons.back")
+    })
+    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+  }
+
+  componentWillUnmount() {
+    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+
+  }
+
+  handleLocalizationChange = () => {
+    this.localize.setI18nConfig()
+      .then(() => this.forceUpdate())
+      .catch(error => {
+        console.error(error)
+        Snackbar.show({
+          text: this.localize.translate("snackbar.errorLocalization"),
+          backgroundColor: "red",
+          duration: Snackbar.LENGTH_LONG,
+        });
+      })
   }
 
   // take our interests from redux store and populate them in our research area page
@@ -41,8 +70,7 @@ class ResearchAreas extends Component {
       <View>
         <View style={styles.interestsContainer}>
           <View style={styles.heading}>
-            <Text style={styles.title}>Top 3</Text>
-            <Text style={styles.subheading}>Research Areas</Text>
+            <Text style={styles.title}>{this.localize.translate("researchAreas.title")}</Text>
           </View>
           <View style={styles.areasContainer}>
             <View style={styles.firstArea}>
@@ -66,7 +94,7 @@ class ResearchAreas extends Component {
             onPress={() => this.props.navigation.navigate("AvailableMentors")}
           >
             <View style={styles.matchButton}>
-              <Text style={styles.matchText}>Match New Mentors</Text>
+              <Text style={styles.matchText}>{this.localize.translate("researchAreas.findMentor")}</Text>
             </View>
           </TouchableOpacity>
         </View>

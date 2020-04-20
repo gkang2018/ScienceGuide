@@ -3,6 +3,9 @@ import { GiftedChat } from "react-native-gifted-chat";
 import { connect } from "react-redux";
 import DatabaseService from "../config/firebase";
 import Snackbar from "react-native-snackbar";
+import * as RNLocalize from 'react-native-localize'
+import LocalizationService from '../localization'
+
 class ChatRoom extends Component {
   constructor(props) {
     super(props);
@@ -10,10 +13,9 @@ class ChatRoom extends Component {
       messages: [],
     };
 
-    this.props.navigation.setOptions({
-      headerTitle: this.props.route.params.recipientName,
-      headerTransparent: true,
-    });
+
+    this.localize = new LocalizationService()
+    this.localize.setI18nConfig()
 
     this.recipientName = this.props.route.params.recipientName;
     this.recipientID = this.props.route.params.recipientID;
@@ -28,6 +30,17 @@ class ChatRoom extends Component {
   }
 
   componentDidMount() {
+
+    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+
+
+    this.props.navigation.setOptions({
+      headerTitle: this.recipientName,
+      headerTransparent: true,
+      headerBackTitle: this.localize.translate("icons.back")
+    });
+
+
     let chatID = this.db.getChatRoom(this.props.user.uid, this.recipientID);
     this.userName = this.props.user.name;
     // set the user name in our redux store so we have it
@@ -89,8 +102,24 @@ class ChatRoom extends Component {
   }
 
   componentWillUnmount() {
+    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
     this.unsubscribe();
   }
+
+
+  handleLocalizationChange = () => {
+    this.localize.setI18nConfig()
+      .then(() => this.forceUpdate())
+      .catch(error => {
+        console.error(error)
+        Snackbar.show({
+          text: this.localize.translate("snackbar.errorLocalization"),
+          backgroundColor: "red",
+          duration: Snackbar.LENGTH_LONG,
+        });
+      })
+  }
+
 
   render() {
     return (

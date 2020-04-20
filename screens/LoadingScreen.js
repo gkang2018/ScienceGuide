@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import DatabaseService from "../config/firebase";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
+import * as RNLocalize from 'react-native-localize'
+import LocalizationService from '../localization'
 import { connect } from "react-redux";
 import {
   addInterest,
@@ -15,9 +17,14 @@ class LoadingScreen extends Component {
   constructor(props) {
     super(props);
     this.db = new DatabaseService();
+    this.localize = new LocalizationService()
+    this.localize.setI18nConfig()
   }
 
+
   componentDidMount() {
+    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+
     this.db.auth.onAuthStateChanged((user) => {
       if (user) {
         // TODO: determine if credentials are for user or mentor
@@ -42,7 +49,7 @@ class LoadingScreen extends Component {
               console.log(error);
               console.log("Unable to fetch student credentials");
               Snackbar.show({
-                text: error.message,
+                text: this.localize.translate("snackbar.failedUserCredentials"),
                 backgroundColor: "red",
                 duration: Snackbar.LENGTH_LONG,
               });
@@ -52,6 +59,23 @@ class LoadingScreen extends Component {
         this.props.navigation.navigate("Home");
       }
     });
+  }
+
+  componentWillUnmount() {
+    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+  }
+
+  handleLocalizationChange = () => {
+    this.localize.setI18nConfig()
+      .then(() => this.forceUpdate())
+      .catch(error => {
+        console.error(error)
+        Snackbar.show({
+          text: this.localize.translate("snackbar.errorLocalization"),
+          backgroundColor: "red",
+          duration: Snackbar.LENGTH_LONG,
+        });
+      })
   }
 
   populateReduxStore(student) {
