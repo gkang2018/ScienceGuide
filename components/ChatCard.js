@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import { connect } from "react-redux";
 
 class ChatCard extends Component {
   constructor(props) {
@@ -8,27 +9,52 @@ class ChatCard extends Component {
   }
 
   render() {
-    return (
-      <TouchableOpacity
-        onPress={() =>
-          this.props.navigation.navigate("ChatRoom", {
-            recipientName: this.props.recipientName,
-            recipientID: this.props.recipientID,
-          })
-        }
-      >
-        <View style={styles.container}>
-          <Image
-            style={styles.avatar}
-            source={require("../assets/default-avatar.png")}
-          />
-          <View style={styles.details}>
-            <Text style={styles.recipient}>{this.props.recipientName}</Text>
-            <Text style={styles.lastMessage}>{this.props.lastMessage}</Text>
+
+    if (this.props.user.type === "Mentor" && this.props.lastMessage === "") {
+      return (
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate("ChatRoom", {
+              recipientName: this.props.recipientName,
+              recipientID: this.props.recipientID,
+            })
+          }
+        >
+          <View style={styles.container}>
+            <Image
+              style={styles.avatar}
+              source={require("../assets/default-avatar.png")}
+            />
+            <View style={styles.details}>
+              <Text>{this.props.recipientName} matched with you during signup</Text>
+            </View>
           </View>
-        </View>
-      </TouchableOpacity>
-    );
+        </TouchableOpacity>
+      );
+    }
+    else {
+      return (
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate("ChatRoom", {
+              recipientName: this.props.recipientName,
+              recipientID: this.props.recipientID,
+            })
+          }
+        >
+          <View style={styles.container}>
+            <Image
+              style={styles.avatar}
+              source={require("../assets/default-avatar.png")}
+            />
+            <View style={styles.details}>
+              <Text style={styles.recipient}>{this.props.recipientName}</Text>
+              <Text style={styles.lastMessage}>{this.props.lastMessage}</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+      );
+    }
   }
 }
 
@@ -59,4 +85,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChatCard;
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps, null)(ChatCard);
