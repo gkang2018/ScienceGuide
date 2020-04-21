@@ -1,3 +1,4 @@
+
 import React, { Component } from "react";
 import {
   View,
@@ -13,15 +14,20 @@ import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { updateProfileInformation } from "../actions/actions";
 import { connect } from "react-redux";
 import Snackbar from "react-native-snackbar";
+import * as RNLocalize from 'react-native-localize'
+import LocalizationService from '../localization'
 
 class ResearchInterests extends Component {
   constructor(props) {
     super(props);
 
     this.snapshot = [];
+    this.localize = new LocalizationService()
+    this.localize.setI18nConfig()
+
 
     this.state = {
-      subText: "Select up to three research areas you are interested in",
+      subText: this.localize.translate("researchInterests.subtext1"),
       loggedIn: false,
     };
   }
@@ -30,19 +36,19 @@ class ResearchInterests extends Component {
     switch (this.props.interests.length) {
       case 3:
         return this.setState({
-          subText: "You may review your selections in the next screen",
+          subText: this.localize.translate("researchInterests.subtext4"),
         });
       case 2:
         return this.setState({
-          subText: "Select one more research area you are interested in",
+          subText: this.localize.translate("researchInterests.subtext3"),
         });
       case 1:
         return this.setState({
-          subText: "Select two more reseach areas you are interested in",
+          subText: this.localize.translate("researchInterests.subtext2"),
         });
       default:
         return this.setState({
-          subText: "Select up to three research areas you are interested in ",
+          subText: this.localize.translate("researchInterests.subtext1"),
         });
     }
   }
@@ -55,15 +61,34 @@ class ResearchInterests extends Component {
     return true;
   }
 
-  componentDidMount() {
+  checkUserStatus = () => {
     if (this.isEmpty(this.props.user)) {
       this.setState({ loggedIn: false });
     } else {
       this.snapshot = [...this.props.interests];
       this.setState({ loggedIn: true });
     }
+  };
 
+  confirm = () => {
+    if (this.isEmpty(this.props.user)) {
+      this.setState({ loggedIn: false });
+      this.handleInterestsSelection();
+    } else {
+      this.snapshot = [...this.props.interests];
+      this.setState({ loggedIn: true });
+      this.handleInterestsSelection();
+    }
+  };
+
+  componentDidMount() {
+    this.checkUserStatus();
     this.changeSubText();
+    this.props.navigation.setOptions({
+      headerBackTitle: this.localize.translate("icons.back")
+    })
+    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+
   }
 
   componentDidUpdate(prevProps) {
@@ -74,9 +99,9 @@ class ResearchInterests extends Component {
   }
 
   handleInterestsSelection = () => {
-    console.log(this.state);
+    // check the users' status once again
     if (this.state.loggedIn === false) {
-      this.props.navigation.navigate("Areas");
+      this.props.navigation.navigate("Language");
     } else {
       // check if the user is confirming their research interests but they never changed them
 
@@ -85,7 +110,7 @@ class ResearchInterests extends Component {
       updatedInterests.sort();
 
       if (this.checkArraysEqual(updatedInterests, this.snapshot)) {
-        this.props.navigation.navigate("Profile");
+        this.props.navigation.navigate("DirectoryPage");
       } else {
         // have to update our database with the new array
         this.props
@@ -96,16 +121,16 @@ class ResearchInterests extends Component {
           )
           .then(() => {
             Snackbar.show({
-              text: "Successfully updated your interests",
+              text: this.localize.translate("snackbar.successUpdatedInterests"),
               backgroundColor: "green",
               duration: Snackbar.LENGTH_LONG,
             });
-            this.props.navigation.navigate("Profile");
+            this.props.navigation.navigate("DirectoryPage");
           })
           .catch((error) => {
             console.log(error);
             Snackbar.show({
-              text: error.message,
+              text: this.localize.translate("snackbar.errorUpdatedInterests"),
               backgroundColor: "red",
               duration: Snackbar.LENGTH_LONG,
             });
@@ -133,39 +158,49 @@ class ResearchInterests extends Component {
     return true;
   }
 
+
+  handleLocalizationChange = () => {
+    this.localize.setI18nConfig()
+      .then(() => this.forceUpdate())
+      .catch(error => {
+        console.error(error)
+        Snackbar.show({
+          text: this.localize.translate("snackbar.errorLocalization"),
+          backgroundColor: "red",
+          duration: Snackbar.LENGTH_LONG,
+        });
+      })
+  }
+
+  componentWillUnmount() {
+    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+  }
+
   render() {
     return (
       <View style={styles.mainContainer}>
         <View style={styles.headerContainer}>
-          <Text style={styles.title}>Research Interests</Text>
+          <Text style={styles.title}>{this.localize.translate("researchInterests.title")}</Text>
           <Text style={styles.subHeading}>{this.state.subText}</Text>
+          <Button title={this.localize.translate("researchInterests.confirm")} onPress={this.confirm} />
         </View>
 
         <View style={styles.lowerContainer}>
           <FlatList
             style={styles.flatList}
             data={interestsData}
-            contentContainerStyle={styles.itemContainer}
             renderItem={({ item }) => (
-              <View style={styles.componentGroup}>
+              <View>
                 <InterestsCard
                   interest={item.interest}
                   id={item.id}
                   image={item.image}
                 />
-
-                <View style={styles.interestTextContainer}>
-                  <Text style={styles.interestText}>{item.interest}</Text>
-                </View>
               </View>
             )}
             keyExtractor={(item) => item.id}
             numColumns={2}
           />
-          <TouchableOpacity style={styles.submitButton} onPress={this.handleInterestsSelection}>
-            <Button title="Confirm" onPress={this.handleInterestsSelection} />
-          </TouchableOpacity>
-          
         </View>
       </View>
     );
