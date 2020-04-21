@@ -134,7 +134,7 @@ class Signup extends Component {
               <View style={styles.container}>
                 <View style={styles.titleContainer}>
                   <Text style={styles.title}>{this.localize.translate("signup.title")}</Text>
-                  <Text>{this.localize.translate("signup.description")}</Text>
+                  <Text style={styles.descriptionText}>{this.localize.translate("signup.description")}</Text>
                 </View>
                 <View style={styles.formContainer}>
                   <View style={styles.inputStyle}>
@@ -187,6 +187,8 @@ class Signup extends Component {
                     {props.touched.confirmPassword &&
                       props.errors.confirmPassword}
                   </Text>
+
+                  <View style={{height: '5%',}}></View>
                   {props.isSubmitting ? (
                     <View style={styles.buttonContainer}>
                       <ActivityIndicator />
@@ -238,6 +240,18 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     //backgroundColor: 'red'
   },
+  descriptionText: {
+    fontSize: RFPercentage(3),
+    marginTop: 10,
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingBottom: 5,
+    //marginLeft: 15,
+    //marginRight: 15,
+    textAlign: "center",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   inputStyle: {
     width: "80%",
     borderWidth: 1.75,
@@ -264,11 +278,22 @@ const styles = StyleSheet.create({
     //backgroundColor: 'blue'
   },
   buttonContainer: {
-    height: "35%",
-    width: "100%",
+    height: 60,
+    width: 240,
+    //textAlignVertical: 'center',
+    //borderColor: "black",
+    //borderWidth: 1.5,
+    //borderRadius: 30,
+    paddingLeft: 100,
+    paddingRight: 100,
+    //paddingBottom: 20,
+    //paddingTop: 20,
+    //fontSize: 15,
+    //textAlign: "center",
     //backgroundColor: 'red',
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
+    //backgroundColor: 'yellow',
   },
 });
 
