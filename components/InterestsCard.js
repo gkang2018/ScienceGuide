@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 20,
     margin: 10,
-    backgroundColor: 'black'
+    //backgroundColor: 'black'
     //marginLeft: 27,
     //marginBottom: 15
   },
