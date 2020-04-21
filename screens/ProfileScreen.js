@@ -76,7 +76,9 @@ class ProfileScreen extends Component {
           backgroundColor: "green",
           duration: Snackbar.LENGTH_LONG,
         });
-        this.props.navigation.navigate("Home");
+        this.props.navigation.reset({
+          routes: [{ name: 'Loading' }],
+        });
       })
       .catch((error) => {
         console.log(error);

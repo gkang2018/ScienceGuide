@@ -95,6 +95,9 @@
     "directoryScreen": {
         "title": "Science Guide Directory"
     },
+    "chatCard": {
+        "matched": "matched with you during signup"
+    },
     "messagesScreen": {
         "title": "Messages"
     },

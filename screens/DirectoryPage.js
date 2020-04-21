@@ -4,6 +4,8 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import * as RNLocalize from 'react-native-localize'
 import LocalizationService from '../localization'
 import Snackbar from "react-native-snackbar";
+import { connect } from "react-redux";
+
 
 Ionicons.loadFont();
 
@@ -45,37 +47,71 @@ class DirectoryPage extends Component {
     }
 
     render() {
-        return (
-            <Tab.Navigator
-                screenOptions={({ route }) => ({
-                    tabBarIcon: ({ focused, color, size }) => {
-                        let iconName;
-                        if (route.name === this.localize.translate("icons.directory")) {
-                            iconName = focused
-                                ? "ios-information-circle"
-                                : "ios-information-circle-outline";
-                        } else if (route.name === this.localize.translate("icons.messages")) {
-                            iconName = focused ? "ios-list-box" : "ios-list";
-                        } else if (route.name === this.localize.translate("icons.profile")) {
-                            iconName = focused ? "md-person" : "md-person";
-                        }
+        if (this.props.user.type === "Mentor") {
+            return (
+                <Tab.Navigator
+                    screenOptions={({ route }) => ({
+                        tabBarIcon: ({ focused, color, size }) => {
+                            let iconName;
+                            if (route.name === this.localize.translate("icons.messages")) {
+                                iconName = focused ? "ios-list-box" : "ios-list";
+                            } else if (route.name === this.localize.translate("icons.profile")) {
+                                iconName = focused ? "md-person" : "md-person";
+                            }
 
-                        // You can return any component that you like here!
-                        return <Ionicons name={iconName} size={size} color={color} />;
-                    },
-                })}
-                tabBarOptions={{
-                    activeTintColor: "tomato",
-                    inactiveTintColor: "gray",
-                }}
-            >
-                <Tab.Screen name={this.localize.translate("icons.directory")} component={DirectoryScreen} />
-                <Tab.Screen name={this.localize.translate("icons.messages")} component={MessagesScreen} />
-                <Tab.Screen name={this.localize.translate("icons.profile")} component={ProfileScreen} />
-            </Tab.Navigator>
-        );
+                            // You can return any component that you like here!
+                            return <Ionicons name={iconName} size={size} color={color} />;
+                        },
+                    })}
+                    tabBarOptions={{
+                        activeTintColor: "tomato",
+                        inactiveTintColor: "gray",
+                    }}
+                >
+                    <Tab.Screen name={this.localize.translate("icons.messages")} component={MessagesScreen} />
+                    <Tab.Screen name={this.localize.translate("icons.profile")} component={ProfileScreen} />
+                </Tab.Navigator>
+            );
+        }
+        else {
+            return (
+                <Tab.Navigator
+                    screenOptions={({ route }) => ({
+                        tabBarIcon: ({ focused, color, size }) => {
+                            let iconName;
+                            if (route.name === this.localize.translate("icons.directory")) {
+                                iconName = focused
+                                    ? "ios-information-circle"
+                                    : "ios-information-circle-outline";
+                            } else if (route.name === this.localize.translate("icons.messages")) {
+                                iconName = focused ? "ios-list-box" : "ios-list";
+                            } else if (route.name === this.localize.translate("icons.profile")) {
+                                iconName = focused ? "md-person" : "md-person";
+                            }
+
+                            // You can return any component that you like here!
+                            return <Ionicons name={iconName} size={size} color={color} />;
+                        },
+                    })}
+                    tabBarOptions={{
+                        activeTintColor: "tomato",
+                        inactiveTintColor: "gray",
+                    }}
+                >
+                    <Tab.Screen name={this.localize.translate("icons.directory")} component={DirectoryScreen} />
+                    <Tab.Screen name={this.localize.translate("icons.messages")} component={MessagesScreen} />
+                    <Tab.Screen name={this.localize.translate("icons.profile")} component={ProfileScreen} />
+                </Tab.Navigator>
+            );
+        }
     }
 
 }
 
-export default DirectoryPage
+const mapStateToProps = (state) => {
+    return {
+        user: state.user,
+    };
+};
+
+export default connect(mapStateToProps, null)(DirectoryPage)

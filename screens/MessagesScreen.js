@@ -93,6 +93,7 @@ class MessagesScreen extends Component {
       });
   };
 
+  // checks that the chat isn't already in our state
   checkDuplicate(chat) {
     for (let i = 0; i < this.state.userChatRooms.length; i++) {
       if (this.state.userChatRooms[i].recipientID === chat.recipientID) {
@@ -171,9 +172,10 @@ class MessagesScreen extends Component {
         <View style={styles.heading}>
           <Text style={styles.title}>{this.localize.translate("messagesScreen.title")}</Text>
         </View>
-        <View>
+        <View style={styles.lowerContainer} >
           <FlatList
             data={this.state.userChatRooms}
+            style={styles.flatList}
             renderItem={({ item }) => (
               <ChatCard
                 navigation={this.props.navigation}
@@ -208,6 +210,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "column",
     marginTop: 50,
+  },
+  flatList: {
+    width: "100%",
+    //backgroundColor: 'green',
+    flexDirection: 'column',
+    //marginBottom: '10%',
+    //backgroundColor: 'transparent'
+  },
+  lowerContainer: {
+    // height: '80%',
+    marginBottom: "15%",
+    //flex: 3.2,
+    //paddingTop: '5%',
+    alignItems: "center",
+    //backgroundColor: 'yellow'
   },
 });
 
