@@ -219,7 +219,8 @@ const styles = StyleSheet.create({
     //backgroundColor: 'transparent'
   },
   lowerContainer: {
-    height: '80%',
+    // height: '80%',
+    marginBottom: "15%",
     //flex: 3.2,
     //paddingTop: '5%',
     alignItems: "center",

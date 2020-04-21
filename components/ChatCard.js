@@ -2,10 +2,36 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { connect } from "react-redux";
+import * as RNLocalize from 'react-native-localize'
+import LocalizationService from '../localization'
 
 class ChatCard extends Component {
   constructor(props) {
     super(props);
+    this.localize = new LocalizationService()
+    this.localize.setI18nConfig()
+  }
+
+  componentDidMount() {
+    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+  }
+
+  componentWillUnmount() {
+    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+
+  }
+
+  handleLocalizationChange = () => {
+    this.localize.setI18nConfig()
+      .then(() => this.forceUpdate())
+      .catch(error => {
+        console.error(error)
+        Snackbar.show({
+          text: this.localize.translate("snackbar.errorLocalization"),
+          backgroundColor: "red",
+          duration: Snackbar.LENGTH_LONG,
+        });
+      })
   }
 
   render() {
@@ -26,7 +52,8 @@ class ChatCard extends Component {
               source={require("../assets/default-avatar.png")}
             />
             <View style={styles.details}>
-              <Text>{this.props.recipientName} matched with you during signup</Text>
+              <Text style={styles.recipient}>{this.props.recipientName}</Text>
+              <Text>{this.localize.translate("chatCard.matched")}</Text>
             </View>
           </View>
         </TouchableOpacity>
