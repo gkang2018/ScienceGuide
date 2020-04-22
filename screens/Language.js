@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { englishSpeaker } from "../actions/actions";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import * as RNLocalize from 'react-native-localize'
 import LocalizationService from '../localization'
 import Snackbar from "react-native-snackbar";
@@ -57,14 +58,14 @@ class Language extends Component {
   render() {
     return (
       <View style={styles.mainContainer}>
-        <View>
+        <View style={styles.headerContainer}>
           <Text style={styles.titleText}>{this.localize.translate("language.title")}</Text>
           <Text style={styles.descriptionText}>
             {this.localize.translate("language.question")}
           </Text>
         </View>
 
-        <View style={styles.form}>
+        <View style={styles.lowerContainer}>
           <View style={styles.formElement}>
             <TouchableOpacity
               onPress={() => {
@@ -72,8 +73,10 @@ class Language extends Component {
                 this.props.navigation.navigate("Areas");
               }}
             >
-              <Text style={styles.formText}>{this.localize.translate("language.yes")}</Text>
-            </TouchableOpacity>
+              <View style={styles.formText}>
+              <Text style={styles.formTextInner}>{this.localize.translate("language.yes")}</Text>
+              </View>
+          </TouchableOpacity>
           </View>
 
           <View style={styles.formElement}>
@@ -83,7 +86,9 @@ class Language extends Component {
                 this.props.navigation.navigate("Areas");
               }}
             >
-              <Text style={styles.formText}>{this.localize.translate("language.no")}</Text>
+              <View style={styles.formText}>
+                <Text style = {styles.formTextInner}> {this.localize.translate("language.no")}</Text>
+                </View>
             </TouchableOpacity>
           </View>
         </View>
@@ -95,36 +100,86 @@ class Language extends Component {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
+    backgroundColor: 'white'
   },
-  formElement: {
+  headerContainer: {
+    height: '35%',
+    // flex: 1,
+    paddingRight: 20,
+    paddingLeft: 20,
+    paddingTop: 80,
     alignItems: "center",
-    marginBottom: 30,
+    justifyContent: "center",
+    //backgroundColor: 'blue'
+  },
+  lowerContainer: {
+    height: '65%',
+    //flex: 3.2,
+    //paddingTop: '5%',
+    alignItems: "center",
+    justifyContent: 'center',
+    //backgroundColor: 'yellow'
   },
   titleText: {
-    fontSize: 40,
-    marginTop: 100,
+    fontSize: RFPercentage(5),
+    //marginTop: 100,
     fontWeight: "700",
     textAlign: "center",
   },
   descriptionText: {
-    fontSize: 17,
-    marginTop: 20,
+    fontSize: RFPercentage(3),
+    marginTop: 10,
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingBottom: 5,
+    //marginLeft: 15,
+    //marginRight: 15,
     textAlign: "center",
+    justifyContent: "center",
+    alignItems: "center",
   },
-  form: {
-    marginTop: 280,
+  formElement: {
+    height: '20%',
+    width: '80%',
+    alignItems: "center",
+    justifyContent: 'center',
+    marginBottom: 30,
+    //backgroundColor: 'red'
   },
   formText: {
-    borderColor: "black",
-    borderWidth: 1.5,
-    borderRadius: 8,
+    height: 60,
+    width: 240,
+    //textAlignVertical: 'center',
+    //borderColor: "black",
+    //borderWidth: 1.5,
+    borderRadius: 30,
     paddingLeft: 100,
     paddingRight: 100,
-    paddingBottom: 20,
-    paddingTop: 20,
-    fontSize: 15,
-    textAlign: "center",
+    //paddingBottom: 20,
+    //paddingTop: 20,
+    //fontSize: 15,
+    //textAlign: "center",
+    //backgroundColor: 'red',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'yellow',
   },
+  formTextInner: {
+    //flex: 1,
+    //height: 90,
+    width: 250,
+    fontSize: RFPercentage(3.3),
+    marginTop: 10,
+    marginBottom: 10,
+    //alignItems: 'center',
+    //justifyContent: 'center',
+    textAlign: 'center',
+    //alignItems: 'center',
+    //justifyContent: 'center',
+    //textAlignVertical: 'bottom',
+    
+    //backgroundColor: 'green'
+  }
 });
 
 const mapStateToProps = (state) => {

@@ -58,13 +58,12 @@ class InterestsCard extends Component {
           }
           onPress={this.handleSelect}
         >
-              <View style={this.state.isSelected ? styles.overlay : styles.defaultSquare}>
-                <View>
-                  <Image source={{ uri: this.props.image }} />
-                </View>
-
-                {/* <Text style={styles.interestText}>{this.props.interest}</Text> */}
-              </View>
+          {/* <View style={this.state.isSelected ? styles.overlay : styles.defaultSquare}>
+            <View>
+              <Image source={this.props.image} />
+            </View>
+          </View> */}
+          <Image style={this.state.isSelected ? styles.overlay : styles.defaultSquare} source={this.props.image} />
         </TouchableOpacity>
       </View>
     );
@@ -101,16 +100,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 20,
     margin: 10,
-    backgroundColor: 'black'
+    //backgroundColor: 'black'
     //marginLeft: 27,
     //marginBottom: 15
   },
   overlay: {
-    backgroundColor: "rgba(52, 52, 52, 0.8)",
+    borderColor: "yellow",
+    borderWidth: "1",
     //backgroundColor: 'red',
     width: '98%',
     height: '98%',
-    borderWidth: 1,
+    borderWidth: 7,
     borderRadius: 20,
     //marginLeft: 27,
     //marginBottom: 15

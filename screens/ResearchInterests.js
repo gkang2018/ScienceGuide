@@ -182,7 +182,7 @@ class ResearchInterests extends Component {
         <View style={styles.headerContainer}>
           <Text style={styles.title}>{this.localize.translate("researchInterests.title")}</Text>
           <Text style={styles.subHeading}>{this.state.subText}</Text>
-          <Button title={this.localize.translate("researchInterests.confirm")} onPress={this.confirm} />
+          {/* <Button title={this.localize.translate("researchInterests.confirm")} onPress={this.confirm} /> */}
         </View>
 
         <View style={styles.lowerContainer}>
@@ -196,12 +196,19 @@ class ResearchInterests extends Component {
                   id={item.id}
                   image={item.image}
                 />
+                  <View style={styles.interestTextContainer}>
+                   <Text style={styles.interestText}>{item.interest}</Text>
+                 </View>
               </View>
             )}
             keyExtractor={(item) => item.id}
             numColumns={2}
           />
+          <TouchableOpacity style={styles.submitButton} onPress={this.handleInterestsSelection}>
+             <Button title="Confirm" onPress={this.handleInterestsSelection} />
+          </TouchableOpacity>
         </View>
+
       </View>
     );
   }
@@ -224,7 +231,7 @@ const mapDispatchToProps = (dispatch) => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    //backgroundColor: "pink",
+    backgroundColor: "white",
   },
   headerContainer: {
     height: '25%',
@@ -302,14 +309,14 @@ const styles = StyleSheet.create({
     height: '10%',
     width: 250,
     fontSize: RFPercentage(2),
-    borderWidth: 1.75,
+    //borderWidth: 1.75,
     borderRadius: 30,
     marginLeft: 30,
     marginRight: 30,
     //paddingTop: 10,
     //paddingBottom: 10,
     textAlign: "center",
-    borderColor: "black",
+    //borderColor: "black",
     backgroundColor: 'yellow',
     alignItems: 'center',
     justifyContent: 'center',
