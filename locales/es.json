@@ -142,6 +142,7 @@
         "back": "Atrás",
         "directory": "Directorio",
         "messages": "Mensajes",
-        "profile": "Perfil"
+        "profile": "Perfil",
+        "confirm": "Confirmar"
     }
 }

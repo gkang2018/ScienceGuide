@@ -215,8 +215,10 @@ class ResearchInterests extends Component {
             keyExtractor={(item) => item.id}
             numColumns={2}
           />
-          <TouchableOpacity style={styles.submitButton} onPress={this.handleInterestsSelection}>
-            <Button title="Confirm" onPress={this.handleInterestsSelection} />
+          <TouchableOpacity style={this.props.interests.length === 0 ? styles.disabledSubmit : styles.submitButton} onPress={this.handleInterestsSelection} disabled={this.props.interests.length === 0
+            ? true
+            : false}>
+            <Text style={styles.textConfirm}>{this.localize.translate("icons.confirm")}</Text>
           </TouchableOpacity>
         </View>
 
@@ -334,5 +336,27 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: '85%'
   },
+  disabledSubmit: {
+    height: '10%',
+    width: 250,
+    fontSize: RFPercentage(2),
+    //borderWidth: 1.75,
+    borderRadius: 30,
+    marginLeft: 30,
+    marginRight: 30,
+    //paddingTop: 10,
+    //paddingBottom: 10,
+    textAlign: "center",
+    //borderColor: "black",
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    top: '85%'
+  },
+  textConfirm: {
+    fontSize: RFPercentage(2.5),
+    color: "black"
+  }
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ResearchInterests);
