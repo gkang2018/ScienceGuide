@@ -25,10 +25,10 @@ class ResearchInterests extends Component {
     this.localize = new LocalizationService()
     this.localize.setI18nConfig()
 
-
     this.state = {
       subText: this.localize.translate("researchInterests.subtext1"),
       loggedIn: false,
+      localizedData: []
     };
   }
 
@@ -87,8 +87,21 @@ class ResearchInterests extends Component {
     this.props.navigation.setOptions({
       headerBackTitle: this.localize.translate("icons.back")
     })
+    this.localizeInterestData()
     RNLocalize.addEventListener('change', this.handleLocalizationChange)
 
+  }
+
+  localizeInterestData = () => {
+    let tempData = [...interestsData]
+    console.log(tempData)
+    for (let i = 0; i < tempData.length; i++) {
+      tempData[i].interest = this.localize.translate("interestData." + i.toString())
+      console.log(tempData[i])
+      this.setState(prevState => ({
+        localizedData: [...prevState.localizedData, tempData[i]]
+      }))
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -188,7 +201,7 @@ class ResearchInterests extends Component {
         <View style={styles.lowerContainer}>
           <FlatList
             style={styles.flatList}
-            data={interestsData}
+            data={this.state.localizedData}
             renderItem={({ item }) => (
               <View>
                 <InterestsCard
@@ -196,16 +209,16 @@ class ResearchInterests extends Component {
                   id={item.id}
                   image={item.image}
                 />
-                  <View style={styles.interestTextContainer}>
-                   <Text style={styles.interestText}>{item.interest}</Text>
-                 </View>
+                <View style={styles.interestTextContainer}>
+                  <Text style={styles.interestText}>{item.interest}</Text>
+                </View>
               </View>
             )}
             keyExtractor={(item) => item.id}
             numColumns={2}
           />
           <TouchableOpacity style={styles.submitButton} onPress={this.handleInterestsSelection}>
-             <Button title="Confirm" onPress={this.handleInterestsSelection} />
+            <Button title="Confirm" onPress={this.handleInterestsSelection} />
           </TouchableOpacity>
         </View>
 
