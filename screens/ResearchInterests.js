@@ -94,10 +94,8 @@ class ResearchInterests extends Component {
 
   localizeInterestData = () => {
     let tempData = [...interestsData]
-    console.log(tempData)
     for (let i = 0; i < tempData.length; i++) {
       tempData[i].interest = this.localize.translate("interestData." + i.toString())
-      console.log(tempData[i])
       this.setState(prevState => ({
         localizedData: [...prevState.localizedData, tempData[i]]
       }))
