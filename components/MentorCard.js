@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import MentorDetail from "../screens/MentorDetail";
 import { connect } from "react-redux";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { selectMentor } from "../actions/actions";
 import * as RNLocalize from 'react-native-localize'
 import LocalizationService from '../localization'
@@ -49,54 +50,87 @@ class MentorCard extends Component {
     const { props, name, expertise, email, imageUri, job, id } = this.props;
     expertiseString = expertise.join(",");
     return (
-      <TouchableOpacity
-        onPress={() => {
-          this.selectMentor();
-          props.navigation.navigate("MentorDetail", {
-            name: name,
-            expertise: expertise,
-            email: email,
-            imageUri: imageUri,
-            job: job,
-            id: id,
-          });
-        }}
-      >
-        <View style={styles.container}>
-          <Image style={styles.imageStyle} source={{ uri: imageUri }} />
-          <View style={styles.details}>
-            <Text style={styles.text}>{name}</Text>
-            <Text style={styles.text}>{job}</Text>
-            <Text style={styles.text}>{this.localize.translate("mentorCard.expertise")}: {expertiseString}</Text>
+      <View style={styles.formElement}>
+        <TouchableOpacity
+          onPress={() => {
+            this.selectMentor();
+            props.navigation.navigate("MentorDetail", {
+              name: name,
+              expertise: expertise,
+              email: email,
+              imageUri: imageUri,
+              job: job,
+              id: id,
+            });
+          }}
+        >
+          <View style={styles.formCard}>
+            <Image style={styles.imageStyle} source={{ uri: imageUri }} />
+            <View style={styles.details}>
+              <Text style={styles.text}>{name}</Text>
+              <Text style={styles.text}>{job}</Text>
+              <Text style={styles.text}>{this.localize.translate("mentorCard.expertise")}: {expertiseString}</Text>
+            </View>
           </View>
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+
+        {/* <View style = {{margin: 100}}></View> */}
+      </View>
+
+
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    borderWidth: 2,
-    flexDirection: "row",
-    marginLeft: 25,
-    marginRight: 25,
-    marginBottom: 15,
+  formElement: {
+    //flex: 1,
+    height: 130,
+    width: '80%',
+    alignItems: "center",
+    justifyContent: 'center',
+    marginBottom: 30,
+    backgroundColor: 'red',
+    borderWidth: 1.5,
+    borderRadius: 20,
+    paddingBottom: 20,
+    paddingLeft: 6,
   },
-  imageContainer: {},
+  formCard: {
+    height: 130,
+    width: '90%',
+    flexDirection: 'row',
+    //textAlignVertical: 'center',
+    //borderColor: "black",
+    borderWidth: 1.5,
+    borderRadius: 20,
+    //paddingLeft: 100,
+    //paddingRight: 100,
+    //paddingBottom: 20,
+    //paddingTop: 20,
+    //fontSize: 15,
+    //textAlign: "center",
+    //backgroundColor: 'red',
+    alignItems: 'center',
+    //justifyContent: 'center',
+    backgroundColor: 'white',
+  },
   details: {
-    marginLeft: 35,
-    paddingTop: 20,
-    marginRight: 125,
+    width: '100%',
+    //backgroundColor: 'pink'
+    //marginLeft: 35,
+    //paddingTop: 20,
+    //marginRight: 125,
   },
   imageStyle: {
-    height: 100,
-    width: 100,
+    height: 70,
+    width: 70,
     borderRadius: 100 / 2,
-    margin: 10,
+    margin: 15,
   },
   text: {
-    fontSize: 15,
+    fontSize: 14,
+    //fontSize: RFValue(15),
     paddingBottom: 5,
   },
 });

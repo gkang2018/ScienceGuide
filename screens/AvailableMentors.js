@@ -4,6 +4,7 @@ import firebase from "firebase";
 import "@firebase/firestore";
 import DatabaseService from "../config/firebase";
 import MentorCard from "../components/MentorCard";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import matchMentor from "../actions/actions";
 import { connect } from "react-redux";
 import Snackbar from "react-native-snackbar";
@@ -103,12 +104,15 @@ class AvailableMentors extends Component {
       );
     }
     return (
-      <View>
+      <View style={styles.container}>
         <View style={styles.heading}>
           <Text style={styles.title}>{this.localize.translate("availableMentors.title")}</Text>
           <Text style={styles.subHeading}>{this.localize.translate("availableMentors.subheading")}</Text>
         </View>
-        <View style={styles.mentors}>{this.renderMentors()}</View>
+
+        <View style={styles.lowerContainer}>
+          <View style={styles.mentors}>{this.renderMentors()}</View>
+        </View>
       </View>
     );
   }
@@ -117,23 +121,49 @@ class AvailableMentors extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    flexDirection: "column",
+    backgroundColor: 'white',
+    justifyContent: 'center'
   },
   heading: {
-    marginTop: 90,
-    marginBottom: 50,
-    marginLeft: 80,
+    height: '30%',
+    // flex: 1,
+    paddingRight: 20,
+    paddingLeft: 20,
+    paddingTop: 80,
+    alignItems: "center",
+    justifyContent: "center",
+    //backgroundColor: 'blue'
+  },
+  lowerContainer: {
+    height: '70%',
+    //flex: 3.2,
+    //paddingTop: '5%',
+    alignItems: "center",
+    justifyContent: 'center',
+    //backgroundColor: 'yellow'
   },
   title: {
-    fontSize: 30,
-    fontWeight: "600",
+    fontSize: RFPercentage(5),
+    //marginTop: 100,
+    fontWeight: "700",
+    textAlign: "center",
   },
   subHeading: {
-    fontSize: 20,
-    fontWeight: "500",
-    color: "gray",
+    fontSize: RFPercentage(3),
+    marginTop: 10,
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingBottom: 5,
+    //marginLeft: 15,
+    //marginRight: 15,
+    textAlign: "center",
+    justifyContent: "center",
+    alignItems: "center",
   },
+  mentors: {
+    flex: 1,
+    paddingTop: 20,
+  }
 });
 
 const mapStateToProps = (state) => {
