@@ -88,7 +88,7 @@ class DirectoryScreen extends Component {
   render() {
     if (this.state.directoryMentors == undefined) {
       return (
-        <View>
+        <View style={styles.mainContainer}>
           <View style={styles.heading}>
             <Text style={styles.title}>{this.localize.translate("directoryScreen.title")}</Text>
           </View>
@@ -99,7 +99,7 @@ class DirectoryScreen extends Component {
       );
     }
     return (
-      <View>
+      <View style={styles.mainContainer}>
        <ScrollView>
         <View style={styles.heading}>
           <Text style={styles.title}>{this.localize.translate("directoryScreen.title")}</Text>
@@ -112,15 +112,25 @@ class DirectoryScreen extends Component {
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: 'white'
+  },
   heading: {
-    marginTop: "12%",
-    marginLeft: "5%",
-    paddingBottom: "2%",
-    marginBottom: "5%",
+    height: '15%',
+    // flex: 1,
+    paddingRight: 20,
+    paddingLeft: 20,
+    paddingTop: 75,
+    //alignItems: "center",
+    //justifyContent: "center",
+    //backgroundColor: 'blue'
   },
   title: {
-    fontSize: RFPercentage(5),
+    fontSize: RFPercentage(3.75),
+    //marginTop: 100,
     fontWeight: "700",
+    //textAlign: "center",
   },
   container: {
     flex: 1,
@@ -129,6 +139,12 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   mentors: {
+    height: '85%',
+    //flex: 3.2,
+    //paddingTop: '5%',
+    alignItems: "center",
+    justifyContent: 'center',
+    //backgroundColor: 'yellow'
     marginLeft: "3%"
   }
 });
