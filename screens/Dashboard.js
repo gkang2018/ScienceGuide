@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
 import { logout } from "../actions/actions";
 import { connect } from "react-redux";
+import Video from 'react-native-video';
+
 class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -22,26 +24,20 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <TouchableOpacity
-        onPress={() => this.props.navigation.navigate("DirectoryPage")}
-      >
-        <View style={styles.heading}>
-          <Text style={styles.title}>Welcome to Science Guide</Text>
-          <Text>{this.state.error}</Text>
-        </View>
-      </TouchableOpacity>
+      <Video source={require("../assets/welcome-animation.mp4")}
+        playInBackground={true} onError={(error) => console.log(error)} style={styles.backgroundVideo} onEnd={() => this.props.navigation.navigate("DirectoryPage")} />
     );
   }
 }
 
 const styles = StyleSheet.create({
-  heading: {
-    margin: 75
+  backgroundVideo: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
-  title: {
-    fontSize: 25,
-    marginBottom: 25
-  }
 });
 
 const mapStateToProps = state => {

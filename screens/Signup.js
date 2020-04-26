@@ -113,7 +113,6 @@ class Signup extends Component {
                   backgroundColor: "green",
                   duration: Snackbar.LENGTH_LONG,
                 });
-                this.props.navigation.navigate("Dashboard");
               })
               .catch((error) => {
                 // call the error wrapper to see which error to display  
@@ -125,6 +124,7 @@ class Signup extends Component {
                 });
               })
               .finally(() => {
+                this.props.navigation.navigate("Dashboard")
                 actions.setSubmitting(false);
               })
           }
@@ -188,7 +188,7 @@ class Signup extends Component {
                       props.errors.confirmPassword}
                   </Text>
 
-                  <View style={{height: '5%',}}></View>
+                  <View style={{ height: '5%', }}></View>
                   {props.isSubmitting ? (
                     <View style={styles.buttonContainer}>
                       <ActivityIndicator />

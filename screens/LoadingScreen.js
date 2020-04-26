@@ -43,7 +43,7 @@ class LoadingScreen extends Component {
               };
               this.props.update(update);
               this.populateReduxStore(userData);
-              this.props.navigation.navigate("DirectoryPage");
+              this.props.navigation.navigate("Dashboard");
             })
             .catch((error) => {
               console.log(error);

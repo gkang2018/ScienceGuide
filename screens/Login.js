@@ -90,7 +90,6 @@ class Login extends Component {
                   backgroundColor: "green",
                   duration: Snackbar.LENGTH_LONG,
                 });
-                this.props.navigation.navigate("DirectoryPage");
               })
               .catch((error) => {
                 // call the error wrapper to see which error to display  
