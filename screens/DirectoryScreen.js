@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 import {
   View,
@@ -6,10 +7,11 @@ import {
   StyleSheet,
   FlatList,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
 
 import DatabaseService from "../config/firebase";
-import MentorCard from "../components/MentorCard";
+import DirectoryCard from "../components/DirectoryCard";
 import Snackbar from "react-native-snackbar";
 import * as RNLocalize from 'react-native-localize'
 import LocalizationService from '../localization'
@@ -66,7 +68,7 @@ class DirectoryScreen extends Component {
       <FlatList
         data={this.state.directoryMentors}
         renderItem={({ item }) => (
-          <MentorCard
+          <DirectoryCard
             navigation={this.props.navigation}
             id={item.id}
             key={item.id}
@@ -98,10 +100,12 @@ class DirectoryScreen extends Component {
     }
     return (
       <View>
+       <ScrollView>
         <View style={styles.heading}>
           <Text style={styles.title}>{this.localize.translate("directoryScreen.title")}</Text>
         </View>
-        <View>{this.renderAllMentors()}</View>
+        <View style={styles.mentors}>{this.renderAllMentors()}</View>
+         </ScrollView>
       </View>
     );
   }
@@ -110,20 +114,23 @@ class DirectoryScreen extends Component {
 const styles = StyleSheet.create({
   heading: {
     marginTop: "12%",
-    marginLeft: "2%",
+    marginLeft: "5%",
     paddingBottom: "2%",
     marginBottom: "5%",
-    borderBottomWidth: 1,
   },
   title: {
-    fontSize: 25,
+    fontSize: RFPercentage(5),
     fontWeight: "700",
   },
   container: {
     flex: 1,
+    marginTop: "50%",
     justifyContent: "center",
     flexDirection: "column",
   },
+  mentors: {
+    marginLeft: "3%"
+  }
 });
 
 export default DirectoryScreen;
