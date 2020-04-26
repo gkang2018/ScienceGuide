@@ -48,7 +48,7 @@ class MentorCard extends Component {
 
   render() {
     const { props, name, expertise, email, imageUri, job, id } = this.props;
-    expertiseString = expertise.join(",");
+    expertiseString = expertise.join(", ");
     return (
       <View style={styles.formElement}>
         <TouchableOpacity
