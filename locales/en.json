@@ -62,8 +62,8 @@
         "findMentor": "Match new mentors"
     },
     "availableMentors": {
-        "title": "Available Mentors",
-        "subheading": "Select one to proceed"
+        "title": "Matched Mentors",
+        "subheading": "Select one to connect and learn more about their research."
     },
     "mentorCard": {
         "expertise": "Expertise"
