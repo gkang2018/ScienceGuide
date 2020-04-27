@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   container: {
     borderBottomWidth: 1,
     flexDirection: "row",
-    paddingLeft: 20,
+    marginLeft: 25,
     marginRight: 25,
     //marginBottom: 5,
     //backgroundColor: 'yellow'
