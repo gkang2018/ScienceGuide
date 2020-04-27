@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 import {
   View,
@@ -6,10 +7,11 @@ import {
   StyleSheet,
   FlatList,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
 
 import DatabaseService from "../config/firebase";
-import MentorCard from "../components/MentorCard";
+import DirectoryCard from "../components/DirectoryCard";
 import Snackbar from "react-native-snackbar";
 import * as RNLocalize from 'react-native-localize'
 import LocalizationService from '../localization'
@@ -66,7 +68,7 @@ class DirectoryScreen extends Component {
       <FlatList
         data={this.state.directoryMentors}
         renderItem={({ item }) => (
-          <MentorCard
+          <DirectoryCard
             navigation={this.props.navigation}
             id={item.id}
             key={item.id}
@@ -86,7 +88,7 @@ class DirectoryScreen extends Component {
   render() {
     if (this.state.directoryMentors == undefined) {
       return (
-        <View>
+        <View style={styles.mainContainer}>
           <View style={styles.heading}>
             <Text style={styles.title}>{this.localize.translate("directoryScreen.title")}</Text>
           </View>
@@ -97,33 +99,54 @@ class DirectoryScreen extends Component {
       );
     }
     return (
-      <View>
+      <View style={styles.mainContainer}>
+       <ScrollView>
         <View style={styles.heading}>
           <Text style={styles.title}>{this.localize.translate("directoryScreen.title")}</Text>
         </View>
-        <View>{this.renderAllMentors()}</View>
+        <View style={styles.mentors}>{this.renderAllMentors()}</View>
+         </ScrollView>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: 'white'
+  },
   heading: {
-    marginTop: "12%",
-    marginLeft: "2%",
-    paddingBottom: "2%",
-    marginBottom: "5%",
-    borderBottomWidth: 1,
+    height: '15%',
+    // flex: 1,
+    paddingRight: 20,
+    paddingLeft: 20,
+    paddingTop: 75,
+    //alignItems: "center",
+    //justifyContent: "center",
+    //backgroundColor: 'blue'
   },
   title: {
-    fontSize: 25,
+    fontSize: RFPercentage(3.75),
+    //marginTop: 100,
     fontWeight: "700",
+    //textAlign: "center",
   },
   container: {
     flex: 1,
+    marginTop: "50%",
     justifyContent: "center",
     flexDirection: "column",
   },
+  mentors: {
+    height: '85%',
+    //flex: 3.2,
+    //paddingTop: '5%',
+    alignItems: "center",
+    justifyContent: 'center',
+    //backgroundColor: 'yellow'
+    marginLeft: "3%"
+  }
 });
 
 export default DirectoryScreen;
