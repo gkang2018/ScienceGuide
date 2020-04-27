@@ -86,30 +86,43 @@ class ChatCard extends Component {
 }
 
 const styles = StyleSheet.create({
-  avatar: {
-    height: 100,
-    width: 100,
-    borderRadius: 100 / 2,
-    margin: 10,
-  },
-  details: {
-    marginLeft: "10%",
-    paddingTop: 20,
-  },
-  recipient: {
-    fontSize: RFPercentage(2.8),
-    textAlign: "center",
-    borderColor: "black",
-    paddingBottom: "5%",
-  },
-
   container: {
     borderBottomWidth: 1,
     flexDirection: "row",
-    marginLeft: 25,
+    paddingLeft: 20,
     marginRight: 25,
-    marginBottom: 15,
+    //marginBottom: 5,
+    //backgroundColor: 'yellow'
   },
+  avatar: {
+    height: 90,
+    width: 90,
+    borderRadius: 90 / 2,
+    borderWidth: 0.5,
+    marginTop: 15,
+    marginBottom: 10,
+    marginRight: 10,
+    //backgroundColor: 'green'
+  },
+  details: {
+    flex: 1,
+    //marginLeft: "10%",
+    paddingTop: 20,
+    //backgroundColor: 'pink'
+  },
+  recipient: {
+    fontSize: RFPercentage(2.8),
+    fontWeight: "400",
+    paddingBottom: "5%",
+    //backgroundColor: 'green'
+  },
+  lastMessage: {
+    fontSize: RFPercentage(2),
+    //width: '80%',
+    //backgroundColor: 'blue'
+  },
+
+
 });
 
 const mapStateToProps = state => {
