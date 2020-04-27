@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 import * as RNLocalize from 'react-native-localize'
 import LocalizationService from '../localization'
 import Snackbar from "react-native-snackbar";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 
 class MessagesScreen extends Component {
@@ -157,22 +158,26 @@ class MessagesScreen extends Component {
   render() {
     if (this.state.userChatRooms.length === 0) {
       return (
-        <View>
+        <View style={styles.mainContainer}>
+
           <View style={styles.heading}>
             <Text style={styles.title}>{this.localize.translate("messagesScreen.title")}</Text>
           </View>
-          <View style={styles.container}>
+
+          <View style={styles.lowerContainer}>
             <ActivityIndicator size="large" color="#0000ff" animating={true} />
           </View>
+
         </View>
       );
     }
     return (
-      <View>
+      <View style={styles.mainContainer}>
+
         <View style={styles.heading}>
           <Text style={styles.title}>{this.localize.translate("messagesScreen.title")}</Text>
         </View>
-        <View style={styles.lowerContainer} >
+
           <FlatList
             data={this.state.userChatRooms}
             style={styles.flatList}
@@ -187,44 +192,51 @@ class MessagesScreen extends Component {
             )}
             keyExtractor={(item) => item.recipientID}
           />
-        </View>
+
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: 'white'
+  },
   heading: {
-    marginTop: "12%",
-    marginLeft: "2%",
-    paddingBottom: "2%",
-    marginBottom: "5%",
-    borderBottomWidth: 1,
+    height: '20%',
+    // flex: 1,
+    //paddingRight: 20,
+    paddingLeft: 20,
+    paddingTop: '3%',
+    //alignItems: "center",
+    justifyContent: 'flex-end',
+    //backgroundColor: 'blue'
   },
   title: {
-    fontSize: 25,
+    fontSize: RFPercentage(5),
+    width: '70%',
+    //marginTop: 100,
     fontWeight: "700",
+    //textAlign: "center",
+    //backgroundColor: 'red'
   },
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    flexDirection: "column",
-    marginTop: 50,
+  lowerContainer: {
+    height: '80%',
+    //flex: 3.2,
+    //paddingLeft: 10,
+    //paddingBottom: '0%',
+    //alignItems: "center",
+    justifyContent: 'center',
+    //backgroundColor: 'yellow',
+    //marginLeft: "3%"
   },
   flatList: {
     width: "100%",
     //backgroundColor: 'green',
     flexDirection: 'column',
     //marginBottom: '10%',
-    //backgroundColor: 'transparent'
-  },
-  lowerContainer: {
-    // height: '80%',
-    marginBottom: "15%",
-    //flex: 3.2,
-    //paddingTop: '5%',
-    alignItems: "center",
-    //backgroundColor: 'yellow'
+    //backgroundColor: 'red'
   },
 });
 

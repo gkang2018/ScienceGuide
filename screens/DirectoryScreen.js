@@ -92,7 +92,8 @@ class DirectoryScreen extends Component {
           <View style={styles.heading}>
             <Text style={styles.title}>{this.localize.translate("directoryScreen.title")}</Text>
           </View>
-          <View style={styles.container}>
+
+          <View style={styles.mentors}>
             <ActivityIndicator size="large" color="#0000ff" animating={true} />
           </View>
         </View>
@@ -100,12 +101,13 @@ class DirectoryScreen extends Component {
     }
     return (
       <View style={styles.mainContainer}>
-       <ScrollView>
         <View style={styles.heading}>
           <Text style={styles.title}>{this.localize.translate("directoryScreen.title")}</Text>
         </View>
+
+       {/* <ScrollView> */}
         <View style={styles.mentors}>{this.renderAllMentors()}</View>
-         </ScrollView>
+      {/* </ScrollView> */}
       </View>
     );
   }
@@ -117,34 +119,31 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   heading: {
-    height: '15%',
+    height: '20%',
     // flex: 1,
-    paddingRight: 20,
+    //paddingRight: 20,
     paddingLeft: 20,
-    paddingTop: 75,
+    paddingTop: '3%',
     //alignItems: "center",
-    //justifyContent: "center",
+    justifyContent: 'flex-end',
     //backgroundColor: 'blue'
   },
   title: {
-    fontSize: RFPercentage(3.75),
+    fontSize: RFPercentage(5),
+    width: '70%',
     //marginTop: 100,
     fontWeight: "700",
     //textAlign: "center",
-  },
-  container: {
-    flex: 1,
-    marginTop: "50%",
-    justifyContent: "center",
-    flexDirection: "column",
+    //backgroundColor: 'red'
   },
   mentors: {
-    height: '85%',
+    height: '80%',
     //flex: 3.2,
-    //paddingTop: '5%',
-    alignItems: "center",
+    paddingLeft: 10,
+    paddingBottom: '0%',
+    //alignItems: "center",
     justifyContent: 'center',
-    //backgroundColor: 'yellow'
+    //backgroundColor: 'yellow',
     marginLeft: "3%"
   }
 });

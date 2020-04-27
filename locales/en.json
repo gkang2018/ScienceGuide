@@ -117,7 +117,7 @@
         "errorUserChatRooms": "Unable to fetch the user's message inbox. Please try again later."
     },
     "directoryScreen": {
-        "title": "Science Guide Directory"
+        "title": "Mentor Directory"
     },
     "chatCard": {
         "matched": "matched with you during signup"
@@ -141,7 +141,7 @@
     "icons": {
         "back": "Back",
         "directory": "Directory",
-        "messages": "Messages",
+        "messages": "Inbox",
         "profile": "Profile",
         "confirm": "Confirm"
     }
