@@ -64,13 +64,9 @@ class DirectoryPage extends Component {
               }
 
               // You can return any component that you like here!
-              return <Image style={{ width: 50, height: 50 }} source={img} />;
+              return <Image style={{ width: 35, height: 35 }} source={img} />;
             },
           })}
-          //   tabBarOptions={{
-          //     activeTintColor: "tomato",
-          //     inactiveTintColor: "gray",
-          //   }}
         >
           <Tab.Screen
             name={this.localize.translate("icons.messages")}
@@ -107,13 +103,9 @@ class DirectoryPage extends Component {
               }
 
               // You can return any component that you like here!
-              return <Image style={{ width: 50, height: 50 }} source={img} />;
+              return <Image style={{ width: 35, height: 35 }} source={img} />;
             },
           })}
-          //   tabBarOptions={{
-          //     activeTintColor: "tomato",
-          //     inactiveTintColor: "gray",
-          //   }}
         >
           <Tab.Screen
             name={this.localize.translate("icons.directory")}
