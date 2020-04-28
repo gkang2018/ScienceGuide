@@ -1,0 +1,148 @@
+{
+    "landing": {
+        "startingButton": "¡Empecemos!",
+        "haveAccount": "¿Ya tienes una cuenta?",
+        "signIn": "Iniciar Sesión",
+        "mentor": "¿Te interesa unirte como Mentor?",
+        "contact": "Contáctenos"
+    },
+    "login": {
+        "title": "Iniciar Sesión",
+        "confirm": "Confirmar",
+        "email": "Email",
+        "password": "Contraseña"
+    },
+    "researchLevel": {
+        "title": "Experienca",
+        "description": "Seleccione cuál es su nivel de experienca en investigación.",
+        "beginnerInput": "¡Quiero hacer mi primer proyecto de investigación!",
+        "mediumInput": "¡Soy ganador a nivel escolar pero quiero competir en mi país!",
+        "advancedInput": "¡Soy ganador nacional y quiero llevar mi investigación a otro nivel!"
+    },
+    "researchInterests": {
+        "title": "Áreas de Investigación",
+        "subtext1": "Selecciona hasta tres áreas de investigación preferidas.",
+        "subtext2": "Selecciona hasta dos áreas mas de investigación preferidas.",
+        "subtext3": "Selecciona un área mas de investigación que prefieras.",
+        "subtext4": "Podrá revisar sus selecciones en la próxima página",
+        "confirm": "Confirmar"
+    },
+    "interestData": {
+        "0": "Ciencia Animal",
+        "1": "Ciencias Sociales y del Comportamiento",
+        "2": "Bioquímica",
+        "3": "Ciencias Biomédicas y de la Salud",
+        "4": "Ingeniería Biomédica",
+        "5": "Biología Celular y Molecular",
+        "6": "Química",
+        "7": "Biología Computacional y Bioinformática",
+        "8": "Ciencias Terrestres y Ambientales",
+        "9": "Sistemas Integrados",
+        "10": "Energía Química",
+        "11": "Energía Física",
+        "12": "Ingeniería Mecánica",
+        "13": "Ingeniería Ambiental",
+        "14": "Ciencias de los Materiales",
+        "15": "Matemáticas",
+        "16": "Microbiología",
+        "17": "Física y Astronomía",
+        "18": "Ciencias de las Plantas",
+        "19": "Robótica y Máquinas Inteligentes",
+        "20": "Ciencias de Cómputos",
+        "21": "Ciencias Médicas"
+    },
+    "language": {
+        "title": "Preferienca de Lenguaje",
+        "question": "¿Eres proficiente en inglés?",
+        "yes": "Sí",
+        "no": "No"
+    },
+    "researchAreas": {
+        "title": "Áreas de Investigación Preferidas",
+        "findMentor": "Buscar Mentores"
+    },
+    "availableMentors": {
+        "title": "Mentores Sugeridos",
+        "subheading": "Selecciona uno para conectar y aprender más sobre su trabajo."
+    },
+    "mentorCard": {
+        "expertise": "Enfoque"
+    },
+    "mentorDetail": {
+        "title": "Información del Mentor",
+        "chat": "Contactar",
+        "areas": "Áreas de Investigación"
+    },
+    "signup": {
+        "title": "Creer Una Cuenta",
+        "name": "Nombre",
+        "email": "Email",
+        "password": "Contraseña",
+        "confirmPassword": "Confirme su contraseña",
+        "description": "Antes de aprender más y poder contactar a un mentor, necesitamos un poco más de información.",
+        "confirmButton": "Siguiente"
+    },
+    "forms": {
+        "required": "Requerido",
+        "invalidEmail": "Email Inválido",
+        "passwordMin": "Contraseña debe contener al menos 6 caracteres",
+        "confirmMatch": "Contraseñas deben coincidir",
+        "nameMin": "El nombre debe contener al menos un caracter",
+        "nameMax": "El nombre no debe contener más de 265 caracteres"
+    },
+    "snackbar": {
+        "failedUserCredentials": "No se pudieron localizar los credenciales del usuario",
+        "successSignup": "Su cuenta ha sido registrada",
+        "duplicateEmailSignup": "El email ya está registrado con otra cuenta",
+        "errorSignupGeneral": "Su cuenta no pudo ser registrada. Intente de nuevo.",
+        "successLogin": "Sesión iniciada correctamente.",
+        "invalidLogin": "Email o contraseña incorrecto. Por favor intente de nuevo.",
+        "tooManyLogin": "Demasiados intentos fallidos de iniciar sesión. Por favor intente más tarde.",
+        "errorLoginGeneral": "No se pudo iniciar sesión en este momento. Por favor intente de nuevo.",
+        "successLogout": "Sesión fue cerrada.",
+        "errorLogout": "No se pudo cerrar sesión. Por favor intente de nuevo!",
+        "successUpdatedName": "Nombre fue actualizado.",
+        "errorUpdatedName": "Nombre no pudo ser actualizado. Por favor intente de nuevo.",
+        "successUpdatedPassword": "Su contraseña ha sido actualizada.",
+        "invalidPasswordChange": "La contraseña actual no es válida. Por favor intente de nuevo.",
+        "duplicatePasswordChange": "Contraseña nueva no debe ser una utilizada previamente.",
+        "errorUpdatedPassword": "Su contraseña no pudo ser actualizada en este momento. Por favor intente de nuevo.",
+        "successUpdatedInterests": "Intereses han sido actualizados.",
+        "errorUpdatedInterests": "Intereses no pudieron ser actualizados. Por favor intente de nuevo.",
+        "errorLocalization": "Localización de lenguaje no pudo ser generada.",
+        "errorFetchingMentors": "No se pudo localizar mentores disponibles en este momento. Por favor intente de nuevo.",
+        "errorStartChat": "No se pudo comenzar chat con mentor en este momento. Por favor intente de nuevo.",
+        "errorDirectoryFetch": "Directorio no pudo ser localizado en este momento. Por favor intente de nuevo.",
+        "errorFetchLastMessage": "No se pudo localizar el último mensaje para este perfil.",
+        "errorUserChatRooms": "Mensajes del usuario no se pudieron localizar en este momento. Por favor intente de nuevo."
+    },
+    "directoryScreen": {
+        "title": "Directorio de Mentores"
+    },
+    "chatCard": {
+        "matched": "matched with you during signup"
+    },
+    "messagesScreen": {
+        "title": "Mensajes"
+    },
+    "profileScreen": {
+        "title": "Perfil",
+        "nameChangeTitle": "Cambiar Nombre",
+        "passwordChangeTitle": "Cambiar Contraseña",
+        "interestsChangeTitle": "Preferencias de Investigación",
+        "logout": "Cerrar Sesión",
+        "nameInputTitle": "Nombre Nuevo",
+        "nameInputPlaceholder": "Nombre",
+        "confirm": "Confirmar",
+        "currentPassword": "Contraseña Actual",
+        "newPassword": "Contraseña Nueva",
+        "confirmPassword": "Confirmar Contraseña"
+    },
+    "icons": {
+        "back": "Atrás",
+        "directory": "Directorio",
+        "messages": "Mensajes",
+        "profile": "Perfil",
+        "confirm": "Confirmar"
+    }
+}
