@@ -14,22 +14,24 @@ import { connect } from "react-redux";
 import Snackbar from "react-native-snackbar";
 import { signup } from "../actions/actions";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-import errorHandler from '../errorHandler'
+import errorHandler from "../errorHandler";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import * as RNLocalize from 'react-native-localize'
-import LocalizationService from '../localization'
+import * as RNLocalize from "react-native-localize";
+import LocalizationService from "../localization";
 
 class Signup extends Component {
   constructor(props) {
     super(props);
 
-    this.localize = new LocalizationService()
-    this.localize.setI18nConfig()
+    this.localize = new LocalizationService();
+    this.localize.setI18nConfig();
 
     this.FormValidationSchema = Yup.object().shape({
       name: Yup.string().required(this.localize.translate("forms.required")),
-      email: Yup.string().email(this.localize.translate("forms.invalidEmail")).required(this.localize.translate("forms.required")),
+      email: Yup.string()
+        .email(this.localize.translate("forms.invalidEmail"))
+        .required(this.localize.translate("forms.required")),
       password: Yup.string()
         .min(6, this.localize.translate("forms.passwordMin"))
         .required(this.localize.translate("forms.required")),
@@ -45,54 +47,29 @@ class Signup extends Component {
     });
   }
 
-
   componentDidMount() {
-    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+    RNLocalize.addEventListener("change", this.handleLocalizationChange);
     this.props.navigation.setOptions({
-      headerBackTitle: this.localize.translate("icons.back")
-    })
-
+      headerBackTitle: this.localize.translate("icons.back"),
+    });
   }
   componentWillUnmount() {
-    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+    RNLocalize.removeEventListener("change", this.handleLocalizationChange);
   }
 
   handleLocalizationChange = () => {
-    this.localize.setI18nConfig()
+    this.localize
+      .setI18nConfig()
       .then(() => this.forceUpdate())
-      .catch(error => {
-        console.error(error)
+      .catch((error) => {
+        console.error(error);
         Snackbar.show({
           text: this.localize.translate("snackbar.errorLocalization"),
           backgroundColor: "red",
           duration: Snackbar.LENGTH_LONG,
         });
-      })
-  }
-
-
-  handleSignup = (email, password, name) => {
-    return new Promise((resolve, reject) => {
-      this.props
-        .signup(
-          email,
-          password,
-          name,
-          this.props.researchLevel,
-          this.props.researchAreas,
-          this.props.englishSpeaker,
-          this.props.mentorName,
-          this.props.mentorId
-        )
-        .then(() => {
-          resolve();
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
+      });
   };
-
   render() {
     return (
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
@@ -105,7 +82,17 @@ class Signup extends Component {
           }}
           validationSchema={this.FormValidationSchema}
           onSubmit={(values, actions) =>
-            this.handleSignup(values.email, values.password, values.name)
+            this.props
+              .signup(
+                values.email,
+                values.password,
+                values.name,
+                this.props.researchLevel,
+                this.props.researchAreas,
+                this.props.englishSpeaker,
+                this.props.mentorName,
+                this.props.mentorId
+              )
               .then(() => {
                 console.log("successful");
                 Snackbar.show({
@@ -113,10 +100,11 @@ class Signup extends Component {
                   backgroundColor: "green",
                   duration: Snackbar.LENGTH_LONG,
                 });
+                this.props.navigation.navigate("Dashboard");
               })
               .catch((error) => {
-                // call the error wrapper to see which error to display  
-                let errorMessage = errorHandler(error, "Signup")
+                // call the error wrapper to see which error to display
+                let errorMessage = errorHandler(error, "Signup");
                 Snackbar.show({
                   text: this.localize.translate(errorMessage),
                   backgroundColor: "red",
@@ -124,7 +112,6 @@ class Signup extends Component {
                 });
               })
               .finally(() => {
-                this.props.navigation.navigate("Dashboard")
                 actions.setSubmitting(false);
               })
           }
@@ -133,8 +120,12 @@ class Signup extends Component {
             return (
               <View style={styles.container}>
                 <View style={styles.titleContainer}>
-                  <Text style={styles.title}>{this.localize.translate("signup.title")}</Text>
-                  <Text style={styles.descriptionText}>{this.localize.translate("signup.description")}</Text>
+                  <Text style={styles.title}>
+                    {this.localize.translate("signup.title")}
+                  </Text>
+                  <Text style={styles.descriptionText}>
+                    {this.localize.translate("signup.description")}
+                  </Text>
                 </View>
                 <View style={styles.formContainer}>
                   <View style={styles.inputStyle}>
@@ -176,7 +167,9 @@ class Signup extends Component {
                   </Text>
                   <View style={styles.inputStyle}>
                     <TextInput
-                      placeholder={this.localize.translate("signup.confirmPassword")}
+                      placeholder={this.localize.translate(
+                        "signup.confirmPassword"
+                      )}
                       value={props.values.confirmPassword}
                       onChangeText={props.handleChange("confirmPassword")}
                       onBlur={props.handleBlur("confirmPassword")}
@@ -188,18 +181,20 @@ class Signup extends Component {
                       props.errors.confirmPassword}
                   </Text>
 
-                  <View style={{ height: '5%', }}></View>
+                  <View style={{ height: "5%" }}></View>
                   {props.isSubmitting ? (
                     <View style={styles.buttonContainer}>
                       <ActivityIndicator />
                     </View>
                   ) : (
-                      <View style={styles.buttonContainer}>
-                        <TouchableOpacity onPress={props.handleSubmit}>
-                          <Text style={styles.startingButton}>{this.localize.translate("signup.confirmButton")}</Text>
-                        </TouchableOpacity>
-                      </View>
-                    )}
+                    <View style={styles.buttonContainer}>
+                      <TouchableOpacity onPress={props.handleSubmit}>
+                        <Text style={styles.startingButton}>
+                          {this.localize.translate("signup.confirmButton")}
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  )}
                   {<Text style={{ color: "red" }}>{props.errors.general}</Text>}
                 </View>
               </View>
@@ -291,8 +286,8 @@ const styles = StyleSheet.create({
     //fontSize: 15,
     //textAlign: "center",
     //backgroundColor: 'red',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     //backgroundColor: 'yellow',
   },
 });

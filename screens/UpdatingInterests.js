@@ -202,6 +202,7 @@ class UpdatingInterests extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
     interests: state.interests.selectedInterests,
     user: state.user,
