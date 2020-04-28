@@ -29,7 +29,8 @@ import LoadingScreen from "./screens/LoadingScreen";
 import Login from "./screens/Login";
 import Language from "./screens/Language";
 import ChatRoom from "./components/ChatRoom";
-import DirectoryPage from "./screens/DirectoryPage"
+import DirectoryPage from "./screens/DirectoryPage";
+import UpdatingInterests from "./screens/UpdatingInterests";
 // do we need this import stil ????
 import { decode, encode } from "base-64";
 
@@ -108,6 +109,11 @@ export default function App() {
             }}
           />
           <Stack.Screen name="ChatRoom" component={ChatRoom} />
+          <Stack.Screen
+            name="UpdatingInterests"
+            component={UpdatingInterests}
+            options={{ headerTransparent: true, headerTitle: "" }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

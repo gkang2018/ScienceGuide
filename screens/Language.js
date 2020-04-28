@@ -3,63 +3,50 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { englishSpeaker } from "../actions/actions";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-import * as RNLocalize from 'react-native-localize'
-import LocalizationService from '../localization'
+import * as RNLocalize from "react-native-localize";
+import LocalizationService from "../localization";
 import Snackbar from "react-native-snackbar";
-
 
 class Language extends Component {
   constructor(props) {
     super(props);
 
-    this.localize = new LocalizationService()
-    this.localize.setI18nConfig()
+    this.localize = new LocalizationService();
+    this.localize.setI18nConfig();
   }
-
-  isEmpty(obj) {
-    for (let key in obj) {
-      if (obj.hasOwnProperty(key)) return false;
-    }
-    return true;
-  }
-
-  checkUserStatus = () => {
-    if (!this.isEmpty(this.props.user)) {
-      this.props.navigation.navigate("DirectoryPage")
-    }
-  };
 
   componentDidMount() {
-    this.checkUserStatus()
     this.props.navigation.setOptions({
-      headerBackTitle: this.localize.translate("icons.back")
-    })
-    RNLocalize.addEventListener('change', this.handleLocalizationChange)
-
+      headerBackTitle: this.localize.translate("icons.back"),
+    });
+    RNLocalize.addEventListener("change", this.handleLocalizationChange);
   }
 
   componentWillUnmount() {
-    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+    RNLocalize.removeEventListener("change", this.handleLocalizationChange);
   }
 
   handleLocalizationChange = () => {
-    this.localize.setI18nConfig()
+    this.localize
+      .setI18nConfig()
       .then(() => this.forceUpdate())
-      .catch(error => {
-        console.error(error)
+      .catch((error) => {
+        console.error(error);
         Snackbar.show({
           text: this.localize.translate("snackbar.errorLocalization"),
           backgroundColor: "red",
           duration: Snackbar.LENGTH_LONG,
         });
-      })
-  }
+      });
+  };
 
   render() {
     return (
       <View style={styles.mainContainer}>
         <View style={styles.headerContainer}>
-          <Text style={styles.titleText}>{this.localize.translate("language.title")}</Text>
+          <Text style={styles.titleText}>
+            {this.localize.translate("language.title")}
+          </Text>
           <Text style={styles.descriptionText}>
             {this.localize.translate("language.question")}
           </Text>
@@ -74,9 +61,11 @@ class Language extends Component {
               }}
             >
               <View style={styles.formText}>
-              <Text style={styles.formTextInner}>{this.localize.translate("language.yes")}</Text>
+                <Text style={styles.formTextInner}>
+                  {this.localize.translate("language.yes")}
+                </Text>
               </View>
-          </TouchableOpacity>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.formElement}>
@@ -87,8 +76,11 @@ class Language extends Component {
               }}
             >
               <View style={styles.formText}>
-                <Text style = {styles.formTextInner}> {this.localize.translate("language.no")}</Text>
-                </View>
+                <Text style={styles.formTextInner}>
+                  {" "}
+                  {this.localize.translate("language.no")}
+                </Text>
+              </View>
             </TouchableOpacity>
           </View>
         </View>
@@ -100,10 +92,10 @@ class Language extends Component {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: "white",
   },
   headerContainer: {
-    height: '35%',
+    height: "35%",
     // flex: 1,
     paddingRight: 20,
     paddingLeft: 20,
@@ -113,11 +105,11 @@ const styles = StyleSheet.create({
     //backgroundColor: 'blue'
   },
   lowerContainer: {
-    height: '65%',
+    height: "65%",
     //flex: 3.2,
     //paddingTop: '5%',
     alignItems: "center",
-    justifyContent: 'center',
+    justifyContent: "center",
     //backgroundColor: 'yellow'
   },
   titleText: {
@@ -139,10 +131,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   formElement: {
-    height: '20%',
-    width: '80%',
+    height: "20%",
+    width: "80%",
     alignItems: "center",
-    justifyContent: 'center',
+    justifyContent: "center",
     marginBottom: 30,
     //backgroundColor: 'red'
   },
@@ -160,9 +152,9 @@ const styles = StyleSheet.create({
     //fontSize: 15,
     //textAlign: "center",
     //backgroundColor: 'red',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'yellow',
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "yellow",
   },
   formTextInner: {
     //flex: 1,
@@ -173,19 +165,19 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     //alignItems: 'center',
     //justifyContent: 'center',
-    textAlign: 'center',
+    textAlign: "center",
     //alignItems: 'center',
     //justifyContent: 'center',
     //textAlignVertical: 'bottom',
-    
+
     //backgroundColor: 'green'
-  }
+  },
 });
 
 const mapStateToProps = (state) => {
   return {
     englishSpeaker: state.englishSpeaker,
-    user: state.user
+    user: state.user,
   };
 };
 

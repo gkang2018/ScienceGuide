@@ -24,9 +24,9 @@ import {
 
 import { Formik } from "formik";
 import * as Yup from "yup";
-import * as RNLocalize from 'react-native-localize'
-import LocalizationService from '../localization'
-import errorHandler from '../errorHandler'
+import * as RNLocalize from "react-native-localize";
+import LocalizationService from "../localization";
+import errorHandler from "../errorHandler";
 
 class ProfileScreen extends Component {
   constructor(props) {
@@ -41,8 +41,8 @@ class ProfileScreen extends Component {
       interestsModal: false,
     };
 
-    this.localize = new LocalizationService()
-    this.localize.setI18nConfig()
+    this.localize = new LocalizationService();
+    this.localize.setI18nConfig();
 
     this.nameFormValidation = Yup.object().shape({
       name: Yup.string()
@@ -51,7 +51,9 @@ class ProfileScreen extends Component {
         .required(this.localize.translate("forms.required")),
     });
     this.passwordFormValidation = Yup.object().shape({
-      currentPassword: Yup.string().required(this.localize.translate("forms.required")),
+      currentPassword: Yup.string().required(
+        this.localize.translate("forms.required")
+      ),
       newPassword: Yup.string()
         .min(6, this.localize.translate("forms.passwordMin"))
         .required(this.localize.translate("forms.required")),
@@ -77,7 +79,7 @@ class ProfileScreen extends Component {
           duration: Snackbar.LENGTH_LONG,
         });
         this.props.navigation.reset({
-          routes: [{ name: 'Loading' }],
+          routes: [{ name: "Loading" }],
         });
       })
       .catch((error) => {
@@ -98,35 +100,39 @@ class ProfileScreen extends Component {
   };
 
   componentDidMount() {
-    RNLocalize.addEventListener('change', this.handleLocalizationChange)
-
+    RNLocalize.addEventListener("change", this.handleLocalizationChange);
   }
   componentWillUnmount() {
-    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+    RNLocalize.removeEventListener("change", this.handleLocalizationChange);
   }
   handleLocalizationChange = () => {
-    this.localize.setI18nConfig()
+    this.localize
+      .setI18nConfig()
       .then(() => this.forceUpdate())
-      .catch(error => {
-        console.error(error)
+      .catch((error) => {
+        console.error(error);
         Snackbar.show({
           text: this.localize.translate("snackbar.errorLocalization"),
           backgroundColor: "red",
           duration: Snackbar.LENGTH_LONG,
         });
-      })
-  }
+      });
+  };
 
   render() {
     return (
       <View style={styles.mainContainer}>
         <View style={styles.headingContainer}>
-          <Text style={styles.title}>{this.localize.translate("profileScreen.title")}</Text>
+          <Text style={styles.title}>
+            {this.localize.translate("profileScreen.title")}
+          </Text>
         </View>
 
         <Modal animationType={"slide"} visible={this.state.nameModal}>
-          <KeyboardAvoidingView style={{ flex: 1, paddingTop: 40 }} behavior="padding">
-
+          <KeyboardAvoidingView
+            style={{ flex: 1, paddingTop: 40 }}
+            behavior="padding"
+          >
             <Formik
               initialValues={{
                 name: "",
@@ -142,14 +148,18 @@ class ProfileScreen extends Component {
                   .then(() => {
                     console.log("successful");
                     Snackbar.show({
-                      text: this.localize.translate("snackbar.successUpdatedName"),
+                      text: this.localize.translate(
+                        "snackbar.successUpdatedName"
+                      ),
                       backgroundColor: "green",
                       duration: Snackbar.LENGTH_LONG,
                     });
                   })
                   .catch((error) => {
                     Snackbar.show({
-                      text: this.localize.translate("snackbar.errorUpdatedName"),
+                      text: this.localize.translate(
+                        "snackbar.errorUpdatedName"
+                      ),
                       backgroundColor: "red",
                       duration: Snackbar.LENGTH_LONG,
                     });
@@ -171,18 +181,27 @@ class ProfileScreen extends Component {
                     </View>
 
                     <View style={styles.ChangeHeadingContainer}>
-                      <Text style={styles.changeTitle}>{this.localize.translate("profileScreen.nameChangeTitle")}</Text>
+                      <Text style={styles.changeTitle}>
+                        {this.localize.translate(
+                          "profileScreen.nameChangeTitle"
+                        )}
+                      </Text>
                     </View>
 
-                    <View style={styles.Spacing}>
-                    </View>
+                    <View style={styles.Spacing}></View>
                     <View style={styles.inputTypeTextContainer}>
-                      <Text style={styles.inputTypeText}>{this.localize.translate("profileScreen.nameInputTitle")}</Text>
+                      <Text style={styles.inputTypeText}>
+                        {this.localize.translate(
+                          "profileScreen.nameInputTitle"
+                        )}
+                      </Text>
                     </View>
 
                     <View style={styles.inputStyle}>
                       <TextInput
-                        placeholder={this.localize.translate("profileScreen.nameInputPlaceholder")}
+                        placeholder={this.localize.translate(
+                          "profileScreen.nameInputPlaceholder"
+                        )}
                         value={props.values.name}
                         onChangeText={props.handleChange("name")}
                         onBlur={props.handleBlur("name")}
@@ -199,15 +218,19 @@ class ProfileScreen extends Component {
                       {props.isSubmitting ? (
                         <ActivityIndicator />
                       ) : (
-                          <Button onPress={props.handleSubmit} title={this.localize.translate("profileScreen.confirm")} />
-                        )}
+                        <Button
+                          onPress={props.handleSubmit}
+                          title={this.localize.translate(
+                            "profileScreen.confirm"
+                          )}
+                        />
+                      )}
                       {
                         <Text style={{ color: "red" }}>
                           {props.errors.general}
                         </Text>
                       }
                     </View>
-
                   </View>
                 );
               }}
@@ -215,10 +238,11 @@ class ProfileScreen extends Component {
           </KeyboardAvoidingView>
         </Modal>
 
-
         <Modal animationType={"slide"} visible={this.state.passwordModal}>
-          <KeyboardAvoidingView style={{ flex: 1, paddingTop: 40 }} behavior="padding">
-
+          <KeyboardAvoidingView
+            style={{ flex: 1, paddingTop: 40 }}
+            behavior="padding"
+          >
             <Formik
               initialValues={{
                 currentPassword: "",
@@ -237,13 +261,15 @@ class ProfileScreen extends Component {
                   .then(() => {
                     console.log("successful");
                     Snackbar.show({
-                      text: this.localize.translate("snackbar.successUpdatedPassword"),
+                      text: this.localize.translate(
+                        "snackbar.successUpdatedPassword"
+                      ),
                       backgroundColor: "green",
                       duration: Snackbar.LENGTH_LONG,
                     });
                   })
                   .catch((error) => {
-                    let errorMessage = errorHandler(error, "changePassword")
+                    let errorMessage = errorHandler(error, "changePassword");
                     Snackbar.show({
                       text: this.localize.translate(errorMessage),
                       backgroundColor: "red",
@@ -259,7 +285,6 @@ class ProfileScreen extends Component {
               {(props) => {
                 return (
                   <View style={styles.ChangeScreenContainer}>
-
                     <View style={styles.backButtonContainer}>
                       <Button
                         title={this.localize.translate("icons.back")}
@@ -268,20 +293,28 @@ class ProfileScreen extends Component {
                     </View>
 
                     <View style={styles.ChangeHeadingContainer}>
-                      <Text style={styles.changeTitle}>{this.localize.translate("profileScreen.passwordChangeTitle")}</Text>
+                      <Text style={styles.changeTitle}>
+                        {this.localize.translate(
+                          "profileScreen.passwordChangeTitle"
+                        )}
+                      </Text>
                     </View>
 
-                    <View style={styles.smallerSpacing}>
-                    </View>
-
+                    <View style={styles.smallerSpacing}></View>
 
                     <View style={styles.inputTypeTextContainer}>
-                      <Text style={styles.inputTypeText}>{this.localize.translate("profileScreen.currentPassword")}</Text>
+                      <Text style={styles.inputTypeText}>
+                        {this.localize.translate(
+                          "profileScreen.currentPassword"
+                        )}
+                      </Text>
                     </View>
 
                     <View style={styles.inputStyle}>
                       <TextInput
-                        placeholder={this.localize.translate("profileScreen.currentPassword")}
+                        placeholder={this.localize.translate(
+                          "profileScreen.currentPassword"
+                        )}
                         value={props.values.currentPassword}
                         onChangeText={props.handleChange("currentPassword")}
                         onBlur={props.handleBlur("currentPassword")}
@@ -295,14 +328,17 @@ class ProfileScreen extends Component {
                         props.errors.currentPassword}
                     </Text>
 
-
                     <View style={styles.inputTypeTextContainer}>
-                      <Text style={styles.inputTypeText}>{this.localize.translate("profileScreen.newPassword")}</Text>
+                      <Text style={styles.inputTypeText}>
+                        {this.localize.translate("profileScreen.newPassword")}
+                      </Text>
                     </View>
 
                     <View style={styles.inputStyle}>
                       <TextInput
-                        placeholder={this.localize.translate("profileScreen.newPassword")}
+                        placeholder={this.localize.translate(
+                          "profileScreen.newPassword"
+                        )}
                         value={props.values.newPassword}
                         onChangeText={props.handleChange("newPassword")}
                         onBlur={props.handleBlur("newPassword")}
@@ -316,12 +352,18 @@ class ProfileScreen extends Component {
                     </Text>
 
                     <View style={styles.inputTypeTextContainer}>
-                      <Text style={styles.inputTypeText}>{this.localize.translate("profileScreen.confirmPassword")}</Text>
+                      <Text style={styles.inputTypeText}>
+                        {this.localize.translate(
+                          "profileScreen.confirmPassword"
+                        )}
+                      </Text>
                     </View>
 
                     <View style={styles.inputStyle}>
                       <TextInput
-                        placeholder={this.localize.translate("profileScreen.confirmPassword")}
+                        placeholder={this.localize.translate(
+                          "profileScreen.confirmPassword"
+                        )}
                         value={props.values.confirmNewPassword}
                         onChangeText={props.handleChange("confirmNewPassword")}
                         onBlur={props.handleBlur("confirmNewPassword")}
@@ -340,8 +382,13 @@ class ProfileScreen extends Component {
                       {props.isSubmitting ? (
                         <ActivityIndicator />
                       ) : (
-                          <Button onPress={props.handleSubmit} title={this.localize.translate("profileScreen.confirm")} />
-                        )}
+                        <Button
+                          onPress={props.handleSubmit}
+                          title={this.localize.translate(
+                            "profileScreen.confirm"
+                          )}
+                        />
+                      )}
                       {
                         <Text style={{ color: "red" }}>
                           {props.errors.general}
@@ -354,7 +401,6 @@ class ProfileScreen extends Component {
             </Formik>
           </KeyboardAvoidingView>
         </Modal>
-
 
         <Modal
           animationType={"slide"}
@@ -372,35 +418,41 @@ class ProfileScreen extends Component {
         <View style={styles.changeSectionContainer}>
           <View style={styles.changeContainer}>
             <TouchableOpacity onPress={() => this.handleNameModal(true)}>
-              <Text style={styles.changeText}>{this.localize.translate("profileScreen.nameChangeTitle")}</Text>
+              <Text style={styles.changeText}>
+                {this.localize.translate("profileScreen.nameChangeTitle")}
+              </Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.changeContainer}>
             <TouchableOpacity onPress={() => this.handlePasswordModal(true)}>
-              <Text style={styles.changeText}>{this.localize.translate("profileScreen.passwordChangeTitle")}</Text>
+              <Text style={styles.changeText}>
+                {this.localize.translate("profileScreen.passwordChangeTitle")}
+              </Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.changeContainer}>
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("Interests")}
+              onPress={() =>
+                this.props.navigation.navigate("UpdatingInterests")
+              }
             >
-              <Text style={styles.changeText}>{this.localize.translate("profileScreen.interestsChangeTitle")}</Text>
+              <Text style={styles.changeText}>
+                {this.localize.translate("profileScreen.interestsChangeTitle")}
+              </Text>
             </TouchableOpacity>
           </View>
-        </View >
-
-
-        <View style={styles.spacing}>
-
         </View>
+
+        <View style={styles.spacing}></View>
         <View style={styles.logoutButtonContainer}>
           <TouchableOpacity onPress={this.handleSignout}>
-            <Text style={styles.logoutText}>{this.localize.translate("profileScreen.logout")}</Text>
+            <Text style={styles.logoutText}>
+              {this.localize.translate("profileScreen.logout")}
+            </Text>
           </TouchableOpacity>
         </View>
-
       </View>
     );
   }
@@ -409,47 +461,47 @@ class ProfileScreen extends Component {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     //backgroundColor: 'red',
-    alignItems: 'center'
+    alignItems: "center",
   },
   headingContainer: {
-    height: '15%',
+    height: "15%",
     //backgroundColor: 'blue',
-    justifyContent: 'center',
-    width: '90%',
-    marginLeft: '10%',
-    marginRight: '10%',
+    justifyContent: "center",
+    width: "90%",
+    marginLeft: "10%",
+    marginRight: "10%",
     marginTop: "12%",
   },
   avatarContainer: {
-    height: '30%',
-    alignItems: 'center',
+    height: "30%",
+    alignItems: "center",
     //backgroundColor: 'green',
-    justifyContent: 'center'
+    justifyContent: "center",
   },
   changeSectionContainer: {
-    height: '20%',
+    height: "20%",
     //backgroundColor: 'yellow',
-    justifyContent: 'center',
-    paddingTop: 30
+    justifyContent: "center",
+    paddingTop: 30,
   },
   changeContainer: {
     //flex: 1,
     height: 33,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     //backgroundColor: 'pink'
   },
   spacing: {
-    height: '10%'
+    height: "10%",
   },
   logoutButtonContainer: {
-    height: '10%',
-    width: '100%',
+    height: "10%",
+    width: "100%",
     //backgroundColor: 'red',
     alignItems: "center",
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   title: {
     paddingTop: 50,
@@ -483,8 +535,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     borderColor: "black",
     //backgroundColor: 'blue',
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: "center",
+    justifyContent: "center",
   },
   inputColor: {
     color: "black",
@@ -496,14 +548,14 @@ const styles = StyleSheet.create({
     //justifyContent: "center",
   },
   ChangeHeadingContainer: {
-    height: '15%',
+    height: "15%",
     //backgroundColor: 'blue',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '90%',
-    marginLeft: '10%',
-    marginRight: '10%',
-    //marginTop: "12%",  
+    justifyContent: "center",
+    alignItems: "center",
+    width: "90%",
+    marginLeft: "10%",
+    marginRight: "10%",
+    //marginTop: "12%",
   },
   changeTitle: {
     //paddingTop: 50,
@@ -515,16 +567,16 @@ const styles = StyleSheet.create({
   inputTypeTextContainer: {
     //height: '%',
     //backgroundColor: 'blue',
-    justifyContent: 'center',
+    justifyContent: "center",
     //alignItems: 'center',
-    width: '70%',
-    marginLeft: '10%',
-    marginRight: '10%',
+    width: "70%",
+    marginLeft: "10%",
+    marginRight: "10%",
     //backgroundColor: 'green'
   },
   inputTypeText: {
     fontSize: RFValue(18),
-    paddingBottom: '3%',
+    paddingBottom: "3%",
     //backgroundColor: 'yellow',
   },
   inputStyle: {
@@ -537,7 +589,7 @@ const styles = StyleSheet.create({
     //backgroundColor: 'red'
   },
   submitButton: {
-    height: '7%',
+    height: "7%",
     width: 180,
     fontSize: RFPercentage(2),
     borderWidth: 1.75,
@@ -549,20 +601,19 @@ const styles = StyleSheet.create({
     textAlign: "center",
     borderColor: "black",
     //backgroundColor: 'blue',
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: "center",
+    justifyContent: "center",
   },
   backButtonContainer: {
-    width: '100%',
-    marginLeft: '5%',
+    width: "100%",
+    marginLeft: "5%",
     //marginTop: '12%',
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
     //backgroundColor: 'red'
   },
   smallerSpacing: {
-    height: '5%'
-  }
-
+    height: "5%",
+  },
 });
 
 const mapStateToProps = (state) => {

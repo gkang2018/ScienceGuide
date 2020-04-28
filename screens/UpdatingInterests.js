@@ -16,10 +16,11 @@ import Snackbar from "react-native-snackbar";
 import * as RNLocalize from "react-native-localize";
 import LocalizationService from "../localization";
 
-class ResearchInterests extends Component {
+class UpdatingInterests extends Component {
   constructor(props) {
     super(props);
 
+    this.snapshot = [];
     this.localize = new LocalizationService();
     this.localize.setI18nConfig();
 
@@ -56,6 +57,8 @@ class ResearchInterests extends Component {
     });
     this.changeSubText();
     this.localizeInterestData();
+
+    this.snapshot = [...this.props.interests];
     RNLocalize.addEventListener("change", this.handleLocalizationChange);
   }
 
@@ -76,6 +79,59 @@ class ResearchInterests extends Component {
     if (prevProps.interests.length != this.props.interests.length) {
       this.changeSubText();
     }
+  }
+
+  handleInterestsSelection = () => {
+    const updatedInterests = [...this.props.interests];
+    this.snapshot.sort();
+    updatedInterests.sort();
+
+    if (this.checkArraysEqual(updatedInterests, this.snapshot)) {
+      this.props.navigation.goBack();
+    } else {
+      // have to update our database with the new array
+      this.props
+        .updateProfileInformation(
+          this.props.user,
+          "Interests",
+          updatedInterests
+        )
+        .then(() => {
+          Snackbar.show({
+            text: this.localize.translate("snackbar.successUpdatedInterests"),
+            backgroundColor: "green",
+            duration: Snackbar.LENGTH_LONG,
+          });
+          this.props.navigation.goBack();
+        })
+        .catch((error) => {
+          console.log(error);
+          Snackbar.show({
+            text: this.localize.translate("snackbar.errorUpdatedInterests"),
+            backgroundColor: "red",
+            duration: Snackbar.LENGTH_LONG,
+          });
+        });
+    }
+  };
+
+  checkArraysEqual(arr1, arr2) {
+    if (arr1.length != arr2.length) {
+      return false;
+    }
+    if (arr1 === arr2) {
+      return true;
+    }
+    if (arr1 === null || arr2 === null) {
+      return false;
+    }
+    // run through the lists
+    for (let i = 0; i < arr1.length; i++) {
+      if (arr1[i] !== arr2[i]) {
+        return false;
+      }
+    }
+    return true;
   }
 
   handleLocalizationChange = () => {
@@ -132,7 +188,7 @@ class ResearchInterests extends Component {
                 ? styles.disabledSubmit
                 : styles.submitButton
             }
-            onPress={() => this.props.navigation.navigate("Language")}
+            onPress={this.handleInterestsSelection}
             disabled={this.props.interests.length === 0 ? true : false}
           >
             <Text style={styles.textConfirm}>
@@ -277,4 +333,4 @@ const styles = StyleSheet.create({
     color: "black",
   },
 });
-export default connect(mapStateToProps, mapDispatchToProps)(ResearchInterests);
+export default connect(mapStateToProps, mapDispatchToProps)(UpdatingInterests);
