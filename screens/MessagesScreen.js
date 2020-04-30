@@ -10,11 +10,10 @@ import {
 import DatabaseService from "../config/firebase";
 import ChatCard from "../components/ChatCard";
 import { connect } from "react-redux";
-import * as RNLocalize from 'react-native-localize'
-import LocalizationService from '../localization'
+import * as RNLocalize from "react-native-localize";
+import LocalizationService from "../localization";
 import Snackbar from "react-native-snackbar";
 import { RFPercentage } from "react-native-responsive-fontsize";
-
 
 class MessagesScreen extends Component {
   constructor(props) {
@@ -26,8 +25,8 @@ class MessagesScreen extends Component {
     };
 
     this.db = new DatabaseService();
-    this.localize = new LocalizationService()
-    this.localize.setI18nConfig()
+    this.localize = new LocalizationService();
+    this.localize.setI18nConfig();
   }
 
   updateChat = () => {
@@ -126,7 +125,7 @@ class MessagesScreen extends Component {
   }
 
   componentDidMount() {
-    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+    RNLocalize.addEventListener("change", this.handleLocalizationChange);
     // add listener so that once the component mounts we update the chatrooms and last messages
     this.unsubscribe = this.props.navigation.addListener("focus", () =>
       this.updateChat()
@@ -138,61 +137,61 @@ class MessagesScreen extends Component {
     this.setState({
       userChatRooms: [],
     });
-    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
-
+    RNLocalize.removeEventListener("change", this.handleLocalizationChange);
   }
 
   handleLocalizationChange = () => {
-    this.localize.setI18nConfig()
+    this.localize
+      .setI18nConfig()
       .then(() => this.forceUpdate())
-      .catch(error => {
-        console.error(error)
+      .catch((error) => {
+        console.error(error);
         Snackbar.show({
           text: this.localize.translate("snackbar.errorLocalization"),
           backgroundColor: "red",
           duration: Snackbar.LENGTH_LONG,
         });
-      })
-  }
+      });
+  };
 
   render() {
     if (this.state.userChatRooms.length === 0) {
       return (
         <View style={styles.mainContainer}>
-
           <View style={styles.heading}>
-            <Text style={styles.title}>{this.localize.translate("messagesScreen.title")}</Text>
+            <Text style={styles.title}>
+              {this.localize.translate("messagesScreen.title")}
+            </Text>
           </View>
 
           <View style={styles.lowerContainer}>
             <ActivityIndicator size="large" color="#0000ff" animating={true} />
           </View>
-
         </View>
       );
     }
     return (
       <View style={styles.mainContainer}>
-
         <View style={styles.heading}>
-          <Text style={styles.title}>{this.localize.translate("messagesScreen.title")}</Text>
+          <Text style={styles.title}>
+            {this.localize.translate("messagesScreen.title")}
+          </Text>
         </View>
 
-          <FlatList
-            data={this.state.userChatRooms}
-            style={styles.flatList}
-            renderItem={({ item }) => (
-              <ChatCard
-                navigation={this.props.navigation}
-                recipientName={item.recipientName}
-                recipientID={item.recipientID}
-                lastMessage={item.lastMessage}
-                props={this.props}
-              />
-            )}
-            keyExtractor={(item) => item.recipientID}
-          />
-
+        <FlatList
+          data={this.state.userChatRooms}
+          style={styles.flatList}
+          renderItem={({ item }) => (
+            <ChatCard
+              navigation={this.props.navigation}
+              recipientName={item.recipientName}
+              recipientID={item.recipientID}
+              lastMessage={item.lastMessage}
+              props={this.props}
+            />
+          )}
+          keyExtractor={(item) => item.recipientID}
+        />
       </View>
     );
   }
@@ -201,40 +200,40 @@ class MessagesScreen extends Component {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: "white",
   },
   heading: {
-    height: '20%',
+    height: "20%",
     // flex: 1,
     //paddingRight: 20,
     paddingLeft: 20,
-    paddingTop: '3%',
+    paddingTop: "3%",
     //alignItems: "center",
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
     //backgroundColor: 'blue'
   },
   title: {
     fontSize: RFPercentage(5),
-    width: '70%',
+    width: "70%",
     //marginTop: 100,
     fontWeight: "700",
     //textAlign: "center",
     //backgroundColor: 'red'
   },
   lowerContainer: {
-    height: '80%',
+    height: "80%",
     //flex: 3.2,
     //paddingLeft: 10,
     //paddingBottom: '0%',
     //alignItems: "center",
-    justifyContent: 'center',
+    justifyContent: "center",
     //backgroundColor: 'yellow',
     //marginLeft: "3%"
   },
   flatList: {
     width: "100%",
     //backgroundColor: 'green',
-    flexDirection: 'column',
+    flexDirection: "column",
     //marginBottom: '10%',
     //backgroundColor: 'red'
   },

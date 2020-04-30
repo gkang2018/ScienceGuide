@@ -120,6 +120,20 @@ class ProfileScreen extends Component {
   };
 
   render() {
+    let interestView = <View></View>;
+    if (this.props.user.type === "Student") {
+      interestView = (
+        <View style={styles.changeContainer}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("UpdatingInterests")}
+          >
+            <Text style={styles.changeText}>
+              {this.localize.translate("profileScreen.interestsChangeTitle")}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
     return (
       <View style={styles.mainContainer}>
         <View style={styles.headingContainer}>
@@ -432,17 +446,7 @@ class ProfileScreen extends Component {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.changeContainer}>
-            <TouchableOpacity
-              onPress={() =>
-                this.props.navigation.navigate("UpdatingInterests")
-              }
-            >
-              <Text style={styles.changeText}>
-                {this.localize.translate("profileScreen.interestsChangeTitle")}
-              </Text>
-            </TouchableOpacity>
-          </View>
+          {interestView}
         </View>
 
         <View style={styles.spacing}></View>

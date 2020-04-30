@@ -433,11 +433,11 @@ class DatabaseService {
       this.auth
         .signInWithEmailAndPassword(email, password)
         .then((cred) => {
-          this.getRecipientName(cred.user.uid)
+          this.getUserData(cred.user.uid)
             .then((val) => {
               let responseVal = {
                 cred: cred,
-                name: val,
+                data: val,
               };
               resolve(responseVal);
             })

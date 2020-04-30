@@ -88,10 +88,11 @@ export const login = (email, password) => (dispatch) => {
         const user = {
           uid: val.cred.user.uid,
           email: val.cred.user.email,
-          name: val.name,
+          name: val.data.name,
+          type: val.data.type,
         };
         dispatch({ type: LOGIN, data: user });
-        resolve();
+        resolve(val.data);
       })
       .catch((error) => {
         reject(error);
