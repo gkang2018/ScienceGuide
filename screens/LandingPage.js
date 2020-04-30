@@ -1,76 +1,99 @@
 import React, { Component } from "react";
-import { StyleSheet, Image, Text, Button, View, Alert, Dimensions, Linking, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Image,
+  Text,
+  Button,
+  View,
+  Alert,
+  Dimensions,
+  Linking,
+  TouchableOpacity,
+} from "react-native";
 import Snackbar from "react-native-snackbar";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-import * as RNLocalize from 'react-native-localize'
-import LocalizationService from '../localization'
-//Get screen width using Dimensions component 
-var { width } = Dimensions.get('window');
+import * as RNLocalize from "react-native-localize";
+import LocalizationService from "../localization";
+//Get screen width using Dimensions component
+var { width } = Dimensions.get("window");
 
 class LandingPage extends Component {
   constructor(props) {
     super(props);
-    this.localize = new LocalizationService()
-    this.localize.setI18nConfig()
+    this.localize = new LocalizationService();
+    this.localize.setI18nConfig();
   }
 
   componentDidMount() {
-    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+    RNLocalize.addEventListener("change", this.handleLocalizationChange);
   }
 
   componentWillUnmount() {
-    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+    RNLocalize.removeEventListener("change", this.handleLocalizationChange);
   }
 
   handleLocalizationChange = () => {
-    this.localize.setI18nConfig()
+    this.localize
+      .setI18nConfig()
       .then(() => this.forceUpdate())
-      .catch(error => {
-        console.error(error)
+      .catch((error) => {
         Snackbar.show({
           text: this.localize.translate("snackbar.errorLocalization"),
           backgroundColor: "red",
           duration: Snackbar.LENGTH_LONG,
         });
-      })
-  }
-
+      });
+  };
 
   render() {
     return (
       <View style={styles.Container}>
-
         <View style={styles.topContainer}>
-          <Image style={styles.logo}
-            source={require('../assets/logo-main-360.png')}
+          <Image
+            style={styles.logo}
+            source={require("../assets/logo-main-360.png")}
           />
         </View>
 
-
         <View style={styles.lowerContainer}>
-
           <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate("Level")}>
-              <Text style={styles.startingButton}>{this.localize.translate("landing.startingButton")}</Text>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("Level")}
+            >
+              <Text style={styles.startingButton}>
+                {this.localize.translate("landing.startingButton")}
+              </Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.smallTextContainer}>
-            <Text style={styles.smallText}>{this.localize.translate("landing.haveAccount")}</Text>
+            <Text style={styles.smallText}>
+              {this.localize.translate("landing.haveAccount")}
+            </Text>
 
-            <Text style={styles.smallTextLinks} onPress={() => this.props.navigation.navigate("Login")}>
+            <Text
+              style={styles.smallTextLinks}
+              onPress={() => this.props.navigation.navigate("Login")}
+            >
               {this.localize.translate("landing.signIn")}
             </Text>
 
-            <Text style={styles.smallText}>{this.localize.translate("landing.mentor")}</Text>
+            <Text style={styles.smallText}>
+              {this.localize.translate("landing.mentor")}
+            </Text>
 
-            <Text style={styles.smallTextLinks} onPress={() => Linking.openURL('https://mailchi.mp/c6ef6c29c029/mi-guia-a-la-ciencia')}
+            <Text
+              style={styles.smallTextLinks}
+              onPress={() =>
+                Linking.openURL(
+                  "https://mailchi.mp/c6ef6c29c029/mi-guia-a-la-ciencia"
+                )
+              }
             >
               {this.localize.translate("landing.contact")}
             </Text>
           </View>
         </View>
-
       </View>
     );
   }
@@ -82,31 +105,31 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   topContainer: {
-    height: '65%',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: "65%",
+    alignItems: "center",
+    justifyContent: "center",
   },
   logo: {
-    overflow: 'visible',
-    height: '60%',
-    width: '90%',
-    marginTop: '25%',
+    overflow: "visible",
+    height: "60%",
+    width: "90%",
+    marginTop: "25%",
   },
   lowerContainer: {
-    height: '35%',
+    height: "35%",
     alignItems: "center",
   },
   buttonContainer: {
-    height: '30%',
-    width: '100%',
+    height: "30%",
+    width: "100%",
     //backgroundColor: 'red',
     alignItems: "center",
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   smallTextContainer: {
-    height: '60%',
-    width: '100%',
-    paddingTop: '1%',
+    height: "60%",
+    width: "100%",
+    paddingTop: "1%",
     alignItems: "center",
   },
   smallText: {
@@ -129,7 +152,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     borderColor: "black",
     //backgroundColor: 'blue'
-  }
+  },
 });
 
 export default LandingPage;

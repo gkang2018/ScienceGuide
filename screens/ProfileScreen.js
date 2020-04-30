@@ -83,7 +83,6 @@ class ProfileScreen extends Component {
         });
       })
       .catch((error) => {
-        console.log(error);
         Snackbar.show({
           text: this.localize.translate("snackbar.errorLogout"),
           backgroundColor: "red",
@@ -110,7 +109,6 @@ class ProfileScreen extends Component {
       .setI18nConfig()
       .then(() => this.forceUpdate())
       .catch((error) => {
-        console.error(error);
         Snackbar.show({
           text: this.localize.translate("snackbar.errorLocalization"),
           backgroundColor: "red",
@@ -160,7 +158,6 @@ class ProfileScreen extends Component {
                     values.name
                   )
                   .then(() => {
-                    console.log("successful");
                     Snackbar.show({
                       text: this.localize.translate(
                         "snackbar.successUpdatedName"
@@ -273,7 +270,6 @@ class ProfileScreen extends Component {
                     values.confirmNewPassword
                   )
                   .then(() => {
-                    console.log("successful");
                     Snackbar.show({
                       text: this.localize.translate(
                         "snackbar.successUpdatedPassword"

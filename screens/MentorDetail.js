@@ -10,44 +10,41 @@ import {
 import { connect } from "react-redux";
 import DatabaseService from "../config/firebase";
 import Snackbar from "react-native-snackbar";
-import * as RNLocalize from 'react-native-localize'
-import LocalizationService from '../localization'
+import * as RNLocalize from "react-native-localize";
+import LocalizationService from "../localization";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-
 
 class MentorDetail extends Component {
   constructor(props) {
     super(props);
 
     this.db = new DatabaseService();
-    this.localize = new LocalizationService()
-    this.localize.setI18nConfig()
+    this.localize = new LocalizationService();
+    this.localize.setI18nConfig();
   }
 
   componentDidMount() {
-    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+    RNLocalize.addEventListener("change", this.handleLocalizationChange);
     this.props.navigation.setOptions({
-      headerBackTitle: this.localize.translate("icons.back")
-    })
-
+      headerBackTitle: this.localize.translate("icons.back"),
+    });
   }
   componentWillUnmount() {
-    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+    RNLocalize.removeEventListener("change", this.handleLocalizationChange);
   }
 
   handleLocalizationChange = () => {
-    this.localize.setI18nConfig()
+    this.localize
+      .setI18nConfig()
       .then(() => this.forceUpdate())
-      .catch(error => {
-        console.error(error)
+      .catch((error) => {
         Snackbar.show({
           text: this.localize.translate("snackbar.errorLocalization"),
           backgroundColor: "red",
           duration: Snackbar.LENGTH_LONG,
         });
-      })
-  }
-
+      });
+  };
 
   // checks if javascript object is empty
   isEmpty(obj) {
@@ -65,7 +62,6 @@ class MentorDetail extends Component {
       this.db
         .chatExists(this.props.user.uid, id)
         .then((resp) => {
-          console.log(resp);
           if (resp !== true) {
             this.db
               .createChatRoom(this.props.user.uid, id)
@@ -82,7 +78,6 @@ class MentorDetail extends Component {
                   backgroundColor: "red",
                   duration: Snackbar.LENGTH_LONG,
                 });
-                console.log(error);
               });
           }
           this.props.navigation.navigate("ChatRoom", {
@@ -91,7 +86,6 @@ class MentorDetail extends Component {
           });
         })
         .catch((error) => {
-          console.log("unable to determine chat existence");
           Snackbar.show({
             text: this.localize.translate("snackbar.errorStartChat"),
             backgroundColor: "red",
@@ -123,46 +117,38 @@ class MentorDetail extends Component {
       id,
     } = this.props.route.params;
     return (
-      <View style = {styles.mainContainer}>
-
-
-
+      <View style={styles.mainContainer}>
         <View style={styles.heading}>
-          <Text style={styles.title}>{this.localize.translate("mentorDetail.title")}</Text>
+          <Text style={styles.title}>
+            {this.localize.translate("mentorDetail.title")}
+          </Text>
         </View>
 
         <View style={styles.lowerContainer}>
           <View style={styles.details}>
             <Image style={styles.imageStyle} source={{ uri: imageUri }} />
             <View style={styles.generalInfo}>
-
               <Text style={styles.name}>{name}</Text>
 
               <Text style={styles.position}>{job}</Text>
 
               <View style={styles.buttonView}>
-
                 <TouchableOpacity onPress={() => this.onPress(id, name)}>
-                    <Text style={styles.buttonText}>{this.localize.translate("mentorDetail.chat")}</Text>
+                  <Text style={styles.buttonText}>
+                    {this.localize.translate("mentorDetail.chat")}
+                  </Text>
                 </TouchableOpacity>
-
               </View>
-
             </View>
-
-
           </View>
 
-
-
           <View style={styles.researchAreas}>
-            <Text style={styles.subHeading2}>{this.localize.translate("mentorDetail.areas")}:</Text>
+            <Text style={styles.subHeading2}>
+              {this.localize.translate("mentorDetail.areas")}:
+            </Text>
             {this.renderResearchAreas()}
           </View>
         </View>
-
-
-
       </View>
     );
   }
@@ -171,10 +157,10 @@ class MentorDetail extends Component {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: "white",
   },
   heading: {
-    height: '20%',
+    height: "20%",
     // flex: 1,
     paddingRight: 20,
     paddingLeft: 20,
@@ -189,7 +175,7 @@ const styles = StyleSheet.create({
     //paddingBottom: 20
   },
   lowerContainer: {
-    height: '80%',
+    height: "80%",
     //flex: 3.2,
     //paddingTop: '5%',
     //alignItems: "center",
@@ -197,10 +183,10 @@ const styles = StyleSheet.create({
     //backgroundColor: 'pink'
   },
   details: {
-    height: '25%',
-    width: '100%',
+    height: "25%",
+    width: "100%",
     flexDirection: "row",
-    alignItems: 'center',
+    alignItems: "center",
     //backgroundColor: 'red',
     //marginLeft: 35,
     //paddingBottom: 10,
@@ -212,40 +198,39 @@ const styles = StyleSheet.create({
     borderRadius: 100 / 2,
     marginRight: 20,
     margin: 10,
-
   },
   generalInfo: {
     flex: 1,
     //backgroundColor: 'yellow',
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center",
     //marginTop: 20,
   },
   name: {
-    width: '100%',
+    width: "100%",
     fontSize: RFPercentage(3.2),
-    paddingBottom: 5
+    paddingBottom: 5,
   },
   position: {
-    width: '100%',
+    width: "100%",
     fontSize: RFPercentage(2.3),
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   buttonView: {
-    height: '23%',
-    width: '90%',
+    height: "23%",
+    width: "90%",
     alignItems: "center",
-    justifyContent: 'center',
+    justifyContent: "center",
     marginRight: 40,
-    backgroundColor: 'yellow',
-    borderRadius: 40
+    backgroundColor: "yellow",
+    borderRadius: 40,
   },
   buttonText: {
     //flex: 1,
     //height: 90,
     //width: 250,
     fontSize: RFPercentage(2.9),
-    textAlign: 'center',
+    textAlign: "center",
   },
   researchAreas: {
     flex: 1,
@@ -272,10 +257,6 @@ const styles = StyleSheet.create({
     //backgroundColor: 'yellow'
     //textAlign: "center",
   },
-
-
-
-
 });
 
 const mapStateToProps = (state) => {

@@ -1,148 +1,151 @@
 {
-    "landing": {
-        "startingButton": "Let's get started!",
-        "haveAccount": "Already have an account?",
-        "signIn": "Sign in",
-        "mentor": "Interested in being a mentor?",
-        "contact": "Contact us"
-    },
-    "login": {
-        "title": "Sign In",
-        "confirm": "Confirm",
-        "email": "Email",
-        "password": "Password"
-    },
-    "researchLevel": {
-        "title": "Research Level",
-        "description": "Please select what level of research you have previously done.",
-        "beginnerInput": "I want to make my first research project!",
-        "mediumInput": "I won at my school but want to win nationally!",
-        "advancedInput": "I won nationally and want to further the impact of my research!"
-    },
-    "researchInterests": {
-        "title": "Research Interests",
-        "subtext1": "Select up to three research areas you are interested in",
-        "subtext2": "Select two more research areas you are interested in",
-        "subtext3": "Select one more research area you are interested in",
-        "subtext4": "You may review your selections in the next screen",
-        "confirm": "Confirm"
-    },
-    "interestData": {
-        "0": "Animal Sciences",
-        "1": "Behavioral and Social Sciences",
-        "2": "Biochemistry",
-        "3": "Biomedical and Health Sciences",
-        "4": "Biomedical Engineering",
-        "5": "Cellular and Molecular Biology",
-        "6": "Chemistry",
-        "7": "Computational Biology and Bioinformatics",
-        "8": "Earth and Environmental Sciences",
-        "9": "Embedded Systems",
-        "10": "Energy: Chemical",
-        "11": "Energy: Physical",
-        "12": "Engineering Mechanics",
-        "13": "Environmental Engineering",
-        "14": "Materials Science",
-        "15": "Mathematics",
-        "16": "Microbiology",
-        "17": "Physics and Astronomy",
-        "18": "Plant Sciences",
-        "19": "Robotics and Intelligent Machines",
-        "20": "Systems Software",
-        "21": "Translational Medical Sciences"
-    },
-    "language": {
-        "title": "Language Preference",
-        "question": "Are you comfortable with English?",
-        "yes": "Yes",
-        "no": "No"
-    },
-    "researchAreas": {
-        "title": "Match with Mentors",
-        "findMentor": "Match new mentors"
-    },
-    "availableMentors": {
-        "title": "Matched Mentors",
-        "subheading": "Select one to connect and learn more about their research."
-    },
-    "mentorCard": {
-        "expertise": "Expertise"
-    },
-    "mentorDetail": {
-        "title": "Mentor Information",
-        "chat": "Start Chat",
-        "areas": "Research Areas"
-    },
-    "signup": {
-        "title": "Sign Up",
-        "name": "Name",
-        "email": "Email",
-        "password": "Password",
-        "confirmPassword": "Confirm Password",
-        "description": "Before we make a connection, we need a little more information.",
-        "confirmButton": "Confirm"
-    },
-    "forms": {
-        "required": "Required",
-        "invalidEmail": "Invalid Email",
-        "passwordMin": "Password must be at least 6 characters long",
-        "confirmMatch": "Password and confirm password should match",
-        "nameMin": "Name must be at least one character long",
-        "nameMax": "Name can not be longer than 256 characters"
-    },
-    "snackbar": {
-        "failedUserCredentials": "Unable to fetch the user's credentials",
-        "successSignup": "Successfully signed up",
-        "duplicateEmailSignup": "The email address is already in use by another account",
-        "errorSignupGeneral": "Unable to signup at this time. Please try again.",
-        "successLogin": "Successfully signed in",
-        "invalidLogin": "Incorrect email or password. Please try again",
-        "tooManyLogin": "Too many unsuccessful login attempts. Please try again later.",
-        "errorLoginGeneral": "Unable to sign in at this time. Please try again later.",
-        "successLogout": "Successfully signed out",
-        "errorLogout": "Unable to log out. Please try again!",
-        "successUpdatedName": "Successfully updated name",
-        "errorUpdatedName": "Unable to update your name. Please try again",
-        "successUpdatedPassword": "Successfully updated password",
-        "invalidPasswordChange": "The current password you entered is invalid. Please try again.",
-        "duplicatePasswordChange": "You must select a password that you haven't used before.",
-        "errorUpdatedPassword": "Unable to update your password at this time. Please try again.",
-        "successUpdatedInterests": "Successfully updated your interests",
-        "errorUpdatedInterests": "Unable to update your interests. Please try again.",
-        "errorLocalization": "Unable to generate language localizations",
-        "errorFetchingMentors": "Unable to fetch any available mentors at this time. Please try again later.",
-        "errorStartChat": "Unable to chat with the mentor at this time. Please try again later.",
-        "errorDirectoryFetch": "Unable to retrieve the directory of mentors at this time. Please try again later.",
-        "errorFetchLastMessage": "Unable to fetch the last message for this chat.",
-        "errorUserChatRooms": "Unable to fetch the user's message inbox. Please try again later."
-    },
-    "directoryScreen": {
-        "title": "Mentor Directory"
-    },
-    "chatCard": {
-        "matched": "matched with you during signup"
-    },
-    "messagesScreen": {
-        "title": "Messages"
-    },
-    "profileScreen": {
-        "title": "Profile",
-        "nameChangeTitle": "Change Name",
-        "passwordChangeTitle": "Change Password",
-        "interestsChangeTitle": "Change Research Interests",
-        "logout": "Log Out",
-        "nameInputTitle": "New Name",
-        "nameInputPlaceholder": "Name",
-        "confirm": "Confirm",
-        "currentPassword": "Current Password",
-        "newPassword": "New Password",
-        "confirmPassword": "Confirm Password"
-    },
-    "icons": {
-        "back": "Back",
-        "directory": "Directory",
-        "messages": "Inbox",
-        "profile": "Profile",
-        "confirm": "Confirm"
-    }
+  "landing": {
+    "startingButton": "Let's get started!",
+    "haveAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "mentor": "Interested in being a mentor?",
+    "contact": "Contact us"
+  },
+  "login": {
+    "title": "Sign In",
+    "confirm": "Confirm",
+    "email": "Email",
+    "password": "Password"
+  },
+  "researchLevel": {
+    "title": "Research Level",
+    "description": "Please select what level of research you have previously done.",
+    "beginnerInput": "I want to make my first research project!",
+    "mediumInput": "I won at my school but want to win nationally!",
+    "advancedInput": "I won nationally and want to further the impact of my research!"
+  },
+  "researchInterests": {
+    "title": "Research Interests",
+    "subtext1": "Select up to three research areas you are interested in",
+    "subtext2": "Select two more research areas you are interested in",
+    "subtext3": "Select one more research area you are interested in",
+    "subtext4": "You may review your selections in the next screen",
+    "confirm": "Confirm"
+  },
+  "interestData": {
+    "0": "Animal Sciences",
+    "1": "Behavioral and Social Sciences",
+    "2": "Biochemistry",
+    "3": "Biomedical and Health Sciences",
+    "4": "Biomedical Engineering",
+    "5": "Cellular and Molecular Biology",
+    "6": "Chemistry",
+    "7": "Computational Biology and Bioinformatics",
+    "8": "Earth and Environmental Sciences",
+    "9": "Embedded Systems",
+    "10": "Energy: Chemical",
+    "11": "Energy: Physical",
+    "12": "Engineering Mechanics",
+    "13": "Environmental Engineering",
+    "14": "Materials Science",
+    "15": "Mathematics",
+    "16": "Microbiology",
+    "17": "Physics and Astronomy",
+    "18": "Plant Sciences",
+    "19": "Robotics and Intelligent Machines",
+    "20": "Systems Software",
+    "21": "Translational Medical Sciences"
+  },
+  "language": {
+    "title": "Language Preference",
+    "question": "Are you comfortable with English?",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "researchAreas": {
+    "title": "Match with Mentors",
+    "findMentor": "Match new mentors"
+  },
+  "availableMentors": {
+    "title": "Matched Mentors",
+    "subheading": "Select one to connect and learn more about their research."
+  },
+  "mentorCard": {
+    "expertise": "Expertise"
+  },
+  "mentorDetail": {
+    "title": "Mentor Information",
+    "chat": "Start Chat",
+    "areas": "Research Areas"
+  },
+  "signup": {
+    "title": "Sign Up",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "description": "Before we make a connection, we need a little more information.",
+    "confirmButton": "Confirm"
+  },
+  "dashboard": {
+    "video": "Unable to properly load dashboard at this time."
+  },
+  "forms": {
+    "required": "Required",
+    "invalidEmail": "Invalid Email",
+    "passwordMin": "Password must be at least 6 characters long",
+    "confirmMatch": "Password and confirm password should match",
+    "nameMin": "Name must be at least one character long",
+    "nameMax": "Name can not be longer than 256 characters"
+  },
+  "snackbar": {
+    "failedUserCredentials": "Unable to fetch the user's credentials",
+    "successSignup": "Successfully signed up",
+    "duplicateEmailSignup": "The email address is already in use by another account",
+    "errorSignupGeneral": "Unable to signup at this time. Please try again.",
+    "successLogin": "Successfully signed in",
+    "invalidLogin": "Incorrect email or password. Please try again",
+    "tooManyLogin": "Too many unsuccessful login attempts. Please try again later.",
+    "errorLoginGeneral": "Unable to sign in at this time. Please try again later.",
+    "successLogout": "Successfully signed out",
+    "errorLogout": "Unable to log out. Please try again!",
+    "successUpdatedName": "Successfully updated name",
+    "errorUpdatedName": "Unable to update your name. Please try again",
+    "successUpdatedPassword": "Successfully updated password",
+    "invalidPasswordChange": "The current password you entered is invalid. Please try again.",
+    "duplicatePasswordChange": "You must select a password that you haven't used before.",
+    "errorUpdatedPassword": "Unable to update your password at this time. Please try again.",
+    "successUpdatedInterests": "Successfully updated your interests",
+    "errorUpdatedInterests": "Unable to update your interests. Please try again.",
+    "errorLocalization": "Unable to generate language localizations",
+    "errorFetchingMentors": "Unable to fetch any available mentors at this time. Please try again later.",
+    "errorStartChat": "Unable to chat with the mentor at this time. Please try again later.",
+    "errorDirectoryFetch": "Unable to retrieve the directory of mentors at this time. Please try again later.",
+    "errorFetchLastMessage": "Unable to fetch the last message for this chat.",
+    "errorUserChatRooms": "Unable to fetch the user's message inbox. Please try again later."
+  },
+  "directoryScreen": {
+    "title": "Mentor Directory"
+  },
+  "chatCard": {
+    "matched": "matched with you during signup"
+  },
+  "messagesScreen": {
+    "title": "Messages"
+  },
+  "profileScreen": {
+    "title": "Profile",
+    "nameChangeTitle": "Change Name",
+    "passwordChangeTitle": "Change Password",
+    "interestsChangeTitle": "Change Research Interests",
+    "logout": "Log Out",
+    "nameInputTitle": "New Name",
+    "nameInputPlaceholder": "Name",
+    "confirm": "Confirm",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password"
+  },
+  "icons": {
+    "back": "Back",
+    "directory": "Directory",
+    "messages": "Inbox",
+    "profile": "Profile",
+    "confirm": "Confirm"
+  }
 }

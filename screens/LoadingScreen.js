@@ -45,8 +45,6 @@ class LoadingScreen extends Component {
                 this.props.navigation.navigate("Dashboard");
               })
               .catch((error) => {
-                console.log(error);
-                console.log("Unable to fetch student credentials");
                 Snackbar.show({
                   text: this.localize.translate(
                     "snackbar.failedUserCredentials"
@@ -74,7 +72,6 @@ class LoadingScreen extends Component {
       .setI18nConfig()
       .then(() => this.forceUpdate())
       .catch((error) => {
-        console.error(error);
         Snackbar.show({
           text: this.localize.translate("snackbar.errorLocalization"),
           backgroundColor: "red",

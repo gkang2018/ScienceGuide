@@ -1,7 +1,6 @@
 const errorHandler = (error, type) => {
   switch (type) {
     case "Login":
-      console.log(error.message);
       if (
         error.message ===
         "There is no user record corresponding to this identifier. The user may have been deleted."
@@ -31,7 +30,6 @@ const errorHandler = (error, type) => {
         return "snackbar.errorSignupGeneral";
       }
     case "changePassword":
-      console.log(error.message);
       if (
         error.message ===
         "The password is invalid or the user does not have a password."

@@ -4,47 +4,43 @@ import MentorDetail from "../screens/MentorDetail";
 import { connect } from "react-redux";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { selectMentor } from "../actions/actions";
-import * as RNLocalize from 'react-native-localize'
-import LocalizationService from '../localization'
+import * as RNLocalize from "react-native-localize";
+import LocalizationService from "../localization";
 import Snackbar from "react-native-snackbar";
-
 
 class DirectoryCard extends Component {
   constructor(props) {
     super(props);
 
-
-    this.localize = new LocalizationService()
-    this.localize.setI18nConfig()
+    this.localize = new LocalizationService();
+    this.localize.setI18nConfig();
   }
 
   componentDidMount() {
-    RNLocalize.addEventListener('change', this.handleLocalizationChange)
-
+    RNLocalize.addEventListener("change", this.handleLocalizationChange);
   }
   componentWillUnmount() {
-    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+    RNLocalize.removeEventListener("change", this.handleLocalizationChange);
   }
 
   handleLocalizationChange = () => {
-    this.localize.setI18nConfig()
+    this.localize
+      .setI18nConfig()
       .then(() => this.forceUpdate())
-      .catch(error => {
-        console.error(error)
+      .catch((error) => {
         Snackbar.show({
           text: this.localize.translate("snackbar.errorLocalization"),
           backgroundColor: "red",
           duration: Snackbar.LENGTH_LONG,
         });
-      })
-  }
+      });
+  };
 
   selectMentor() {
     // only select mentor if the user isn't signed in
     this.props.addMentor(this.props.name, this.props.id);
     // add the necessary info to redux
   }
-
 
   render() {
     const { props, name, expertise, email, imageUri, job, id } = this.props;
@@ -68,12 +64,14 @@ class DirectoryCard extends Component {
             <View style={styles.details}>
               <Text style={styles.name}>{name}</Text>
               <Text style={styles.text}>{job}</Text>
-              <Text style={styles.text}>{this.localize.translate("mentorCard.expertise")}: {expertiseString}</Text>
+              <Text style={styles.text}>
+                {this.localize.translate("mentorCard.expertise")}:{" "}
+                {expertiseString}
+              </Text>
             </View>
           </View>
         </TouchableOpacity>
       </View>
-
     );
   }
 }
@@ -82,31 +80,31 @@ const styles = StyleSheet.create({
   formElement: {
     //flex: 1,
     height: 200,
-    width: '90%',
+    width: "90%",
     alignItems: "center",
-    justifyContent: 'center',
+    justifyContent: "center",
     marginBottom: 25,
     marginTop: 10,
-    backgroundColor: 'red',
-    borderWidth: .5,
+    backgroundColor: "red",
+    borderWidth: 0.5,
     borderRadius: 20,
     paddingBottom: 20,
     paddingLeft: 10,
   },
   formCard: {
     height: 200,
-    width: '100%',
-    flexDirection: 'row',
-    borderWidth: .5,
+    width: "100%",
+    flexDirection: "row",
+    borderWidth: 0.5,
     borderRadius: 20,
-    alignItems: 'center',
-    backgroundColor: 'white',
+    alignItems: "center",
+    backgroundColor: "white",
   },
   details: {
-     width: '100%',
-     marginTop: '30%',
-     marginRight: '3%',
-     alignItems: 'flex-end'
+    width: "100%",
+    marginTop: "30%",
+    marginRight: "3%",
+    alignItems: "flex-end",
   },
   text: {
     fontSize: 14,
@@ -114,10 +112,10 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   name: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 14,
     paddingBottom: 5,
-  }
+  },
 });
 
 const mapStateToProps = (state) => {

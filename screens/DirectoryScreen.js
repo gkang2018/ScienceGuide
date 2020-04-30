@@ -13,8 +13,8 @@ import {
 import DatabaseService from "../config/firebase";
 import DirectoryCard from "../components/DirectoryCard";
 import Snackbar from "react-native-snackbar";
-import * as RNLocalize from 'react-native-localize'
-import LocalizationService from '../localization'
+import * as RNLocalize from "react-native-localize";
+import LocalizationService from "../localization";
 
 class DirectoryScreen extends Component {
   constructor(props) {
@@ -25,12 +25,12 @@ class DirectoryScreen extends Component {
     };
     this.db = new DatabaseService();
 
-    this.localize = new LocalizationService()
-    this.localize.setI18nConfig()
+    this.localize = new LocalizationService();
+    this.localize.setI18nConfig();
   }
 
   componentDidMount() {
-    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+    RNLocalize.addEventListener("change", this.handleLocalizationChange);
     let mentorsFetched = this.db.fetchAllMentors();
     mentorsFetched
       .then((vals) => {
@@ -46,22 +46,21 @@ class DirectoryScreen extends Component {
   }
 
   componentWillUnmount() {
-    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+    RNLocalize.removeEventListener("change", this.handleLocalizationChange);
   }
 
   handleLocalizationChange = () => {
-    this.localize.setI18nConfig()
+    this.localize
+      .setI18nConfig()
       .then(() => this.forceUpdate())
-      .catch(error => {
-        console.error(error)
+      .catch((error) => {
         Snackbar.show({
           text: this.localize.translate("snackbar.errorLocalization"),
           backgroundColor: "red",
           duration: Snackbar.LENGTH_LONG,
         });
-      })
-  }
-
+      });
+  };
 
   renderAllMentors() {
     return (
@@ -90,7 +89,9 @@ class DirectoryScreen extends Component {
       return (
         <View style={styles.mainContainer}>
           <View style={styles.heading}>
-            <Text style={styles.title}>{this.localize.translate("directoryScreen.title")}</Text>
+            <Text style={styles.title}>
+              {this.localize.translate("directoryScreen.title")}
+            </Text>
           </View>
 
           <View style={styles.mentors}>
@@ -102,12 +103,14 @@ class DirectoryScreen extends Component {
     return (
       <View style={styles.mainContainer}>
         <View style={styles.heading}>
-          <Text style={styles.title}>{this.localize.translate("directoryScreen.title")}</Text>
+          <Text style={styles.title}>
+            {this.localize.translate("directoryScreen.title")}
+          </Text>
         </View>
 
-       {/* <ScrollView> */}
+        {/* <ScrollView> */}
         <View style={styles.mentors}>{this.renderAllMentors()}</View>
-      {/* </ScrollView> */}
+        {/* </ScrollView> */}
       </View>
     );
   }
@@ -116,36 +119,36 @@ class DirectoryScreen extends Component {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: "white",
   },
   heading: {
-    height: '20%',
+    height: "20%",
     // flex: 1,
     //paddingRight: 20,
     paddingLeft: 20,
-    paddingTop: '3%',
+    paddingTop: "3%",
     //alignItems: "center",
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
     //backgroundColor: 'blue'
   },
   title: {
     fontSize: RFPercentage(5),
-    width: '70%',
+    width: "70%",
     //marginTop: 100,
     fontWeight: "700",
     //textAlign: "center",
     //backgroundColor: 'red'
   },
   mentors: {
-    height: '80%',
+    height: "80%",
     //flex: 3.2,
     paddingLeft: 10,
-    paddingBottom: '0%',
+    paddingBottom: "0%",
     //alignItems: "center",
-    justifyContent: 'center',
+    justifyContent: "center",
     //backgroundColor: 'yellow',
-    marginLeft: "3%"
-  }
+    marginLeft: "3%",
+  },
 });
 
 export default DirectoryScreen;

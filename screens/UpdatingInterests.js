@@ -105,7 +105,6 @@ class UpdatingInterests extends Component {
           this.props.navigation.goBack();
         })
         .catch((error) => {
-          console.log(error);
           Snackbar.show({
             text: this.localize.translate("snackbar.errorUpdatedInterests"),
             backgroundColor: "red",
@@ -139,7 +138,6 @@ class UpdatingInterests extends Component {
       .setI18nConfig()
       .then(() => this.forceUpdate())
       .catch((error) => {
-        console.error(error);
         Snackbar.show({
           text: this.localize.translate("snackbar.errorLocalization"),
           backgroundColor: "red",
@@ -202,7 +200,6 @@ class UpdatingInterests extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     interests: state.interests.selectedInterests,
     user: state.user,

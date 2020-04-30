@@ -62,7 +62,6 @@ class Signup extends Component {
       .setI18nConfig()
       .then(() => this.forceUpdate())
       .catch((error) => {
-        console.error(error);
         Snackbar.show({
           text: this.localize.translate("snackbar.errorLocalization"),
           backgroundColor: "red",
@@ -94,7 +93,6 @@ class Signup extends Component {
                 this.props.mentorId
               )
               .then(() => {
-                console.log("successful");
                 Snackbar.show({
                   text: this.localize.translate("snackbar.successSignup"),
                   backgroundColor: "green",

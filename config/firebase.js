@@ -48,7 +48,6 @@ class DatabaseService {
           resolve(studentName);
         })
         .catch((error) => {
-          console.log(error);
           reject(error);
         });
     });
@@ -155,7 +154,6 @@ class DatabaseService {
           }
         })
         .catch((error) => {
-          console.log("unable to determine user's status");
           reject(error);
         });
     });
@@ -171,15 +169,12 @@ class DatabaseService {
         .get()
         .then((snapshot) => {
           if (snapshot.data()) {
-            console.log("Mentor");
             resolve("Mentor");
           } else {
-            console.log("student");
             resolve("Student");
           }
         })
         .catch((error) => {
-          console.log("error determinning student or mentor");
           resolve(error);
         });
     });
@@ -285,7 +280,6 @@ class DatabaseService {
                 resolve(responseObj);
               })
               .catch((error) => {
-                console.log("unable to get student based on id");
                 reject(error);
               });
           } else if (val === "Mentor") {
@@ -304,13 +298,11 @@ class DatabaseService {
                 resolve(responseObj);
               })
               .catch((error) => {
-                console.log("unable to fetch mentor by their id");
                 reject(error);
               });
           }
         })
         .catch((error) => {
-          console.log("unable to determine if student or mentor");
           reject(error);
         });
     });
@@ -370,11 +362,9 @@ class DatabaseService {
               name: changedInfo,
             })
             .then(() => {
-              console.log("Succesfully updated the users name");
               resolve();
             })
             .catch((error) => {
-              console.log("Unable to change the user's name");
               reject("Unable to change the user's name", error);
             });
           break;
@@ -387,11 +377,9 @@ class DatabaseService {
               researchAreas: changedInfo,
             })
             .then(() => {
-              console.log("Successfully updated the users interests");
               resolve();
             })
             .catch((error) => {
-              console.log(error);
               reject(error);
             });
       }
@@ -401,7 +389,6 @@ class DatabaseService {
   updatePassword(user, currentPassword, newPassword, confirmPassword) {
     return new Promise((resolve, reject) => {
       let authUser = this.auth.currentUser;
-      console.log(authUser);
       let credential = firebase.auth.EmailAuthProvider.credential(
         authUser.email,
         currentPassword
@@ -413,16 +400,13 @@ class DatabaseService {
           authUser
             .updatePassword(newPassword)
             .then(() => {
-              console.log("Successfully updated password");
               resolve();
             })
             .catch((error) => {
-              console.log(error);
               reject(error);
             });
         })
         .catch((error) => {
-          console.log("unable to reauthenticate with credential");
           reject(error);
         });
     });
@@ -442,7 +426,6 @@ class DatabaseService {
               resolve(responseVal);
             })
             .catch((error) => {
-              console.log("Unable to get recipient name after log in");
               reject(error);
             });
         })
@@ -513,7 +496,6 @@ class DatabaseService {
               resolve(responseVal);
             })
             .catch((error) => {
-              console.log("Unable to get recipient name after sign up");
               reject(error);
             });
         })
@@ -547,11 +529,9 @@ class DatabaseService {
         .get()
         .then((snapshot) => {
           let chatRooms = snapshot.data().chatRooms;
-          console.log(chatRooms);
           resolve(chatRooms);
         })
         .catch((error) => {
-          console.log(error);
           reject(error);
         });
     });
@@ -568,12 +548,9 @@ class DatabaseService {
         })
         .then(() => {
           // chat.collection("messages").add();
-          console.log("created chat room");
           resolve();
         })
         .catch((error) => {
-          console.log("unable to create chat room");
-          console.log(error);
           reject(error);
         });
     });
@@ -595,7 +572,6 @@ class DatabaseService {
           }
         })
         .catch((error) => {
-          console.log("unable to determine whether the chat exists");
           reject(error);
         });
     });
@@ -603,67 +579,41 @@ class DatabaseService {
 
   appendChatToUser(senderID, recipientID) {
     let chatID = this.getChatRoom(senderID, recipientID);
-    this.determineStudentOrMentor(senderID)
-      .then((val) => {
-        let user = val;
-        let recipient = user === "Mentor" ? "Student" : "Mentor";
-        if (user === "Student") {
-          firebase
-            .firestore()
-            .collection("students")
-            .doc(senderID)
-            .update({
-              chatRooms: firebase.firestore.FieldValue.arrayUnion(chatID),
-            })
-            .then(() => {
-              console.log("Success!");
-            })
-            .catch((error) => {
-              console.log("error");
-            });
-          firebase
-            .firestore()
-            .collection("mentors")
-            .doc(recipientID)
-            .update({
-              chatRooms: firebase.firestore.FieldValue.arrayUnion(chatID),
-            })
-            .then(() => console.log("Successfully appended chat id to mentor"))
-            .catch((error) => {
-              console.log("Unable to append chat to mentor");
-              console.log(error);
-            });
-        } else {
-          firebase
-            .firestore()
-            .collection("mentors")
-            .doc(senderID)
-            .update({
-              chatRooms: firebase.firestore.FieldValue.arrayUnion(chatID),
-            })
-            .then(() => {
-              console.log("Success!");
-            })
-            .catch((error) => {
-              console.log("error");
-            });
-          firebase
-            .firestore()
-            .collection("students")
-            .doc(recipientID)
-            .update({
-              chatRooms: firebase.firestore.FieldValue.arrayUnion(chatID),
-            })
-            .then(() => console.log("Successfully appended chat id to student"))
-            .catch((error) => {
-              console.log("Unable to append chat to student");
-              console.log(error);
-            });
-        }
-      })
-      .catch((error) => {
-        console.log("Unable to determine student or mentor");
-      });
+    this.determineStudentOrMentor(senderID).then((val) => {
+      let user = val;
+      let recipient = user === "Mentor" ? "Student" : "Mentor";
+      if (user === "Student") {
+        firebase
+          .firestore()
+          .collection("students")
+          .doc(senderID)
+          .update({
+            chatRooms: firebase.firestore.FieldValue.arrayUnion(chatID),
+          });
+        firebase
+          .firestore()
+          .collection("mentors")
+          .doc(recipientID)
+          .update({
+            chatRooms: firebase.firestore.FieldValue.arrayUnion(chatID),
+          });
+      } else {
+        firebase
+          .firestore()
+          .collection("mentors")
+          .doc(senderID)
+          .update({
+            chatRooms: firebase.firestore.FieldValue.arrayUnion(chatID),
+          });
+        firebase
+          .firestore()
+          .collection("students")
+          .doc(recipientID)
+          .update({
+            chatRooms: firebase.firestore.FieldValue.arrayUnion(chatID),
+          });
+      }
+    });
   }
 
   lastMessageSent(senderID, recipientID) {
@@ -690,13 +640,10 @@ class DatabaseService {
               resolve(data);
             })
             .catch((error) => {
-              console.log("Chat Room Does Not Exist");
-              console.log(error);
               reject(error);
             });
         })
         .catch((error) => {
-          console.log("user id not linked to a mentor or a student");
           reject(error);
         });
     });
@@ -741,11 +688,10 @@ class DatabaseService {
               resolve("Successful");
             })
             .catch((error) => {
-              console.log(error);
+              reject(error);
             });
         })
         .catch((error) => {
-          console.log("Unable to set last message and timestamp");
           reject(error);
         });
     });

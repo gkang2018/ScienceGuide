@@ -8,8 +8,8 @@ import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import matchMentor from "../actions/actions";
 import { connect } from "react-redux";
 import Snackbar from "react-native-snackbar";
-import * as RNLocalize from 'react-native-localize'
-import LocalizationService from '../localization'
+import * as RNLocalize from "react-native-localize";
+import LocalizationService from "../localization";
 
 class AvailableMentors extends Component {
   constructor(props) {
@@ -18,8 +18,8 @@ class AvailableMentors extends Component {
       mentorData: undefined,
     };
 
-    this.localize = new LocalizationService()
-    this.localize.setI18nConfig()
+    this.localize = new LocalizationService();
+    this.localize.setI18nConfig();
   }
 
   isEmpty(obj) {
@@ -30,10 +30,10 @@ class AvailableMentors extends Component {
   }
 
   componentDidMount() {
-    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+    RNLocalize.addEventListener("change", this.handleLocalizationChange);
     this.props.navigation.setOptions({
-      headerBackTitle: this.localize.translate("icons.back")
-    })
+      headerBackTitle: this.localize.translate("icons.back"),
+    });
     const { researchAreas, researchLevel, englishSpeaker } = this.props;
     if (!this.isEmpty(this.props.user)) {
       this.props.navigation.navigate("DirectoryPage");
@@ -77,22 +77,21 @@ class AvailableMentors extends Component {
   }
 
   componentWillUnmount() {
-    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+    RNLocalize.removeEventListener("change", this.handleLocalizationChange);
   }
 
-
   handleLocalizationChange = () => {
-    this.localize.setI18nConfig()
+    this.localize
+      .setI18nConfig()
       .then(() => this.forceUpdate())
-      .catch(error => {
-        console.error(error)
+      .catch((error) => {
         Snackbar.show({
           text: this.localize.translate("snackbar.errorLocalization"),
           backgroundColor: "red",
           duration: Snackbar.LENGTH_LONG,
         });
-      })
-  }
+      });
+  };
 
   render() {
     const { mentorData } = this.state;
@@ -106,8 +105,12 @@ class AvailableMentors extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.heading}>
-          <Text style={styles.title}>{this.localize.translate("availableMentors.title")}</Text>
-          <Text style={styles.subHeading}>{this.localize.translate("availableMentors.subheading")}</Text>
+          <Text style={styles.title}>
+            {this.localize.translate("availableMentors.title")}
+          </Text>
+          <Text style={styles.subHeading}>
+            {this.localize.translate("availableMentors.subheading")}
+          </Text>
         </View>
 
         <View style={styles.lowerContainer}>
@@ -121,11 +124,11 @@ class AvailableMentors extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    justifyContent: 'center'
+    backgroundColor: "white",
+    justifyContent: "center",
   },
   heading: {
-    height: '30%',
+    height: "30%",
     // flex: 1,
     paddingRight: 20,
     paddingLeft: 20,
@@ -135,11 +138,11 @@ const styles = StyleSheet.create({
     //backgroundColor: 'blue'
   },
   lowerContainer: {
-    height: '70%',
+    height: "70%",
     //flex: 3.2,
     //paddingTop: '5%',
     alignItems: "center",
-    justifyContent: 'center',
+    justifyContent: "center",
     //backgroundColor: 'yellow'
   },
   title: {
@@ -163,7 +166,7 @@ const styles = StyleSheet.create({
   mentors: {
     flex: 1,
     paddingTop: 20,
-  }
+  },
 });
 
 const mapStateToProps = (state) => {
@@ -173,7 +176,7 @@ const mapStateToProps = (state) => {
     mentorName: state.mentorName.mentor,
     mentorId: state.mentorName.id,
     user: state.user.user,
-    englishSpeaker: state.englishSpeaker.englishSpeaker
+    englishSpeaker: state.englishSpeaker.englishSpeaker,
   };
 };
 

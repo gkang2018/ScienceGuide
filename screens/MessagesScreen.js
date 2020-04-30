@@ -73,7 +73,6 @@ class MessagesScreen extends Component {
             })
             .catch((error) => {
               // unable to fetch last message
-              console.log(error);
               Snackbar.show({
                 text: this.localize.translate("snackbar.errorFetchLastMessage"),
                 backgroundColor: "red",
@@ -84,7 +83,6 @@ class MessagesScreen extends Component {
       })
       .catch((error) => {
         // unable to fetch user chat rooms
-        console.log(error);
         Snackbar.show({
           text: this.localize.translate("snackbar.errorUserChatRooms"),
           backgroundColor: "red",
@@ -145,7 +143,6 @@ class MessagesScreen extends Component {
       .setI18nConfig()
       .then(() => this.forceUpdate())
       .catch((error) => {
-        console.error(error);
         Snackbar.show({
           text: this.localize.translate("snackbar.errorLocalization"),
           backgroundColor: "red",
@@ -240,7 +237,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     mentor: state.mentorName,
     user: state.user,

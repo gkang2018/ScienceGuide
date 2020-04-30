@@ -74,7 +74,6 @@ export const signup = (
         resolve();
       })
       .catch((error) => {
-        console.log(error);
         reject(error);
       });
   });
@@ -113,31 +112,25 @@ export const updateProfileInformation = (user, type, changedInfo) => (
       } else {
         db.updateProfileInformation(user, type, changedInfo)
           .then(() => {
-            console.log("succesfully updated the user's name");
-
             const updatedUser = {
               uid: user.uid,
               email: user.email,
               name: changedInfo,
               type: user.type,
             };
-            console.log(updatedUser);
             dispatch({ type: UPDATE_PROFILE, data: updatedUser });
             resolve();
           })
           .catch((error) => {
-            console.log(error);
             reject(error);
           });
       }
     } else if (type === "Interests") {
       db.updateProfileInformation(user, type, changedInfo)
         .then(() => {
-          console.log("successfully updated the users interests");
           resolve();
         })
         .catch((error) => {
-          console.log(error);
           reject(error);
         });
     }
@@ -164,7 +157,6 @@ export const updatePassword = (
     } else {
       db.updatePassword(user, currentPassword, newPassword, confirmNewPassword)
         .then(() => {
-          console.log("successfully updated your password");
           dispatch({ type: UPDATE_PROFILE, data: user });
           resolve();
         })
@@ -193,7 +185,6 @@ export const logout = () => (dispatch) => {
         resolve();
       })
       .catch((error) => {
-        console.log("Error signing out", error);
         reject(error);
       });
   });

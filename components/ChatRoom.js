@@ -3,8 +3,8 @@ import { GiftedChat } from "react-native-gifted-chat";
 import { connect } from "react-redux";
 import DatabaseService from "../config/firebase";
 import Snackbar from "react-native-snackbar";
-import * as RNLocalize from 'react-native-localize'
-import LocalizationService from '../localization'
+import * as RNLocalize from "react-native-localize";
+import LocalizationService from "../localization";
 
 class ChatRoom extends Component {
   constructor(props) {
@@ -13,9 +13,8 @@ class ChatRoom extends Component {
       messages: [],
     };
 
-
-    this.localize = new LocalizationService()
-    this.localize.setI18nConfig()
+    this.localize = new LocalizationService();
+    this.localize.setI18nConfig();
 
     this.recipientName = this.props.route.params.recipientName;
     this.recipientID = this.props.route.params.recipientID;
@@ -30,16 +29,13 @@ class ChatRoom extends Component {
   }
 
   componentDidMount() {
-
-    RNLocalize.addEventListener('change', this.handleLocalizationChange)
-
+    RNLocalize.addEventListener("change", this.handleLocalizationChange);
 
     this.props.navigation.setOptions({
       headerTitle: this.recipientName,
       headerTransparent: true,
-      headerBackTitle: this.localize.translate("icons.back")
+      headerBackTitle: this.localize.translate("icons.back"),
     });
-
 
     let chatID = this.db.getChatRoom(this.props.user.uid, this.recipientID);
     this.userName = this.props.user.name;
@@ -102,24 +98,22 @@ class ChatRoom extends Component {
   }
 
   componentWillUnmount() {
-    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+    RNLocalize.removeEventListener("change", this.handleLocalizationChange);
     this.unsubscribe();
   }
 
-
   handleLocalizationChange = () => {
-    this.localize.setI18nConfig()
+    this.localize
+      .setI18nConfig()
       .then(() => this.forceUpdate())
-      .catch(error => {
-        console.error(error)
+      .catch((error) => {
         Snackbar.show({
           text: this.localize.translate("snackbar.errorLocalization"),
           backgroundColor: "red",
           duration: Snackbar.LENGTH_LONG,
         });
-      })
-  }
-
+      });
+  };
 
   render() {
     return (
@@ -133,7 +127,6 @@ class ChatRoom extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     user: state.user,
   };

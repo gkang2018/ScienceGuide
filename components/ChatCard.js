@@ -2,40 +2,38 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { connect } from "react-redux";
-import * as RNLocalize from 'react-native-localize'
-import LocalizationService from '../localization'
+import * as RNLocalize from "react-native-localize";
+import LocalizationService from "../localization";
 
 class ChatCard extends Component {
   constructor(props) {
     super(props);
-    this.localize = new LocalizationService()
-    this.localize.setI18nConfig()
+    this.localize = new LocalizationService();
+    this.localize.setI18nConfig();
   }
 
   componentDidMount() {
-    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+    RNLocalize.addEventListener("change", this.handleLocalizationChange);
   }
 
   componentWillUnmount() {
-    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
-
+    RNLocalize.removeEventListener("change", this.handleLocalizationChange);
   }
 
   handleLocalizationChange = () => {
-    this.localize.setI18nConfig()
+    this.localize
+      .setI18nConfig()
       .then(() => this.forceUpdate())
-      .catch(error => {
-        console.error(error)
+      .catch((error) => {
         Snackbar.show({
           text: this.localize.translate("snackbar.errorLocalization"),
           backgroundColor: "red",
           duration: Snackbar.LENGTH_LONG,
         });
-      })
-  }
+      });
+  };
 
   render() {
-
     if (this.props.user.type === "Mentor" && this.props.lastMessage === "") {
       return (
         <TouchableOpacity
@@ -58,8 +56,7 @@ class ChatCard extends Component {
           </View>
         </TouchableOpacity>
       );
-    }
-    else {
+    } else {
       return (
         <TouchableOpacity
           onPress={() =>
@@ -121,14 +118,12 @@ const styles = StyleSheet.create({
     //width: '80%',
     //backgroundColor: 'blue'
   },
-
-
 });
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    user: state.user
-  }
-}
+    user: state.user,
+  };
+};
 
 export default connect(mapStateToProps, null)(ChatCard);
