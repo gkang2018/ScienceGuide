@@ -78,9 +78,10 @@ class ProfileScreen extends Component {
           backgroundColor: "green",
           duration: Snackbar.LENGTH_LONG,
         });
-        this.props.navigation.reset({
-          routes: [{ name: "Loading" }],
-        });
+        // this.props.navigation.reset({
+        //   routes: [{ name: "Loading" }],
+        // });
+        this.props.navigation.popToTop();
       })
       .catch((error) => {
         Snackbar.show({

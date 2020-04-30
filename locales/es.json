@@ -83,7 +83,7 @@
     "confirmButton": "Siguiente"
   },
   "dashboard": {
-    "video": "Unable to properly load dashboard at this time."
+    "video": "No se pudo cargar el dashboard en este momento."
   },
   "forms": {
     "required": "Requerido",
