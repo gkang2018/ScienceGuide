@@ -171,7 +171,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: RFPercentage(4.5),
-    fontWeight: "700",
+    fontWeight: "500",
+    fontFamily: 'Montserrat'
     //paddingBottom: 20
   },
   lowerContainer: {
@@ -209,11 +210,13 @@ const styles = StyleSheet.create({
   name: {
     width: "100%",
     fontSize: RFPercentage(3.2),
+    fontFamily: 'Montserrat',
     paddingBottom: 5,
   },
   position: {
     width: "100%",
     fontSize: RFPercentage(2.3),
+    fontFamily: 'Montserrat',
     paddingBottom: 10,
   },
   buttonView: {
@@ -222,7 +225,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginRight: 40,
-    backgroundColor: "yellow",
+    backgroundColor: "#ffdd00",
     borderRadius: 40,
   },
   buttonText: {
@@ -230,6 +233,7 @@ const styles = StyleSheet.create({
     //height: 90,
     //width: 250,
     fontSize: RFPercentage(2.9),
+    fontFamily: 'Montserrat',
     textAlign: "center",
   },
   researchAreas: {
@@ -242,6 +246,7 @@ const styles = StyleSheet.create({
 
   subHeading2: {
     fontSize: RFValue(20),
+    fontFamily: 'Montserrat',
     paddingBottom: 15,
   },
 
@@ -251,6 +256,7 @@ const styles = StyleSheet.create({
   },
   researchText: {
     fontSize: RFValue(18),
+    fontFamily: 'Montserrat',
     paddingLeft: 40,
     //paddingBottom: 12,
     //paddingTop: 12,

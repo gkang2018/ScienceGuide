@@ -234,9 +234,10 @@ const styles = StyleSheet.create({
     //backgroundColor: 'yellow'
   },
   title: {
-    fontSize: RFPercentage(5),
+    fontSize: RFPercentage(4),
+    fontFamily: 'Montserrat',
     //marginTop: 40,
-    fontWeight: "700",
+    fontWeight: "500",
   },
   subHeading: {
     fontSize: 20,
@@ -249,6 +250,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     justifyContent: "center",
     alignItems: "center",
+    fontFamily: 'Montserrat',
     //backgroundColor: 'grey'
   },
   itemContainer: {
@@ -294,6 +296,7 @@ const styles = StyleSheet.create({
     height: "10%",
     width: 250,
     fontSize: RFPercentage(2),
+    fontFamily: 'Montserrat',
     //borderWidth: 1.75,
     borderRadius: 30,
     marginLeft: 30,
@@ -312,6 +315,7 @@ const styles = StyleSheet.create({
     height: "10%",
     width: 250,
     fontSize: RFPercentage(2),
+    fontFamily: 'Montserrat',
     //borderWidth: 1.75,
     borderRadius: 30,
     marginLeft: 30,

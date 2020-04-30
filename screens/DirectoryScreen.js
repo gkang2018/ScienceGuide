@@ -135,7 +135,8 @@ const styles = StyleSheet.create({
     fontSize: RFPercentage(5),
     width: "70%",
     //marginTop: 100,
-    fontWeight: "700",
+    fontWeight: "500",
+    fontFamily: 'Montserrat',
     //textAlign: "center",
     //backgroundColor: 'red'
   },

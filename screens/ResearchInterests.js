@@ -108,7 +108,7 @@ class ResearchInterests extends Component {
 
         <View style={styles.lowerContainer}>
           <FlatList
-            style={styles.flatList}
+            contentContainerStyle={styles.flatList}
             data={this.state.localizedData}
             renderItem={({ item }) => (
               <View>
@@ -172,6 +172,7 @@ const styles = StyleSheet.create({
     //backgroundColor: 'blue'
   },
   lowerContainer: {
+    flex: 1,
     height: "75%",
     //flex: 3.2,
     //paddingTop: '5%',
@@ -181,20 +182,22 @@ const styles = StyleSheet.create({
   title: {
     fontSize: RFPercentage(5),
     //marginTop: 40,
-    fontWeight: "700",
+    fontWeight: "500",
+    fontFamily: "Montserrat",
   },
   subHeading: {
-    fontSize: 20,
+    fontSize: RFPercentage(3),
     marginTop: 10,
     paddingLeft: 5,
     paddingRight: 5,
     paddingBottom: 5,
-    //marginLeft: 15,
-    //marginRight: 15,
+    marginLeft: 15,
+    marginRight: 15,
     textAlign: "center",
     justifyContent: "center",
     alignItems: "center",
     //backgroundColor: 'grey'
+    fontFamily: "Montserrat-Light",
   },
   itemContainer: {
     //flex: 1,
@@ -207,11 +210,12 @@ const styles = StyleSheet.create({
     //backgroundColor: 'red'
   },
   flatList: {
+    //flex: 1,
     width: "100%",
     //backgroundColor: 'green',
     flexDirection: "column",
     //marginBottom: '10%',
-    //backgroundColor: 'transparent'
+    //backgroundColor: 'green',
   },
   interestTextContainer: {
     width: 180,
@@ -230,6 +234,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     //backgroundColor: 'yellow',
     //alignItems: 'center'
+    fontFamily: "Montserrat",
   },
   componentGroup: {
     alignItems: "center",
@@ -247,11 +252,12 @@ const styles = StyleSheet.create({
     //paddingBottom: 10,
     textAlign: "center",
     //borderColor: "black",
-    backgroundColor: "yellow",
+    backgroundColor: "#ffdd00",
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",
     top: "85%",
+    
   },
   disabledSubmit: {
     height: "10%",
@@ -274,6 +280,7 @@ const styles = StyleSheet.create({
   textConfirm: {
     fontSize: RFPercentage(2.5),
     color: "black",
+    fontFamily: "Montserrat",
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ResearchInterests);

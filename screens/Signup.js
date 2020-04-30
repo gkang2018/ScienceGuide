@@ -229,12 +229,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: RFPercentage(5),
+    fontFamily: 'Montserrat',
     marginTop: "15%",
-    fontWeight: "700",
+    fontWeight: "500",
     //backgroundColor: 'red'
   },
   descriptionText: {
-    fontSize: RFPercentage(3),
+    fontSize: RFPercentage(2.75),
+    fontFamily: 'Montserrat',
     marginTop: 10,
     paddingLeft: 5,
     paddingRight: 5,
@@ -252,6 +254,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "black",
     //backgroundColor: 'red',
+    fontFamily: 'Montserrat',
     paddingLeft: 30,
     paddingRight: 30,
     paddingTop: 15,
@@ -260,6 +263,7 @@ const styles = StyleSheet.create({
   startingButton: {
     width: 250,
     fontSize: RFPercentage(2.6),
+    fontFamily: 'Montserrat',
     borderWidth: 1.75,
     borderRadius: 33,
     paddingLeft: 30,
