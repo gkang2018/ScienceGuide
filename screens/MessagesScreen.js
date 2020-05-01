@@ -211,9 +211,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: RFPercentage(5),
+    fontFamily: 'Montserrat',
     width: "70%",
     //marginTop: 100,
-    fontWeight: "700",
+    fontWeight: "500",
     //textAlign: "center",
     //backgroundColor: 'red'
   },

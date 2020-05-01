@@ -51,7 +51,7 @@ class ChatCard extends Component {
             />
             <View style={styles.details}>
               <Text style={styles.recipient}>{this.props.recipientName}</Text>
-              <Text>{this.localize.translate("chatCard.matched")}</Text>
+              <Text style={styles.matched}>{this.localize.translate("chatCard.matched")}</Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -109,15 +109,21 @@ const styles = StyleSheet.create({
   },
   recipient: {
     fontSize: RFPercentage(2.8),
+    fontFamily: 'Montserrat',
     fontWeight: "400",
     paddingBottom: "5%",
     //backgroundColor: 'green'
   },
   lastMessage: {
-    fontSize: RFPercentage(2),
+    fontSize: RFPercentage(1.8),
+    fontFamily: 'Montserrat',
     //width: '80%',
     //backgroundColor: 'blue'
   },
+  matched: {
+    fontWeight: '600',
+    fontFamily: 'Montserrat-Italic',
+  }
 });
 
 const mapStateToProps = (state) => {

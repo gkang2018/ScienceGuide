@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
     marginTop: "30%",
     marginRight: "3%",
     alignItems: "flex-end",
+    fontFamily: 'Montserrat'
   },
   text: {
     fontSize: 14,
@@ -115,6 +116,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 14,
     paddingBottom: 5,
+    fontFamily: 'Montserrat'
   },
 });
 

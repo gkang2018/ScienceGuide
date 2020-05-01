@@ -508,20 +508,24 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingBottom: 50,
     fontSize: RFValue(35),
-    fontWeight: "700",
+    //fontWeight: "700",
+    fontFamily: 'Montserrat'
     //backgroundColor: 'white'
   },
   avatar: {
     height: 120,
     width: 120,
     borderRadius: 120 / 2,
+    borderWidth: 1,
     margin: 10,
   },
   avatarText: {
     fontSize: RFPercentage(2.5),
+    fontFamily: 'Montserrat'
   },
   changeText: {
     fontSize: RFPercentage(2.4),
+    fontFamily: 'Montserrat'
   },
   logoutText: {
     //height: 100,
@@ -538,6 +542,7 @@ const styles = StyleSheet.create({
     //backgroundColor: 'blue',
     alignItems: "center",
     justifyContent: "center",
+    fontFamily: 'Montserrat'
   },
   inputColor: {
     color: "black",
@@ -562,7 +567,8 @@ const styles = StyleSheet.create({
     //paddingTop: 50,
     //paddingBottom: 50,
     fontSize: RFValue(35),
-    fontWeight: "700",
+    fontWeight: "500",
+    fontFamily: 'Montserrat'
     //backgroundColor: 'white'
   },
   inputTypeTextContainer: {
@@ -577,6 +583,7 @@ const styles = StyleSheet.create({
   },
   inputTypeText: {
     fontSize: RFValue(18),
+    fontFamily: 'Montserrat',
     paddingBottom: "3%",
     //backgroundColor: 'yellow',
   },
@@ -593,6 +600,7 @@ const styles = StyleSheet.create({
     height: "7%",
     width: 180,
     fontSize: RFPercentage(2),
+    fontFamily: 'Montserrat',
     borderWidth: 1.75,
     borderRadius: 30,
     marginLeft: 30,

@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     height: 180,
     width: 180,
     margin: 10,
-    //backgroundColor: 'white',
+    //backgroundColor: 'red',
     //flexDirection: 'row',
     justifyContent: 'center',
     //alignContent: 'center'
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     //marginBottom: 15
   },
   overlay: {
-    borderColor: "yellow",
+    borderColor: "#ffdd00",
     borderWidth: "1",
     //backgroundColor: 'red',
     width: '98%',

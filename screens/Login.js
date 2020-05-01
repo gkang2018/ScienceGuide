@@ -215,12 +215,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: RFPercentage(5),
     marginTop: "15%",
-    fontWeight: "700",
+    fontWeight: "500",
+    fontFamily: "Montserrat"
     //backgroundColor: 'red'
   },
   inputStyle: {
     width: "80%",
-    borderWidth: 1.75,
+    borderWidth: 1.5,
     borderRadius: 30,
     borderWidth: 1,
     borderColor: "black",
@@ -229,11 +230,12 @@ const styles = StyleSheet.create({
     paddingRight: 30,
     paddingTop: 15,
     paddingBottom: 15,
+    fontFamily: "Montserrat"
   },
   startingButton: {
     width: 250,
     fontSize: RFPercentage(2.6),
-    borderWidth: 1.75,
+    borderWidth: 1.5,
     borderRadius: 33,
     paddingLeft: 30,
     paddingRight: 30,
@@ -241,6 +243,7 @@ const styles = StyleSheet.create({
     paddingBottom: 18,
     textAlign: "center",
     borderColor: "black",
+    fontFamily: "Montserrat",
     //backgroundColor: 'blue'
   },
   buttonContainer: {

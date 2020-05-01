@@ -134,16 +134,19 @@ const styles = StyleSheet.create({
   },
   smallText: {
     marginTop: 20,
-    fontSize: RFValue(18),
+    fontSize: RFValue(15),
+    fontFamily: "Montserrat-Light",
   },
   smallTextLinks: {
     textDecorationLine: "underline",
-    fontSize: RFValue(18),
+    fontSize: RFValue(15),
+    fontFamily: "Montserrat-Light",
   },
   startingButton: {
     width: 300,
     fontSize: RFPercentage(2.8),
-    borderWidth: 1.75,
+    fontFamily: "Montserrat",
+    borderWidth: 1.5,
     borderRadius: 30,
     paddingLeft: 30,
     paddingRight: 30,

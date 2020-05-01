@@ -127,8 +127,9 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 14,
-    //fontSize: RFValue(15),
+    fontSize: RFValue(13),
     paddingBottom: 5,
+    fontFamily: 'Montserrat',
   },
 });
 
