@@ -58,8 +58,28 @@ class AvailableMentors extends Component {
       });
   }
 
+  getMentorPic = (name) => {
+    switch(name) {
+      case "Juan Rivera": 
+        return require("../assets/juan_rivera.jpg")
+      case "Rosalinda Flores": 
+        return require("../assets/rosalinda_flores.jpg")
+      case "Alexandra Gómez": 
+        return require("../assets/alexandra_gomez.jpg")
+      case "Roberto Ramírez": 
+        return require("../assets/roberto_ramirez.jpg")
+      case "Angela Pérez": 
+        return require("../assets/angela_perez.jpg")
+      default: 
+        return require("../assets/default-avatar.png")
+    }
+  }
+
+
   renderMentors() {
     return this.state.mentorData.map((m) => {
+      // only for demo day: 
+      let mentorPic = this.getMentorPic(m.name)
       return (
         <MentorCard
           navigation={this.props.navigation}
@@ -69,7 +89,7 @@ class AvailableMentors extends Component {
           email={m.email}
           job={m.job}
           expertise={m.researchAreas}
-          imageUri={"https://reactnative.dev/img/tiny_logo.png"}
+          imageUri={mentorPic}
           props={this.props}
         />
       );

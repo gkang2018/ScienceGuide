@@ -32,6 +32,23 @@ class ChatCard extends Component {
         });
       });
   };
+  getMentorPic = (name) => {
+    switch(name) {
+      case "Juan Rivera": 
+        return require("../assets/juan_rivera.jpg")
+      case "Rosalinda Flores": 
+        return require("../assets/rosalinda_flores.jpg")
+      case "Alexandra Gómez": 
+        return require("../assets/alexandra_gomez.jpg")
+      case "Roberto Ramírez": 
+        return require("../assets/roberto_ramirez.jpg")
+      case "Angela Pérez": 
+        return require("../assets/angela_perez.jpg")
+      default: 
+        return require("../assets/default-avatar.png")
+    }
+  }
+
 
   render() {
     if (this.props.user.type === "Mentor" && this.props.lastMessage === "") {
@@ -69,7 +86,7 @@ class ChatCard extends Component {
           <View style={styles.container}>
             <Image
               style={styles.avatar}
-              source={require("../assets/default-avatar.png")}
+              source={this.getMentorPic(this.props.recipientName)}
             />
             <View style={styles.details}>
               <Text style={styles.recipient}>{this.props.recipientName}</Text>

@@ -61,7 +61,7 @@ class MentorCard extends Component {
           }}
         >
           <View style={styles.formCard}>
-            <Image style={styles.imageStyle} source={{ uri: imageUri }} />
+            <Image style={styles.imageStyle} source={imageUri} />
             <View style={styles.details}>
               <Text style={styles.text}>{name}</Text>
               <Text style={styles.text}>{job}</Text>

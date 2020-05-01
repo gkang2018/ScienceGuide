@@ -126,7 +126,7 @@ class MentorDetail extends Component {
 
         <View style={styles.lowerContainer}>
           <View style={styles.details}>
-            <Image style={styles.imageStyle} source={{ uri: imageUri }} />
+            <Image style={styles.imageStyle} source={imageUri} />
             <View style={styles.generalInfo}>
               <Text style={styles.name}>{name}</Text>
 
