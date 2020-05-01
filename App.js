@@ -31,6 +31,8 @@ import Language from "./screens/Language";
 import ChatRoom from "./components/ChatRoom";
 import DirectoryPage from "./screens/DirectoryPage";
 import UpdatingInterests from "./screens/UpdatingInterests";
+import DirectoryDetail from "./screens/DirectoryDetail";
+
 // do we need this import stil ????
 import { decode, encode } from "base-64";
 
@@ -114,6 +116,10 @@ export default function App() {
             component={UpdatingInterests}
             options={{ headerTransparent: true, headerTitle: "" }}
           />
+          <Stack.Screen 
+            name="DirectoryDetail"
+            component={DirectoryDetail}
+            options={{ headerTransparent: true, headerTitle: "" }} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

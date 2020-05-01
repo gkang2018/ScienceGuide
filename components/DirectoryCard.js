@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import MentorDetail from "../screens/MentorDetail";
 import { connect } from "react-redux";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { selectMentor } from "../actions/actions";
@@ -50,7 +49,7 @@ class DirectoryCard extends Component {
         <TouchableOpacity
           onPress={() => {
             this.selectMentor();
-            props.navigation.navigate("MentorDetail", {
+            props.navigation.navigate("DirectoryDetail", {
               name: name,
               expertise: expertise,
               email: email,
