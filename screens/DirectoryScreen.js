@@ -62,21 +62,8 @@ class DirectoryScreen extends Component {
       });
   };
 
-  getMentorPic = (name) => {
-    switch(name) {
-      case "Juan Rivera": 
-        return require("../assets/juan_rivera.jpg")
-      case "Rosalinda Flores": 
-        return require("../assets/rosalinda_flores.jpg")
-      case "Alexandra Gómez": 
-        return require("../assets/alexandra_gomez.jpg")
-      case "Roberto Ramírez": 
-        return require("../assets/roberto_ramirez.jpg")
-      case "Angela Pérez": 
-        return require("../assets/angela_perez.jpg")
-      default: 
+  getMentorPic = () => {
         return require("../assets/default-avatar.png")
-    }
   }
 
 
@@ -93,7 +80,7 @@ class DirectoryScreen extends Component {
             email={item.email}
             job={item.job}
             expertise={item.researchAreas}
-            imageUri={this.getMentorPic(item.name)}
+            imageUri={this.getMentorPic()}
             props={this.props}
           />
         )}

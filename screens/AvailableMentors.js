@@ -58,28 +58,15 @@ class AvailableMentors extends Component {
       });
   }
 
-  getMentorPic = (name) => {
-    switch(name) {
-      case "Juan Rivera": 
-        return require("../assets/juan_rivera.jpg")
-      case "Rosalinda Flores": 
-        return require("../assets/rosalinda_flores.jpg")
-      case "Alexandra Gómez": 
-        return require("../assets/alexandra_gomez.jpg")
-      case "Roberto Ramírez": 
-        return require("../assets/roberto_ramirez.jpg")
-      case "Angela Pérez": 
-        return require("../assets/angela_perez.jpg")
-      default: 
-        return require("../assets/default-avatar.png")
-    }
+  getMentorPic = () => {
+      return require("../assets/default-avatar.png")
   }
 
 
   renderMentors() {
     return this.state.mentorData.map((m) => {
       // only for demo day: 
-      let mentorPic = this.getMentorPic(m.name)
+      let mentorPic = this.getMentorPic()
       return (
         <MentorCard
           navigation={this.props.navigation}
