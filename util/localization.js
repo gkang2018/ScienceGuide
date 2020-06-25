@@ -8,8 +8,8 @@ class LocalizationService {
     constructor() {
 
         this.translationGetters = {
-            en: () => require('./locales/en.json'),
-            es: () => require('./locales/es.json')
+            en: () => require('../locales/en.json'),
+            es: () => require('../locales/es.json')
         }
     }
 

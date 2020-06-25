@@ -14,7 +14,7 @@ import DatabaseService from "../config/firebase";
 import DirectoryCard from "../components/DirectoryCard";
 import Snackbar from "react-native-snackbar";
 import * as RNLocalize from "react-native-localize";
-import LocalizationService from "../localization";
+import LocalizationService from "../util/localization";
 
 class DirectoryScreen extends Component {
   constructor(props) {

@@ -9,7 +9,7 @@ import {
 
 import { connect } from "react-redux";
 import * as RNLocalize from "react-native-localize";
-import LocalizationService from "../localization";
+import LocalizationService from "../util/localization";
 import Snackbar from "react-native-snackbar";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 

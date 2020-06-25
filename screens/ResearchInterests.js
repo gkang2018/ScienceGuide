@@ -8,13 +8,13 @@ import {
   TouchableOpacity,
 } from "react-native";
 import InterestsCard from "../components/InterestsCard";
-import { interestsData } from "../interestData";
+import { interestsData } from "../util/interestData";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { updateProfileInformation } from "../actions/actions";
 import { connect } from "react-redux";
 import Snackbar from "react-native-snackbar";
 import * as RNLocalize from "react-native-localize";
-import LocalizationService from "../localization";
+import LocalizationService from "../util/localization";
 
 class ResearchInterests extends Component {
   constructor(props) {

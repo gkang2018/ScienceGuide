@@ -22,9 +22,9 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import Snackbar from "react-native-snackbar";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-import errorHandler from "../errorHandler";
+import errorHandler from "../util/errorHandler";
 import * as RNLocalize from "react-native-localize";
-import LocalizationService from "../localization";
+import LocalizationService from "../util/localization";
 
 class Login extends Component {
   constructor(props) {

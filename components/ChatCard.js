@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { connect } from "react-redux";
 import * as RNLocalize from "react-native-localize";
-import LocalizationService from "../localization";
+import LocalizationService from "../util/localization";
 
 class ChatCard extends Component {
   constructor(props) {

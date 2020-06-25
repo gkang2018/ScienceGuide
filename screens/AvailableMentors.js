@@ -9,7 +9,7 @@ import matchMentor from "../actions/actions";
 import { connect } from "react-redux";
 import Snackbar from "react-native-snackbar";
 import * as RNLocalize from "react-native-localize";
-import LocalizationService from "../localization";
+import LocalizationService from "../util/localization";
 
 class AvailableMentors extends Component {
   constructor(props) {

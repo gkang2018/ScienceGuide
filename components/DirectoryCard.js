@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { selectMentor } from "../actions/actions";
 import * as RNLocalize from "react-native-localize";
-import LocalizationService from "../localization";
+import LocalizationService from "../util/localization";
 import Snackbar from "react-native-snackbar";
 
 class DirectoryCard extends Component {

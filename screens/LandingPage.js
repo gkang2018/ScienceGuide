@@ -13,7 +13,7 @@ import {
 import Snackbar from "react-native-snackbar";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import * as RNLocalize from "react-native-localize";
-import LocalizationService from "../localization";
+import LocalizationService from "../util/localization";
 //Get screen width using Dimensions component
 var { width } = Dimensions.get("window");
 

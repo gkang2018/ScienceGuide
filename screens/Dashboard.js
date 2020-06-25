@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import Video from "react-native-video";
 import Snackbar from "react-native-snackbar";
 import * as RNLocalize from "react-native-localize";
-import LocalizationService from "../localization";
+import LocalizationService from "../util/localization";
 
 class Dashboard extends Component {
   constructor(props) {

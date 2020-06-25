@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import DatabaseService from "../config/firebase";
 import Snackbar from "react-native-snackbar";
 import * as RNLocalize from "react-native-localize";
-import LocalizationService from "../localization";
+import LocalizationService from "../util/localization";
 
 class ChatRoom extends Component {
   constructor(props) {

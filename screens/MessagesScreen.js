@@ -11,7 +11,7 @@ import DatabaseService from "../config/firebase";
 import ChatCard from "../components/ChatCard";
 import { connect } from "react-redux";
 import * as RNLocalize from "react-native-localize";
-import LocalizationService from "../localization";
+import LocalizationService from "../util/localization";
 import Snackbar from "react-native-snackbar";
 import { RFPercentage } from "react-native-responsive-fontsize";
 

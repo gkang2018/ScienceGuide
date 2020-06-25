@@ -14,11 +14,11 @@ import { connect } from "react-redux";
 import Snackbar from "react-native-snackbar";
 import { signup } from "../actions/actions";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-import errorHandler from "../errorHandler";
+import errorHandler from "../util/errorHandler";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import * as RNLocalize from "react-native-localize";
-import LocalizationService from "../localization";
+import LocalizationService from "../util/localization";
 
 class Signup extends Component {
   constructor(props) {

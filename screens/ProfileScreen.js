@@ -25,8 +25,8 @@ import {
 import { Formik } from "formik";
 import * as Yup from "yup";
 import * as RNLocalize from "react-native-localize";
-import LocalizationService from "../localization";
-import errorHandler from "../errorHandler";
+import LocalizationService from "../util/localization";
+import errorHandler from "../util/errorHandler";
 
 class ProfileScreen extends Component {
   constructor(props) {

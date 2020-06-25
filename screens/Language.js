@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { englishSpeaker } from "../actions/actions";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import * as RNLocalize from "react-native-localize";
-import LocalizationService from "../localization";
+import LocalizationService from "../util/localization";
 import Snackbar from "react-native-snackbar";
 
 class Language extends Component {

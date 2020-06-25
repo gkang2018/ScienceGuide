@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import DatabaseService from "../config/firebase";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
 import * as RNLocalize from "react-native-localize";
-import LocalizationService from "../localization";
+import LocalizationService from "../util/localization";
 import { connect } from "react-redux";
 import {
   addInterest,
