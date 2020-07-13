@@ -1,6 +1,7 @@
 {
   "landing": {
-    "startingButton": "Let's get started!",
+    "startingButton_1": "I'm a Student 📚",
+    "startingButton_2": "I'm a Mentor ✏️",
     "haveAccount": "Already have an account?",
     "signIn": "Sign in",
     "mentor": "Interested in being a mentor?",

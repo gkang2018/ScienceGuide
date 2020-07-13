@@ -61,10 +61,21 @@ class LandingPage extends Component {
               onPress={() => this.props.navigation.navigate("Level")}
             >
               <Text style={styles.startingButton}>
-                {this.localize.translate("landing.startingButton")}
+                {this.localize.translate("landing.startingButton_1")}
               </Text>
             </TouchableOpacity>
           </View>
+          
+          
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            onPress={() => Linking.openURL("https://science-guide-mentor.herokuapp.com/")}
+          >
+            <Text style={styles.startingButton}>
+              {this.localize.translate("landing.startingButton_2")}
+            </Text>
+          </TouchableOpacity>
+        </View>
 
           <View style={styles.smallTextContainer}>
             <Text style={styles.smallText}>
@@ -76,21 +87,6 @@ class LandingPage extends Component {
               onPress={() => this.props.navigation.navigate("Login")}
             >
               {this.localize.translate("landing.signIn")}
-            </Text>
-
-            <Text style={styles.smallText}>
-              {this.localize.translate("landing.mentor")}
-            </Text>
-
-            <Text
-              style={styles.smallTextLinks}
-              onPress={() =>
-                Linking.openURL(
-                  "https://mailchi.mp/c6ef6c29c029/mi-guia-a-la-ciencia"
-                )
-              }
-            >
-              {this.localize.translate("landing.contact")}
             </Text>
           </View>
         </View>
@@ -121,6 +117,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     height: "30%",
+    paddingBottom: "5%",
     width: "100%",
     //backgroundColor: 'red',
     alignItems: "center",
@@ -143,7 +140,7 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat-Light",
   },
   startingButton: {
-    width: 300,
+    width: 350,
     fontSize: RFPercentage(2.8),
     fontFamily: "Montserrat",
     borderWidth: 1.5,
