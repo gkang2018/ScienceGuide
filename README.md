@@ -1,6 +1,8 @@
 # ScienceGuide
 React Native application that helps match high school students interested in research with potential mentors
 
+Details of application: https://normant.me/my-science-guide.html
+
 ## Adding Features
 1. ```In order to make a feature, create a seperate branch titled "<yourName>-<featureName>"  ```
 
