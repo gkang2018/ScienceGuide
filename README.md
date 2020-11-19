@@ -1,6 +1,10 @@
 # ScienceGuide
 React Native application that helps match high school students interested in research with potential mentors
 
+![app](https://github.com/normantv/normantv.github.io/blob/master/images/myscienceguide/My%20Science%20Guide%20Header.png)
+
+
+
 Details of application: https://normant.me/my-science-guide.html
 
 ## Adding Features
